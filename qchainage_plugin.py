@@ -18,7 +18,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
 
-# from chainagetool import *
 from qchainage_dialog import QChainageDialog
 
 class QChainagePlugin():

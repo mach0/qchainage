@@ -38,10 +38,6 @@ class QChainageDialog (QDialog, Ui_Dialog):
       
     if selfeatures < 1:
       QMessageBox.critical(self.iface.mainWindow(), "ERROR", "I autoselect all features because you have not selected a single one" )
-        
-        
-        
-        
     
     self.distanceSpinBox.setValue(1)
     
@@ -64,13 +60,9 @@ class QChainageDialog (QDialog, Ui_Dialog):
 
     pointsAlongLine(distance, self.iface)
     
+    return
+    
   """
-  
-    do stuff
-  """
-  """
+  do stuff
   cl = self.iface.mapCanvas().currentLayer()
-    
-    
-    
   """

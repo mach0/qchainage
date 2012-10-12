@@ -45,10 +45,8 @@ def createPointsAt(startpoint, distance, geom):
     return feats
 
 def pointsAlongLine(layerout, startpoint, distance, iface):
-    # set newlayername = chain_ + selectedlayername
-    chainlayername = "chain_" + layerout
     # Create a new memory layer and add a distance attributeself.layerNameLine
-    vl = QgsVectorLayer("Point", chainlayername, "memory")
+    vl = QgsVectorLayer("Point", layerout, "memory")
     pr = vl.dataProvider()
     pr.addAttributes( [ QgsField("distance", QVariant.Int) ] )
     layer = iface.mapCanvas().currentLayer()

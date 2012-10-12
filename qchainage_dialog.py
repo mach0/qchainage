@@ -49,7 +49,7 @@ class QChainageDialog (QDialog, Ui_Dialog):
     for l in self.iface.mapCanvas().layers():
       if l.name() == tx:
         self.iface.mapCanvas().setCurrentLayer(l)
-        self.layerNameLine.setText(tx)
+        self.layerNameLine.setText("chain_" + tx)
       
  
   def accept(self):

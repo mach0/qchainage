@@ -24,7 +24,7 @@ def description():
   return "Gives chainage along a selected line"
 
 def qgisMinimumVersion():
-  return "1.5"
+  return "1.9"
 
 def experimental():
   return True

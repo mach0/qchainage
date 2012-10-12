@@ -36,8 +36,6 @@ class QChainageDialog (QDialog, Ui_Dialog):
         self.selectLayerComboBox.addItem( l.name() )
         selfeatures += l.selectedFeatureCount()
       
-    if selfeatures < 1:
-      QMessageBox.critical(self.iface.mainWindow(), "ERROR", "I autoselect all features because you have not selected a single one" )
     
     self.distanceSpinBox.setValue(1)
     
@@ -53,6 +51,16 @@ class QChainageDialog (QDialog, Ui_Dialog):
       
  
   def accept(self):
+    countfeatures = 0
+    for l in self.iface.mapCanvas().layers():
+      if l.type() == QgsMapLayer.VectorLayer and l.geometryType() == QGis.Line:
+        countfeatures += l.selectedFeatureCount()
+    if countfeatures  < 1:
+      QMessageBox.critical(self.iface.mainWindow(), "ERROR", "I autoselect all features because you have not selected a single one" )
+      layer = self.iface.mapCanvas().currentLayer() # set layer
+      layer.select([]) # we don't actually need the attributes
+      layer.setSelectedFeatures([feat.id() for feat in layer]) # select all the feature ids
+      
     layerout = self.layerNameLine.text()
     distance = self.distanceSpinBox.value()
     startpoint = self.startpointSpinBox.value()

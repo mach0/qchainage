@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qchainage_dialog_widget.ui'
 #
-# Created: Mon Oct  8 22:54:01 2012
+# Created: Fri Oct 12 09:16:51 2012
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(380, 288)
+        Dialog.resize(380, 322)
         Dialog.setMinimumSize(QtCore.QSize(380, 200))
         self.gridLayout_2 = QtGui.QGridLayout(Dialog)
         self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
@@ -41,23 +41,26 @@ class Ui_Dialog(object):
         self.gridLayout = QtGui.QGridLayout(self.chainageGroupBox)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.selectAllRadioButton = QtGui.QRadioButton(self.chainageGroupBox)
+        self.selectAllRadioButton.setCheckable(True)
         self.selectAllRadioButton.setObjectName(_fromUtf8("selectAllRadioButton"))
         self.gridLayout.addWidget(self.selectAllRadioButton, 1, 0, 1, 1)
         self.selectonlyRadioButton = QtGui.QRadioButton(self.chainageGroupBox)
+        self.selectonlyRadioButton.setCheckable(True)
+        self.selectonlyRadioButton.setChecked(True)
         self.selectonlyRadioButton.setObjectName(_fromUtf8("selectonlyRadioButton"))
         self.gridLayout.addWidget(self.selectonlyRadioButton, 0, 0, 1, 1)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
-        self.gridLayout_2.addWidget(self.chainageGroupBox, 3, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.chainageGroupBox, 4, 0, 1, 2)
         self.autoLabelcheckBox = QtGui.QCheckBox(Dialog)
         self.autoLabelcheckBox.setChecked(True)
         self.autoLabelcheckBox.setObjectName(_fromUtf8("autoLabelcheckBox"))
-        self.gridLayout_2.addWidget(self.autoLabelcheckBox, 4, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.autoLabelcheckBox, 5, 0, 1, 2)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Help|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.gridLayout_2.addWidget(self.buttonBox, 5, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.buttonBox, 6, 0, 1, 2)
         self.selectLayerComboBox = QtGui.QComboBox(Dialog)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -66,6 +69,13 @@ class Ui_Dialog(object):
         self.selectLayerComboBox.setSizePolicy(sizePolicy)
         self.selectLayerComboBox.setObjectName(_fromUtf8("selectLayerComboBox"))
         self.gridLayout_2.addWidget(self.selectLayerComboBox, 0, 1, 1, 1)
+        self.startpointSpinBox = QtGui.QDoubleSpinBox(Dialog)
+        self.startpointSpinBox.setMaximum(9999.99)
+        self.startpointSpinBox.setObjectName(_fromUtf8("startpointSpinBox"))
+        self.gridLayout_2.addWidget(self.startpointSpinBox, 3, 1, 1, 1)
+        self.labelStart = QtGui.QLabel(Dialog)
+        self.labelStart.setObjectName(_fromUtf8("labelStart"))
+        self.gridLayout_2.addWidget(self.labelStart, 3, 0, 1, 1)
 
         self.retranslateUi(Dialog)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
@@ -82,4 +92,5 @@ class Ui_Dialog(object):
         self.selectAllRadioButton.setText(QtGui.QApplication.translate("Dialog", "every Feature in Layer", None, QtGui.QApplication.UnicodeUTF8))
         self.selectonlyRadioButton.setText(QtGui.QApplication.translate("Dialog", "only selected Features", None, QtGui.QApplication.UnicodeUTF8))
         self.autoLabelcheckBox.setText(QtGui.QApplication.translate("Dialog", "Automatically Label the Layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelStart.setText(QtGui.QApplication.translate("Dialog", "Start from ", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -50,15 +50,13 @@ class QChainageDialog (QDialog, Ui_Dialog):
       if l.name() == tx:
         self.iface.mapCanvas().setCurrentLayer(l)
         self.layerNameLine.setText(tx)
-       
-        test=self.layerNameLine.text()
-        QMessageBox.critical(self.iface.mainWindow(), "INFO", test )   
       
  
   def accept(self):
+    layerout = self.layerNameLine.text()
     distance = self.distanceSpinBox.value()
-
-    pointsAlongLine(distance, self.iface)
+    startpoint = self.startpointSpinBox.value()
+    pointsAlongLine(layerout, startpoint, distance, self.iface)
     
     return
     

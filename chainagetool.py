@@ -18,23 +18,25 @@ from PyQt4.QtCore import QVariant
 from qgis.utils import *
 
 
-def createPointsAt(distance, geom):
+def createPointsAt(startpoint, distance, geom):
     length = geom.length()
     currentdistance = distance
     feats = []
     
     # set the first point at 0.0
+    point = geom.interpolate(startpoint)
     fet = QgsFeature()
-    fet.setAttributeMap( { 0 : 0.0 } )
-    fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
+    fet.setAttributeMap( { 0 : startpoint } )
+    fet.setGeometry(point)
+    #fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
     feats.append(fet)
 
-    while currentdistance < length:
+    while startpoint + currentdistance < length:
         # Get a point along the line at the current distance
-        point = geom.interpolate(currentdistance)
+        point = geom.interpolate(startpoint + currentdistance)
         # Create a new QgsFeature and assign it the new geometry
         fet = QgsFeature()
-        fet.setAttributeMap( { 0 : currentdistance } )
+        fet.setAttributeMap( { 0 : startpoint + currentdistance } )
         fet.setGeometry(point)
         feats.append(fet)
         # Increase the distance
@@ -42,9 +44,9 @@ def createPointsAt(distance, geom):
 
     return feats
 
-def pointsAlongLine(distance, iface):
-    sdd = "nameofselectedlayer" #self.layerNameLine.text()
-    chainlayername = "chain_"+ sdd
+def pointsAlongLine(layerout, startpoint, distance, iface):
+    # set newlayername = chain_ + selectedlayername
+    chainlayername = "chain_" + layerout
     # Create a new memory layer and add a distance attributeself.layerNameLine
     vl = QgsVectorLayer("Point", chainlayername, "memory")
     pr = vl.dataProvider()
@@ -53,7 +55,7 @@ def pointsAlongLine(distance, iface):
     # Loop though all the selected features
     for feature in layer.selectedFeatures():
         geom = feature.geometry()
-        features = createPointsAt(distance, geom)
+        features = createPointsAt(startpoint, distance, geom)
         pr.addFeatures(features)
         vl.updateExtents()
 

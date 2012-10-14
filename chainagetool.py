@@ -18,20 +18,25 @@ from PyQt4.QtCore import QVariant
 from qgis.utils import *
 
 
-def createPointsAt(startpoint, distance, geom):
+def createPointsAt(startpoint, endpoint, distance, geom):
     length = geom.length()
     currentdistance = distance
     feats = []
     
-    # set the first point at 0.0
+    if endpoint > 0:
+      length = endpoint
+      
+    # set the first point at startpoint
     point = geom.interpolate(startpoint)
     fet = QgsFeature()
     fet.setAttributeMap( { 0 : startpoint } )
     fet.setGeometry(point)
     #fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
     feats.append(fet)
-
-    while startpoint + currentdistance < length:
+    
+    
+      
+    while startpoint + currentdistance <= length:
         # Get a point along the line at the current distance
         point = geom.interpolate(startpoint + currentdistance)
         # Create a new QgsFeature and assign it the new geometry
@@ -44,7 +49,7 @@ def createPointsAt(startpoint, distance, geom):
 
     return feats
 
-def pointsAlongLine(layerout, startpoint, distance, iface):
+def pointsAlongLine(layerout, startpoint, endpoint, distance, iface):
     # Create a new memory layer and add a distance attributeself.layerNameLine
     vl = QgsVectorLayer("Point", layerout, "memory")
     pr = vl.dataProvider()
@@ -53,7 +58,7 @@ def pointsAlongLine(layerout, startpoint, distance, iface):
     # Loop though all the selected features
     for feature in layer.selectedFeatures():
         geom = feature.geometry()
-        features = createPointsAt(startpoint, distance, geom)
+        features = createPointsAt(startpoint, endpoint, distance, geom)
         pr.addFeatures(features)
         vl.updateExtents()
 

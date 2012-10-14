@@ -64,7 +64,8 @@ class QChainageDialog (QDialog, Ui_Dialog):
     layerout = self.layerNameLine.text()
     distance = self.distanceSpinBox.value()
     startpoint = self.startpointSpinBox.value()
-    pointsAlongLine(layerout, startpoint, distance, self.iface)
+    endpoint = self.endpointSpinBox.value()
+    pointsAlongLine(layerout, startpoint, endpoint, distance, self.iface)
     
     return
     

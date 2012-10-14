@@ -61,6 +61,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, iface):
         features = createPointsAt(startpoint, endpoint, distance, geom)
         pr.addFeatures(features)
         vl.updateExtents()
-
+    vl.commitChanges()
+    
     QgsMapLayerRegistry.instance().addMapLayer(vl)
 

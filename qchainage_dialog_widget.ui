@@ -192,6 +192,9 @@
    </item>
    <item row="6" column="0" colspan="2">
     <widget class="QCheckBox" name="autoLabelCheckBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Automatically Label the Layer</string>
      </property>
@@ -257,8 +260,8 @@
      <y>39</y>
     </hint>
     <hint type="destinationlabel">
-     <x>271</x>
-     <y>196</y>
+     <x>167</x>
+     <y>43</y>
     </hint>
    </hints>
   </connection>
@@ -326,8 +329,42 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>selectLayerComboBox</sender>
+   <signal>highlighted(int)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onComboBoxTouched()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>344</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>selectAllRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onRadioAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>374</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onComboBoxChanged()</slot>
+  <slot>onComboBoxTouched()</slot>
+  <slot>onRadioAll()</slot>
  </slots>
 </ui>

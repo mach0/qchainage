@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qchainage_dialog_widget.ui'
 #
-# Created: Mon Oct 15 00:01:25 2012
+# Created: Wed Oct 17 09:04:03 2012
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -97,10 +97,11 @@ class Ui_Dialog(object):
         self.selectOnlyRadioButton.setChecked(False)
         self.selectOnlyRadioButton.setObjectName(_fromUtf8("selectOnlyRadioButton"))
         self.gridLayout.addWidget(self.chainageGroupBox, 5, 0, 1, 2)
-        self.autoLabelcheckBox = QtGui.QCheckBox(Dialog)
-        self.autoLabelcheckBox.setChecked(True)
-        self.autoLabelcheckBox.setObjectName(_fromUtf8("autoLabelcheckBox"))
-        self.gridLayout.addWidget(self.autoLabelcheckBox, 6, 0, 1, 2)
+        self.autoLabelCheckBox = QtGui.QCheckBox(Dialog)
+        self.autoLabelCheckBox.setEnabled(False)
+        self.autoLabelCheckBox.setChecked(True)
+        self.autoLabelCheckBox.setObjectName(_fromUtf8("autoLabelCheckBox"))
+        self.gridLayout.addWidget(self.autoLabelCheckBox, 6, 0, 1, 2)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Help|QtGui.QDialogButtonBox.Ok)
@@ -115,6 +116,8 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.checkBoxStartEnd, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.labelStart.setEnabled)
         QtCore.QObject.connect(self.checkBoxStartEnd_2, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.endpointSpinBox.setEnabled)
         QtCore.QObject.connect(self.checkBoxStartEnd_2, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.labelEnd.setEnabled)
+        QtCore.QObject.connect(self.selectLayerComboBox, QtCore.SIGNAL(_fromUtf8("highlighted(int)")), Dialog.onComboBoxTouched)
+        QtCore.QObject.connect(self.selectAllRadioButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), Dialog.onRadioAll)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -127,7 +130,7 @@ class Ui_Dialog(object):
         self.labelEnd.setText(QtGui.QApplication.translate("Dialog", "End at", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxStartEnd_2.setText(QtGui.QApplication.translate("Dialog", "Activate Endpoint", None, QtGui.QApplication.UnicodeUTF8))
         self.chainageGroupBox.setTitle(QtGui.QApplication.translate("Dialog", "Chainage", None, QtGui.QApplication.UnicodeUTF8))
-        self.selectAllRadioButton.setText(QtGui.QApplication.translate("Dialog", "every Feature in Layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.selectAllRadioButton.setText(QtGui.QApplication.translate("Dialog", "all Features in Layer", None, QtGui.QApplication.UnicodeUTF8))
         self.selectOnlyRadioButton.setText(QtGui.QApplication.translate("Dialog", "only selected Features", None, QtGui.QApplication.UnicodeUTF8))
-        self.autoLabelcheckBox.setText(QtGui.QApplication.translate("Dialog", "Automatically Label the Layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.autoLabelCheckBox.setText(QtGui.QApplication.translate("Dialog", "Automatically Label the Layer", None, QtGui.QApplication.UnicodeUTF8))
 

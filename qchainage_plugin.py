@@ -24,18 +24,15 @@ class QChainagePlugin():
   def __init__(self, iface):
     self.iface = iface
 
-
   def initGui(self):
     self.actionRun = QAction(QIcon(":/plugins/plugin_reloader/reload.png"), u"Create Chainage", self.iface.mainWindow())
     self.actionRun.setWhatsThis(u"Create Chainage along selected line")
     self.iface.addPluginToMenu("&QChainage", self.actionRun)
     QObject.connect(self.actionRun, SIGNAL("triggered()"), self.run)
 
-
   def unload(self):
     self.iface.removePluginMenu("&QChainage",self.actionRun)
     self.iface.unregisterMainWindowAction(self.actionRun)
-
 
   def run(self):
   #  import pydevd; pydevd.settrace()

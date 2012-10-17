@@ -33,9 +33,7 @@ def createPointsAt(startpoint, endpoint, distance, geom):
     fet.setGeometry(point)
     #fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
     feats.append(fet)
-    
-    
-      
+
     while startpoint + currentdistance <= length:
         # Get a point along the line at the current distance
         point = geom.interpolate(startpoint + currentdistance)

@@ -40,31 +40,27 @@ class QChainageDialog (QDialog, Ui_Dialog):
       
     if selfeatures  < 1:
       self.selectAllRadioButton.setChecked(True)
-      QMessageBox.critical(self.iface.mainWindow(), "ERROR", "I autoselect all Features because you have nothing selected" )
+      QMessageBox.critical(self.iface.mainWindow(), "ERROR", "Selecting all Features because you have nothing selected" )
       layer = self.iface.mapCanvas().currentLayer() # set layer
       layer.select([]) # we don't actually need the attributes
       layer.setSelectedFeatures([feat.id() for feat in layer]) # select all the feature ids
     else:
       self.selectOnlyRadioButton.setChecked(True)
-    """      
-    layer = self.iface.mapCanvas().currentLayer()
-    layer.deselect([feat.id() for feat in layer])
-
+    """
      Here we do anything to do with UI init
     """
   def onComboBoxChanged(self, newIndex):
-    
     tx = self.selectLayerComboBox.currentText()
     for l in self.iface.mapCanvas().layers():
       if l.name() == tx:
         self.iface.mapCanvas().setCurrentLayer(l)
         self.layerNameLine.setText("chain_" + tx)
-        
-        
+
   def onComboBoxTouched(self, newIndex):
     self.selectOnlyRadioButton.setChecked(True)
     layer = self.iface.mapCanvas().currentLayer()
     layer.setSelectedFeatures([])
+    
     """
     QMessageBox.critical(self.iface.mainWindow(), "ERROR", "Combobox touched" )
     """    
@@ -73,6 +69,10 @@ class QChainageDialog (QDialog, Ui_Dialog):
     layer = self.iface.mapCanvas().currentLayer() # set layer
     layer.select([]) # we don't actually need the attributes
     layer.setSelectedFeatures([feat.id() for feat in layer]) # select all the feature ids
+  
+  def onRadioSelected(self, newIndex):
+    layer = self.iface.mapCanvas().currentLayer()
+    layer.setSelectedFeatures([])
     
   def accept(self):
     
@@ -83,8 +83,3 @@ class QChainageDialog (QDialog, Ui_Dialog):
     pointsAlongLine(layerout, startpoint, endpoint, distance, self.iface)
     
     return
-    
-  """
-  do stuff
-  cl = self.iface.mapCanvas().currentLayer()
-  """

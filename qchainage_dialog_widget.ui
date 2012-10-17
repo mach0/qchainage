@@ -356,8 +356,24 @@
      <y>275</y>
     </hint>
     <hint type="destinationlabel">
-     <x>374</x>
-     <y>297</y>
+     <x>215</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>selectOnlyRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onRadioSelected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>179</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>149</x>
+     <y>291</y>
     </hint>
    </hints>
   </connection>
@@ -366,5 +382,6 @@
   <slot>onComboBoxChanged()</slot>
   <slot>onComboBoxTouched()</slot>
   <slot>onRadioAll()</slot>
+  <slot>onRadioSelected()</slot>
  </slots>
 </ui>

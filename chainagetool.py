@@ -47,11 +47,13 @@ def createPointsAt(startpoint, endpoint, distance, geom):
 
     return feats
 
-def pointsAlongLine(layerout, startpoint, endpoint, distance, iface):
+def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, iface):
     # Create a new memory layer and add a distance attributeself.layerNameLine
     vl = QgsVectorLayer("Point", layerout, "memory")
+    vl.setCrs(crs)
     pr = vl.dataProvider()
-    pr.addAttributes( [ QgsField("distance", QVariant.Int) ] )
+    vl.startEditing()   #actually writes attributes
+    pr.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
     layer = iface.mapCanvas().currentLayer()
     # Loop though all the selected features
     for feature in layer.selectedFeatures():
@@ -59,7 +61,9 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, iface):
         features = createPointsAt(startpoint, endpoint, distance, geom)
         pr.addFeatures(features)
         vl.updateExtents()
+    vl.setCrs(crs)
     vl.commitChanges()
+    vl.reload()
     
     QgsMapLayerRegistry.instance().addMapLayer(vl)
 

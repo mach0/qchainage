@@ -30,8 +30,10 @@ class QChainageDialog (QDialog, Ui_Dialog):
     self.setupUi(self)
     
     self.distanceSpinBox.setValue(1)
+    self.qgisSettings = QSettings()
     
     selfeatures = 0
+    crs = "layercrs"
     
     for l in self.iface.mapCanvas().layers():
       if l.type() == QgsMapLayer.VectorLayer and l.geometryType() == QGis.Line:
@@ -44,6 +46,7 @@ class QChainageDialog (QDialog, Ui_Dialog):
       layer = self.iface.mapCanvas().currentLayer() # set layer
       layer.select([]) # we don't actually need the attributes
       layer.setSelectedFeatures([feat.id() for feat in layer]) # select all the feature ids
+      QMessageBox.critical(self.iface.mainWindow(), "INFO", "CRS is %s" %(layer.crs()))
     else:
       self.selectOnlyRadioButton.setChecked(True)
     """
@@ -75,11 +78,16 @@ class QChainageDialog (QDialog, Ui_Dialog):
     layer.setSelectedFeatures([])
     
   def accept(self):
-    
     layerout = self.layerNameLine.text()
     distance = self.distanceSpinBox.value()
     startpoint = self.startpointSpinBox.value()
     endpoint = self.endpointSpinBox.value()
-    pointsAlongLine(layerout, startpoint, endpoint, distance, self.iface)
+    crs = self.iface.mapCanvas().currentLayer().crs()
+    projectionSettingKey = "Projections/defaultBehaviour"
+    oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)
+    self.qgisSettings.setValue(projectionSettingKey, "useGlobal")
+    self.qgisSettings.sync()
+    pointsAlongLine(layerout, startpoint, endpoint, distance, crs, self.iface)
+    self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting) 
     
     return

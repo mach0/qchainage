@@ -78,6 +78,10 @@ class QChainageDialog (QDialog, Ui_Dialog):
     layer.setSelectedFeatures([])
     
   def accept(self):
+    if self.autoLabelCheckBox.isChecked():
+      label = 1
+    else:
+      label = 0
     layerout = self.layerNameLine.text()
     distance = self.distanceSpinBox.value()
     startpoint = self.startpointSpinBox.value()
@@ -87,7 +91,7 @@ class QChainageDialog (QDialog, Ui_Dialog):
     oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)
     self.qgisSettings.setValue(projectionSettingKey, "useGlobal")
     self.qgisSettings.sync()
-    pointsAlongLine(layerout, startpoint, endpoint, distance, crs, self.iface)
+    pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, self.iface)
     self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting) 
     
     return

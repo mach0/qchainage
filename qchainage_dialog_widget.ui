@@ -193,7 +193,7 @@
    <item row="6" column="0" colspan="2">
     <widget class="QCheckBox" name="autoLabelCheckBox">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="text">
       <string>Automatically Label the Layer</string>

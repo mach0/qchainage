@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qchainage_dialog_widget.ui'
 #
-# Created: Wed Oct 17 09:41:02 2012
+# Created: Sun Oct 21 16:07:10 2012
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -98,7 +98,7 @@ class Ui_Dialog(object):
         self.selectOnlyRadioButton.setObjectName(_fromUtf8("selectOnlyRadioButton"))
         self.gridLayout.addWidget(self.chainageGroupBox, 5, 0, 1, 2)
         self.autoLabelCheckBox = QtGui.QCheckBox(Dialog)
-        self.autoLabelCheckBox.setEnabled(False)
+        self.autoLabelCheckBox.setEnabled(True)
         self.autoLabelCheckBox.setChecked(True)
         self.autoLabelCheckBox.setObjectName(_fromUtf8("autoLabelCheckBox"))
         self.gridLayout.addWidget(self.autoLabelCheckBox, 6, 0, 1, 2)

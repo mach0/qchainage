@@ -47,7 +47,7 @@ def createPointsAt(startpoint, endpoint, distance, geom):
 
     return feats
 
-def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, iface):
+def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, iface):
     # Create a new memory layer and add a distance attributeself.layerNameLine
     vl = QgsVectorLayer("Point", layerout, "memory")
     vl.setCrs(crs)
@@ -55,7 +55,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, iface):
     vl.startEditing()   #actually writes attributes
     pr.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
     layer = iface.mapCanvas().currentLayer()
-    # Loop though all the selected features
+    # Loop through all selected features
     for feature in layer.selectedFeatures():
         geom = feature.geometry()
         features = createPointsAt(startpoint, endpoint, distance, geom)
@@ -64,6 +64,18 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, iface):
     vl.setCrs(crs)
     vl.commitChanges()
     vl.reload()
-    
     QgsMapLayerRegistry.instance().addMapLayer(vl)
-
+    
+    #Add labeling from here
+    #vl.setUsingRendererV2(1)
+    #generic labeling properties
+    if label == 1:
+      vl.setCustomProperty("labeling/fieldName", "chainage" )  # default value provider.fieldNameIndex(layer.displayField())
+      vl.setCustomProperty("labeling","pal" ) # new gen labeling activated 
+      vl.setCustomProperty("labeling/fontSize","10" ) # default value 
+      vl.setCustomProperty("labeling/multiLineLabels","true" ) # default value 
+      vl.setCustomProperty("labeling/enabled","true" ) # default value 
+    #style_path = os.path.join( os.path.dirname(__file__), "style.qml" )
+    #(errorMsg, result) = vl.loadNamedStyle( style_path )
+      vl.triggerRepaint()
+    return

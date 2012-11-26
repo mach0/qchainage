@@ -329,54 +329,6 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>selectLayerComboBox</sender>
-   <signal>highlighted(int)</signal>
-   <receiver>Dialog</receiver>
-   <slot>onComboBoxTouched()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>344</x>
-     <y>24</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>164</x>
-     <y>6</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>selectAllRadioButton</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>Dialog</receiver>
-   <slot>onRadioAll()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>147</x>
-     <y>275</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>215</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>selectOnlyRadioButton</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>Dialog</receiver>
-   <slot>onRadioSelected()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>179</x>
-     <y>239</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>149</x>
-     <y>291</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
   <slot>onComboBoxChanged()</slot>

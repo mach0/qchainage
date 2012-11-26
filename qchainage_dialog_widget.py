@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'qchainage_dialog_widget.ui'
 #
-# Created: Sun Oct 21 16:07:10 2012
-#      by: PyQt4 UI code generator 4.9.3
+# Created: Mon Nov 26 20:52:14 2012
+#      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -116,9 +116,6 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.checkBoxStartEnd, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.labelStart.setEnabled)
         QtCore.QObject.connect(self.checkBoxStartEnd_2, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.endpointSpinBox.setEnabled)
         QtCore.QObject.connect(self.checkBoxStartEnd_2, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.labelEnd.setEnabled)
-        QtCore.QObject.connect(self.selectLayerComboBox, QtCore.SIGNAL(_fromUtf8("highlighted(int)")), Dialog.onComboBoxTouched)
-        QtCore.QObject.connect(self.selectAllRadioButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), Dialog.onRadioAll)
-        QtCore.QObject.connect(self.selectOnlyRadioButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), Dialog.onRadioSelected)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

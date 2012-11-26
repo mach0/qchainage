@@ -47,29 +47,43 @@ def createPointsAt(startpoint, endpoint, distance, geom):
 
     return feats
 
-def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, iface):
+def pointsAlongLine(layerout, startpoint, endpoint, distance, label, layer, selectedOnly=True):
     # Create a new memory layer and add a distance attributeself.layerNameLine
     vl = QgsVectorLayer("Point", layerout, "memory")
-    vl.setCrs(crs)
+    vl.setCrs(layer.crs())
     pr = vl.dataProvider()
     vl.startEditing()   #actually writes attributes
     pr.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
-    layer = iface.mapCanvas().currentLayer()
+    
+    def getFeatures():
+        if selectedOnly:
+            for f in layer.selectedFeatures():
+                yield f
+        else:
+            layer.select([])
+            feature = QgsFeature()
+            while layer.nextFeature(feature):            
+                yield feature
+
     # Loop through all selected features
-    for feature in layer.selectedFeatures():
+    for feature in getFeatures():
         geom = feature.geometry()
+        if not geom:
+            QgsMessageLog.logMessage("No geom", "QChainage")
+            continue
+
         features = createPointsAt(startpoint, endpoint, distance, geom)
         pr.addFeatures(features)
         vl.updateExtents()
-    vl.setCrs(crs)
+
+    QgsMapLayerRegistry.instance().addMapLayer(vl)
     vl.commitChanges()
     vl.reload()
-    QgsMapLayerRegistry.instance().addMapLayer(vl)
-    
+
     #Add labeling from here
-    vl.setUsingRendererV2(1)
+    vl.setUsingRendererV2(True)
     #generic labeling properties
-    if label == 1:
+    if label:
       vl.setCustomProperty("labeling/fieldName", "chainage" )  # default value provider.fieldNameIndex(layer.displayField())
       vl.setCustomProperty("labeling","pal" ) # new gen labeling activated 
       vl.setCustomProperty("labeling/fontSize","10" ) # default value 
@@ -77,7 +91,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, iface)
       vl.setCustomProperty("labeling/enabled","true" ) # default value 
     #style_path = os.path.join( os.path.dirname(__file__), "style.qml" )
     #(errorMsg, result) = vl.loadNamedStyle( style_path )
-      vl.triggerRepaint()
+    vl.triggerRepaint()
     symbol = QgsMarkerSymbolV2.createSimple({"name":"arrow"})
     #layer = qgis.utils.iface.activeLayer()
     vl.rendererV2().setSymbol(symbol)

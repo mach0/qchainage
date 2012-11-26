@@ -67,7 +67,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, iface)
     QgsMapLayerRegistry.instance().addMapLayer(vl)
     
     #Add labeling from here
-    #vl.setUsingRendererV2(1)
+    vl.setUsingRendererV2(1)
     #generic labeling properties
     if label == 1:
       vl.setCustomProperty("labeling/fieldName", "chainage" )  # default value provider.fieldNameIndex(layer.displayField())
@@ -78,4 +78,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, crs, label, iface)
     #style_path = os.path.join( os.path.dirname(__file__), "style.qml" )
     #(errorMsg, result) = vl.loadNamedStyle( style_path )
       vl.triggerRepaint()
+    symbol = QgsMarkerSymbolV2.createSimple({"name":"arrow"})
+    #layer = qgis.utils.iface.activeLayer()
+    vl.rendererV2().setSymbol(symbol)
     return

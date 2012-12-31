@@ -76,7 +76,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, label, layer, sele
         pr.addFeatures(features)
         vl.updateExtents()
 
-    QgsMapLayerRegistry.instance().addMapLayer(vl)
+    QgsMapLayerRegistry.instance().addMapLayers([vl])
     vl.commitChanges()
     vl.reload()
 

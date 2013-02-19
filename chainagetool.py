@@ -29,7 +29,7 @@ def createPointsAt(startpoint, endpoint, distance, geom):
     # set the first point at startpoint
     point = geom.interpolate(startpoint)
     fet = QgsFeature()
-    fet.setAttributeMap( { 0 : startpoint } )
+    fet[0] = startpoint
     fet.setGeometry(point)
     #fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
     feats.append(fet)
@@ -39,7 +39,7 @@ def createPointsAt(startpoint, endpoint, distance, geom):
         point = geom.interpolate(startpoint + currentdistance)
         # Create a new QgsFeature and assign it the new geometry
         fet = QgsFeature()
-        fet.setAttributeMap( { 0 : startpoint + currentdistance } )
+        fet[0] = (startpoint + currentdistance)
         fet.setGeometry(point)
         feats.append(fet)
         # Increase the distance

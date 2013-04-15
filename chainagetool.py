@@ -54,7 +54,6 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, label, layer, sele
     pr = vl.dataProvider()
     vl.startEditing()   #actually writes attributes
     pr.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
-    vl.stopEditing()
     
     def getFeatures():
         if selectedOnly:

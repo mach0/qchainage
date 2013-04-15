@@ -1,37 +1,53 @@
 # -*- coding: utf-8 -*-
-# ***************************************************************************
-# __init__.py  -  A Chainage Tool for QGIS
-# ---------------------
-#     begin                : 2012-10-06
-#     copyright            : (C) 2012 by Werner Macho
-#     email                : werner.macho at gmail dot com
-# ***************************************************************************
-# *                                                                         *
-# *   This program is free software; you can redistribute it and/or modify  *
-# *   it under the terms of the GNU General Public License as published by  *
-# *   the Free Software Foundation; either version 2 of the License, or     *
-# *   (at your option) any later version.                                   *
-# *                                                                         *
-# ***************************************************************************
+"""
+/***************************************************************************
+ qchainage
+                                 A QGIS plugin
+ chainage features
+                             -------------------
+        begin                : 2013-02-20
+        copyright            : (C) 2013 by Werner Macho
+        email                : werner.macho@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+ This script initializes the plugin, making it known to QGIS.
+"""
+
 
 def name():
-  return "Qchainage"
+    return "QChainage"
 
-def version():
-  return "Version 0.0.1"
 
 def description():
-  return "Gives chainage along a selected line"
+    return "chainage features"
+
+
+def version():
+    return "Version 0.1"
+
+
+def icon():
+    return "icon.png"
+
 
 def qgisMinimumVersion():
-  return "1.9"
+    return "1.9"
 
-def experimental():
-  return True
+def author():
+    return "Werner Macho"
 
-def authorName():
-  return "Werner Macho"
+def email():
+    return "werner.macho@gmail.com"
 
 def classFactory(iface):
-  from qchainage_plugin import QChainagePlugin
-  return QChainagePlugin(iface)
+    # load qchainage class from file qchainage
+    from qchainage import qchainage
+    return qchainage(iface)

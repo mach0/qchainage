@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>QChainageDialog</class>
+ <widget class="QDialog" name="QChainageDialog">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -220,7 +220,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>QChainageDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -236,7 +236,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>QChainageDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -252,7 +252,7 @@
   <connection>
    <sender>selectLayerComboBox</sender>
    <signal>currentIndexChanged(int)</signal>
-   <receiver>Dialog</receiver>
+   <receiver>QChainageDialog</receiver>
    <slot>onComboBoxChanged()</slot>
    <hints>
     <hint type="sourcelabel">

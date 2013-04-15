@@ -54,16 +54,13 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, label, layer, sele
     pr = vl.dataProvider()
     vl.startEditing()   #actually writes attributes
     pr.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
+    vl.stopEditing()
     
     def getFeatures():
         if selectedOnly:
-            for f in layer.selectedFeatures():
-                yield f
+            return layer.selectedFeatures()
         else:
-            layer.select([])
-            feature = QgsFeature()
-            while layer.nextFeature(feature):            
-                yield feature
+            return layer.getFeatures()
 
     # Loop through all selected features
     for feature in getFeatures():
@@ -81,7 +78,7 @@ def pointsAlongLine(layerout, startpoint, endpoint, distance, label, layer, sele
     vl.reload()
 
     #Add labeling from here
-    vl.setUsingRendererV2(True)
+    vl.setUsingRendererV2( true )
     #generic labeling properties
     if label:
       vl.setCustomProperty("labeling/fieldName", "chainage" )  # default value provider.fieldNameIndex(layer.displayField())

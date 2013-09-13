@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/qchainage" >
-        <file>icon.png</file>
+    <qresource prefix="/plugins/qchainage">
+        <file>img/qchainage.png</file>
     </qresource>
 </RCC>

@@ -21,33 +21,9 @@
  This script initializes the plugin, making it known to QGIS.
 """
 
-
-def name():
-    return "QChainage"
-
-
-def description():
-    return "chainage features"
-
-
-def version():
-    return "Version 0.1"
-
-
-def icon():
-    return "icon.png"
-
-
-def qgisMinimumVersion():
-    return "1.9"
-
-def author():
-    return "Werner Macho"
-
-def email():
-    return "werner.macho@gmail.com"
-
 def classFactory(iface):
-    # load qchainage class from file qchainage
-    from qchainage import qchainage
-    return qchainage(iface)
+    """ 
+    load qchainage class from file qchainage and init plugin
+    """
+    from qchainage import Qchainage
+    return Qchainage(iface)

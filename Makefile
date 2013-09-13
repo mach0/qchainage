@@ -23,9 +23,9 @@ PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 # Makefile for a PyQGIS plugin 
 
 # translation
-SOURCES = qchainage.py ui_qchainage.py __init__.py qchainagedialog.py
+SOURCES = chainagetool.py __init__.py qchainage.py qchainagedialog.py ui_qchainage.py  
 #TRANSLATIONS = i18n/qchainage_en.ts
-TRANSLATIONS = 
+TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_fr.ts
 
 # global
 
@@ -33,7 +33,7 @@ PLUGINNAME = qchainage
 
 PY_FILES = qchainage.py qchainagedialog.py __init__.py
 
-EXTRAS = icon.png 
+EXTRAS = img/qchainage.png 
 
 UI_FILES = ui_qchainage.py
 

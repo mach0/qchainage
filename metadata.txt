@@ -10,13 +10,11 @@
 
 [general]
 name=QChainage
-qgisMinimumVersion=1.9
-qgisMaximumVersion=2.1
+qgisMinimumVersion=2.0
 description=Chainage along lines
 version=0.1
 author=Werner Macho
 email=werner.macho@gmail.com
-
 # end of mandatory metadata
 
 # Optional items:
@@ -30,7 +28,7 @@ tags=Feature chainage, measurement, chainages
 homepage=https://github.com/mach0/qchainage
 tracker=https://github.com/mach0/qchainage
 repository=https://github.com/mach0/qchainage
-icon=icon.png
+icon=img/qchainage.png
 # experimental flag
 experimental=True
 

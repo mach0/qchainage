@@ -28,6 +28,7 @@ import resources_rc
 # Import the code for the dialog
 from qchainagedialog import qchainageDialog
 
+
 class Qchainage:
     """Main class for Chainage
     """
@@ -53,7 +54,7 @@ class Qchainage:
                 QCoreApplication.installTranslator(self.translator)
 
         # Create the dialog (after translation) and keep reference
-        
+
     def initGui(self):
         """Initiate GUI
         """
@@ -81,9 +82,6 @@ class Qchainage:
         """
         # show the dialog
         dlg = qchainageDialog(self.iface)
-
-        
-
         # Run the dialog event loop
         result = dlg.exec_()
         # See if OK was pressed

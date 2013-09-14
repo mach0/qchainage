@@ -17,7 +17,6 @@
  Main Chainage definitions"""
 from qgis.core import *
 from PyQt4.QtCore import QVariant, QMetaType
-from qgis.utils import *
 
 
 def create_points_at(startpoint, endpoint, distance, geom):
@@ -26,24 +25,24 @@ def create_points_at(startpoint, endpoint, distance, geom):
     length = geom.length()
     currentdistance = distance
     feats = []
-    
+
     if endpoint > 0:
         length = endpoint
-      
+
     # set the first point at startpoint
     point = geom.interpolate(startpoint)
-    field = QgsField(name="foo" , type=QVariant.Double)
+    field = QgsField(name="foo", type=QVariant.Double)
     fields = QgsFields()
     fields.append(field)
-    
+
     fet = QgsFeature(fields)
-    
+
     #print fet[0]
-    
+
     fet['foo'] = startpoint
-    
+
     #print fet[0]
-    
+
     fet.setGeometry(point)
     #fet.setGeometry( QgsGeometry().fromPoint( geom.asPolyline()[0] ) )
     feats.append(fet)
@@ -61,19 +60,25 @@ def create_points_at(startpoint, endpoint, distance, geom):
 
     return feats
 
-def points_along_line(layerout, startpoint, endpoint, distance, label, layer, 
-                    selected_only=True):
+
+def points_along_line(layerout,
+                      startpoint,
+                      endpoint,
+                      distance,
+                      label,
+                      layer,
+                      selected_only=True):
     """Adding Points along the line
     """
     # Create a new memory layer and add a distance attributeself.layerNameLine
     virt_layer = QgsVectorLayer("Point", layerout, "memory")
     virt_layer.setCrs(layer.crs())
     provider = virt_layer.dataProvider()
-    virt_layer.startEditing()   #actually writes attributes
-    provider.addAttributes( [ QgsField("chainage", QVariant.Int) ] )
-    
+    virt_layer.startEditing()   # actually writes attributes
+    provider.addAttributes([QgsField("chainage", QVariant.Int)])
+
     def get_features():
-        """Getting the features 
+        """Getting the features
         """
         if selected_only:
             return layer.selectedFeatures()
@@ -98,15 +103,15 @@ def points_along_line(layerout, startpoint, endpoint, distance, label, layer,
     #Add labeling from here
     #generic labeling properties
     if label:
-        virt_layer.setCustomProperty("labeling/fieldName", "chainage" )  
+        virt_layer.setCustomProperty("labeling/fieldName", "chainage")
         # default value provider.fieldNameIndex(layer.displayField())
-        virt_layer.setCustomProperty("labeling","pal" ) # new gen labeling activated 
-        virt_layer.setCustomProperty("labeling/fontSize","10" ) # default value 
-        virt_layer.setCustomProperty("labeling/multiLineLabels","true" )
-        virt_layer.setCustomProperty("labeling/enabled","true" ) # default value 
+        virt_layer.setCustomProperty("labeling", "pal")
+        virt_layer.setCustomProperty("labeling/fontSize", "10")
+        virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
+        virt_layer.setCustomProperty("labeling/enabled", "true")
     #style_path = os.path.join( os.path.dirname(__file__), "style.qml" )
     #(errorMsg, result) = vl.loadNamedStyle( style_path )
-    symbol = QgsMarkerSymbolV2.createSimple({"name":"square"})
+    symbol = QgsMarkerSymbolV2.createSimple({"name": "square"})
     #layer = qgis.utils.iface.activeLayer()
     virt_layer.rendererV2().setSymbol(symbol)
     virt_layer.triggerRepaint()

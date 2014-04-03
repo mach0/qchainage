@@ -6,7 +6,7 @@
  chainage features
                              -------------------
         begin                : 2013-02-20
-        copyright            : (C) 2013 by Werner Macho
+        copyright            : (C) 2014 by Werner Macho
         email                : werner.macho@gmail.com
  ***************************************************************************/
 
@@ -19,10 +19,13 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.core import *
 from PyQt4 import QtCore, QtGui
+
+from qgis.core import QgsMapLayer, QGis 
+from qgis.gui import QgsMessageBar
+
 from ui_qchainage import Ui_QChainageDialog
-from chainagetool import *
+from chainagetool import points_along_line
 
 # create the dialog for zoom to point
 
@@ -38,22 +41,29 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         self.setWindowTitle('QChainage')
         self.distanceSpinBox.setValue(1)
         self.qgisSettings = QtCore.QSettings()
-
+        self.okbutton = self.buttonBox.button(QtGui.QDialogButtonBox.Ok)
+        self.okbutton.setEnabled(False)
+        
+        leave = -1
+        for layer in self.iface.mapCanvas().layers():
+            if layer.type() == QgsMapLayer.VectorLayer and \
+               layer.geometryType() == QGis.Line:
+                leave += 1
+                
+        if leave < 0:
+            iface.messageBar().pushWidget(iface.messageBar().createMessage(u'Hello out there'), QgsMessageBar.INFO, 5)
+        
         selectedLayerIndex = -1
         counter = -1
 
         for layer in self.iface.mapCanvas().layers():
-            #  print l.geometryType()
             if layer.type() == QgsMapLayer.VectorLayer and \
                     layer.geometryType() == QGis.Line:
-                print "Loading layer"
                 self.loadLayer(layer)
                 counter += 1
+
             if layer == self.iface.mapCanvas().currentLayer():
                 selectedLayerIndex = counter
-                #   else:
-            #    print "no Vectorlayer found"
-            #   return
             if selectedLayerIndex >= 0:
                 self.selectLayerComboBox.setCurrentIndex(selectedLayerIndex)
 
@@ -67,12 +77,13 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
     def _getCurrentLayer(self):
         index = self.selectLayerComboBox.currentIndex()
         return self.selectLayerComboBox.itemData(index)
-
+         
     def on_selectLayerComboBox_currentIndexChanged(self):
         layer = self._getCurrentLayer()
+        
         if not layer:
             return
-
+            
         units = layer.crs().mapUnits()
         unitdic = {
             QGis.Degrees: 'Degrees',
@@ -80,27 +91,25 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             QGis.Feet: 'Feet',
             QGis.UnknownUnit: 'Unknown'}
         self.labelUnit.setText(unitdic.get(units, 'Unknown'))
-
-        print self.layerNameLine.text()
-        print layer.name()
-
         self.layerNameLine.setText("chain_" + layer.name())
 
         if layer.selectedFeatureCount() == 0:
-            self.selectAllRadioButton.setChecked(True)
-            self.selectOnlyRadioButton.setEnabled(False)
+            self.selectAllRadioBtn.setChecked(True)
+            self.selectOnlyRadioBtn.setEnabled(False)
         else:
-            self.selectOnlyRadioButton.setChecked(True)
-            self.selectOnlyRadioButton.setEnabled(True)
-
+            self.selectOnlyRadioBtn.setChecked(True)
+            self.selectOnlyRadioBtn.setEnabled(True)
+  
+        self.okbutton.setEnabled(True)
+            
     def accept(self):
         layer = self._getCurrentLayer()
         label = self.autoLabelCheckBox.isChecked()
         layerout = self.layerNameLine.text()
         distance = self.distanceSpinBox.value()
-        startpoint = self.startpointSpinBox.value()
-        endpoint = self.endpointSpinBox.value()
-        selectedOnly = self.selectOnlyRadioButton.isChecked()
+        startpoint = self.startSpinBox.value()
+        endpoint = self.endSpinBox.value()
+        selectedOnly = self.selectOnlyRadioBtn.isChecked()
 
         projectionSettingKey = "Projections/defaultBehaviour"
         oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)

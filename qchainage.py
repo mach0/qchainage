@@ -6,7 +6,7 @@
  chainage features
                              -------------------
         begin                : 2013-02-20
-        copyright            : (C) 2013 by Werner Macho
+        copyright            : (C) 2014 by Werner Macho
         email                : werner.macho@gmail.com
  ***************************************************************************/
 
@@ -20,13 +20,15 @@
  ***************************************************************************/
 """
 # Import the PyQt and QGIS libraries
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from qgis.core import *
-# Initialize Qt resources from file resources.py
-import resources_rc
+from PyQt4.QtCore import QFileInfo, QSettings, QTranslator, QCoreApplication, qVersion
+from PyQt4.QtGui import QAction, QIcon
+
+from qgis.core import QgsApplication
 # Import the code for the dialog
 from qchainagedialog import qchainageDialog
+
+# Initialize Qt resources from file resources.py, don't delete even if it shows not used
+import resources_rc
 
 
 class Qchainage:
@@ -67,13 +69,13 @@ class Qchainage:
 
         # Add toolbar button and menu item
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu(u"&QChainage", self.action)
+        self.iface.addPluginToVectorMenu(u"&QChainage", self.action)
 
     def unload(self):
         """ Unloading the plugin
         """
         # Remove the plugin menu item and icon
-        self.iface.removePluginMenu(u"&QChainage", self.action)
+        self.iface.removePluginVectorMenu(u"&QChainage", self.action)
         self.iface.removeToolBarIcon(self.action)
 
     # run method that performs all the real work

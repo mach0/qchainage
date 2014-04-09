@@ -51,7 +51,7 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
                 leave += 1
                 
         if leave < 0:
-            iface.messageBar().pushWidget(iface.messageBar().createMessage(u'Hello out there'), QgsMessageBar.INFO, 5)
+            iface.messageBar().pushWidget(iface.messageBar().createMessage(u'No Line Vector Layers, Chainage not useful!'), QgsMessageBar.WARNING, 5)
         
         selectedLayerIndex = -1
         counter = -1

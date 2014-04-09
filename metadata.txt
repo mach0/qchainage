@@ -1,7 +1,9 @@
 [general]
 name=QChainage
 qgisMinimumVersion=2.0
-description=Chainage along lines
+description=This plugin takes Linefeatures and creates a new layer of points in provided distances on top of this
+    Lines. Optionally you can set the startpoint (distance from the start of the line) and the endpoint
+    (stop before reaching the end of the line) and automatically label the new points with the distances.
 version=0.1.3
 author=Werner Macho
 email=werner.macho@gmail.com
@@ -21,7 +23,7 @@ tracker=https://github.com/mach0/qchainage
 repository=https://github.com/mach0/qchainage
 icon=img/qchainage.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version
 deprecated=False

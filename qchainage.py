@@ -20,21 +20,32 @@
  ***************************************************************************/
 """
 # Import the PyQt and QGIS libraries
-from PyQt4.QtCore import QFileInfo, QSettings, QTranslator, QCoreApplication, qVersion
+from PyQt4.QtCore import QFileInfo, QSettings, QTranslator
+from PyQt4.QtCore import QCoreApplication, qVersion
 from PyQt4.QtGui import QAction, QIcon
 
 from qgis.core import QgsApplication
 # Import the code for the dialog
-from qchainagedialog import qchainageDialog
+from qchainagedialog import QChainageDialog
 
-# Initialize Qt resources from file resources.py, don't delete even if it shows not used
+# Initialize Qt resources from file resources.py, don't delete even if it
+# shows not used
 import resources_rc
 
+def debug():
+    import pydevd
+    pydevd.settrace('localhost', port=53100, stdoutToServer=True,
+                    stderrToServer=True, suspend=False)
 
 class Qchainage:
     """Main class for Chainage
     """
     def __init__(self, iface):
+        try:
+            debug()
+        except:
+            print 'Debugger not enabled'
+        # save reference to the QGIS interface
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -83,7 +94,7 @@ class Qchainage:
         """ Running the plugin
         """
         # show the dialog
-        dlg = qchainageDialog(self.iface)
+        dlg = QChainageDialog(self.iface)
         # Run the dialog event loop
         result = dlg.exec_()
         # See if OK was pressed

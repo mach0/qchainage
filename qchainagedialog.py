@@ -30,7 +30,7 @@ from chainagetool import points_along_line
 # create the dialog for zoom to point
 
 
-class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
+class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
     """ Setting up User Interface
     """
     def __init__(self, iface):
@@ -51,7 +51,9 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
                 leave += 1
                 
         if leave < 0:
-            iface.messageBar().pushWidget(iface.messageBar().createMessage(u'No Line Vector Layers, Chainage not useful!'), QgsMessageBar.WARNING, 5)
+            message = "No Line Vector Layers, Chainage not useful!"
+            mb = iface.messageBar()
+            mb.pushWidget(mb.createMessage(message), QgsMessageBar.WARNING, 5)
         
         selectedLayerIndex = -1
         counter = -1
@@ -74,12 +76,12 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
     def loadLayer(self, layer):
         self.selectLayerComboBox.addItem(layer.name(), layer)
 
-    def _getCurrentLayer(self):
+    def get_current_layer(self):
         index = self.selectLayerComboBox.currentIndex()
         return self.selectLayerComboBox.itemData(index)
          
     def on_selectLayerComboBox_currentIndexChanged(self):
-        layer = self._getCurrentLayer()
+        layer = self.get_current_layer()
         
         if not layer:
             return
@@ -103,7 +105,7 @@ class qchainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         self.okbutton.setEnabled(True)
             
     def accept(self):
-        layer = self._getCurrentLayer()
+        layer = self.get_current_layer()
         label = self.autoLabelCheckBox.isChecked()
         layerout = self.layerNameLine.text()
         distance = self.distanceSpinBox.value()

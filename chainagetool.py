@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""""
 # ***************************************************************************
 # __init__.py  -  A Chainage Tool for QGIS
 # ---------------------
@@ -13,10 +14,12 @@
 # *   (at your option) any later version.                                   *
 # *                                                                         *
 # ***************************************************************************
-""""
+"""
+"""
  Main Chainage definitions"""
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
+from qgis.core import QgsSingleSymbolRendererV2
 
 from PyQt4.QtCore import QVariant
 
@@ -71,8 +74,9 @@ def points_along_line(layerout,
     virt_layer.setCrs(layer.crs())
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
-    units="todo"
+    units = "todo"
     provider.addAttributes([QgsField("cng_("+units+")", QVariant.Int)])
+    provider.addAttributes([QgsField("id", QVariant.Int)])
 
     def get_features():
         """Getting the features
@@ -106,6 +110,6 @@ def points_along_line(layerout,
         virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
         virt_layer.setCustomProperty("labeling/enabled", "true")
     symbol = QgsMarkerSymbolV2.createSimple({"name": "square"})
-    virt_layer.rendererV2().setSymbol(symbol)
+    virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
     virt_layer.triggerRepaint()
     return

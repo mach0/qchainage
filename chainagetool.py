@@ -70,8 +70,11 @@ def points_along_line(layerout,
     """Adding Points along the line
     """
     # Create a new memory layer and add a distance attributeself.layerNameLine
-    virt_layer = QgsVectorLayer("Point", layerout, "memory")
-    virt_layer.setCrs(layer.crs())
+    layer_crs = layer.crs().authid()
+    #layer_crs = virt_layer.setCrs(layer.crs())
+    virt_layer = QgsVectorLayer("Point?crs=%s" % layer.crs().authid(),
+                                layerout,
+                                "memory")
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
     units = "todo"

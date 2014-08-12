@@ -19,16 +19,16 @@
  Main Chainage definitions"""
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
-from qgis.core import QgsSingleSymbolRendererV2
+from qgis.core import QGis, QgsSingleSymbolRendererV2
 
 from PyQt4.QtCore import QVariant
 
 
-def create_points_at(startpoint, endpoint, distance, geom):
+def create_points_at(startpoint, endpoint, distance, geom, fid):
     """Creating Points at coordinates along the line
     """
     length = geom.length()
-    currentdistance = distance
+    current_distance = distance
     feats = []
 
     if endpoint > 0:
@@ -36,26 +36,32 @@ def create_points_at(startpoint, endpoint, distance, geom):
 
     # set the first point at startpoint
     point = geom.interpolate(startpoint)
-    field = QgsField(name="foo", type=QVariant.Double)
+
+    field_id = QgsField(name="id", type=QVariant.Int)
+    field = QgsField(name="dist", type=QVariant.Double)
     fields = QgsFields()
+
+    fields.append(field_id)
     fields.append(field)
 
     feature = QgsFeature(fields)
-    feature['foo'] = startpoint
+    feature['dist'] = startpoint
+    feature['id'] = fid
 
     feature.setGeometry(point)
     feats.append(feature)
 
-    while startpoint + currentdistance <= length:
+    while startpoint + current_distance <= length:
         # Get a point along the line at the current distance
-        point = geom.interpolate(startpoint + currentdistance)
+        point = geom.interpolate(startpoint + current_distance)
         # Create a new QgsFeature and assign it the new geometry
         feature = QgsFeature(fields)
-        feature['foo'] = (startpoint + currentdistance)
+        feature['dist'] = (startpoint + current_distance)
+        feature['id'] = fid
         feature.setGeometry(point)
         feats.append(feature)
         # Increase the distance
-        currentdistance = currentdistance + distance
+        current_distance = current_distance + distance
 
     return feats
 
@@ -69,17 +75,23 @@ def points_along_line(layerout,
                       selected_only=True):
     """Adding Points along the line
     """
-    # Create a new memory layer and add a distance attributeself.layerNameLine
-    layer_crs = layer.crs().authid()
+    # Create a new memory layer and add a distance attribute self.layerNameLine
     #layer_crs = virt_layer.setCrs(layer.crs())
     virt_layer = QgsVectorLayer("Point?crs=%s" % layer.crs().authid(),
                                 layerout,
                                 "memory")
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
-    units = "todo"
-    provider.addAttributes([QgsField("cng_("+units+")", QVariant.Int)])
-    provider.addAttributes([QgsField("id", QVariant.Int)])
+    units = layer.crs().mapUnits()
+    unit_dic = {
+        QGis.Degrees: 'Degrees',
+        QGis.Meters: 'Meters',
+        QGis.Feet: 'Feet',
+        QGis.UnknownUnit: 'Unknown'}
+    unit = unit_dic.get(units, 'Unknown')
+    provider.addAttributes([QgsField("fid", QVariant.Int)])
+    provider.addAttributes([QgsField("cng_("+unit+")", QVariant.Int)])
+
 
     def get_features():
         """Getting the features
@@ -92,11 +104,13 @@ def points_along_line(layerout,
     # Loop through all (selected) features
     for feature in get_features():
         geom = feature.geometry()
+        # Add feature ID of selected feature
+        fid = feature.id()
         if not geom:
             QgsMessageLog.logMessage("No geometry", "QChainage")
             continue
 
-        features = create_points_at(startpoint, endpoint, distance, geom)
+        features = create_points_at(startpoint, endpoint, distance, geom, fid)
         provider.addFeatures(features)
         virt_layer.updateExtents()
 
@@ -107,12 +121,14 @@ def points_along_line(layerout,
     #from here Add labeling
     #generic labeling properties
     if label:
-        virt_layer.setCustomProperty("labeling/fieldName", "cng_("+units+")")
         virt_layer.setCustomProperty("labeling", "pal")
+        virt_layer.setCustomProperty("labeling/enabled", "true")
+        virt_layer.setCustomProperty("labeling/fieldName", "cng_("+unit+")")
         virt_layer.setCustomProperty("labeling/fontSize", "10")
         virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
-        virt_layer.setCustomProperty("labeling/enabled", "true")
-    symbol = QgsMarkerSymbolV2.createSimple({"name": "square"})
-    virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
+
+        #virt_layer.setCustomProperty("labeling/Size", "5")
+    # symbol = QgsMarkerSymbolV2.createSimple({"name": "capital"})
+    # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
     virt_layer.triggerRepaint()
     return

@@ -93,6 +93,8 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             QGis.Feet: 'Feet',
             QGis.UnknownUnit: 'Unknown'}
         self.labelUnit.setText(unitdic.get(units, 'Unknown'))
+        self.labelUnit_2.setText(unitdic.get(units, 'Unknown'))
+        self.labelUnit_3.setText(unitdic.get(units, 'Unknown'))
         self.layerNameLine.setText("chain_" + layer.name())
 
         if layer.selectedFeatureCount() == 0:
@@ -112,6 +114,7 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
         selectedOnly = self.selectOnlyRadioBtn.isChecked()
+        force = self.forceLastCheckBox.isChecked()
 
         projectionSettingKey = "Projections/defaultBehaviour"
         oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)
@@ -125,5 +128,6 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             distance,
             label,
             layer,
-            selectedOnly)
+            selectedOnly,
+            force)
         self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)

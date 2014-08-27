@@ -24,7 +24,7 @@ from qgis.core import QGis, QgsSingleSymbolRendererV2
 from PyQt4.QtCore import QVariant
 
 
-def create_points_at(startpoint, endpoint, distance, geom, fid):
+def create_points_at(startpoint, endpoint, distance, geom, fid, force):
     """Creating Points at coordinates along the line
     """
     length = geom.length()
@@ -63,6 +63,16 @@ def create_points_at(startpoint, endpoint, distance, geom, fid):
         # Increase the distance
         current_distance = current_distance + distance
 
+    # set the last point at endpoint if wanted
+    if force is True:
+        end = geom.length()
+        point = geom.interpolate(end)
+        feature = QgsFeature(fields)
+        feature['dist'] = end
+        feature['id'] = fid
+        feature.setGeometry(point)
+        feats.append(feature)
+
     return feats
 
 
@@ -72,7 +82,8 @@ def points_along_line(layerout,
                       distance,
                       label,
                       layer,
-                      selected_only=True):
+                      selected_only=True,
+                      force=False):
     """Adding Points along the line
     """
     # Create a new memory layer and add a distance attribute self.layerNameLine
@@ -92,7 +103,6 @@ def points_along_line(layerout,
     provider.addAttributes([QgsField("fid", QVariant.Int)])
     provider.addAttributes([QgsField("cng_("+unit+")", QVariant.Int)])
 
-
     def get_features():
         """Getting the features
         """
@@ -110,7 +120,8 @@ def points_along_line(layerout,
             QgsMessageLog.logMessage("No geometry", "QChainage")
             continue
 
-        features = create_points_at(startpoint, endpoint, distance, geom, fid)
+        features = create_points_at(startpoint, endpoint, distance, geom,
+                                    fid, force)
         provider.addFeatures(features)
         virt_layer.updateExtents()
 

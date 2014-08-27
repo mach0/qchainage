@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
-    <height>240</height>
+    <width>380</width>
+    <height>267</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,16 +23,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -67,30 +57,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="labelLayerName">
-         <property name="text">
-          <string>Output Layername</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLineEdit" name="layerNameLine"/>
-       </item>
-       <item row="4" column="0" colspan="3">
-        <widget class="QCheckBox" name="autoLabelCheckBox">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>Automatically Label the Layer</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
+       <item row="2" column="1" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QDoubleSpinBox" name="distanceSpinBox">
@@ -126,6 +93,49 @@
          </item>
         </layout>
        </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QCheckBox" name="forceLastCheckBox">
+         <property name="text">
+          <string>Force last point on feature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QLabel" name="labelLayerName">
+         <property name="text">
+          <string>Output Layername</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="layerNameLine"/>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QCheckBox" name="autoLabelCheckBox">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Automatically Label the Layer</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -133,10 +143,36 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="checkBoxEndAt">
          <property name="text">
-          <string>Chainage</string>
+          <string>End at</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="endSpinBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="decimals">
+          <number>9</number>
+         </property>
+         <property name="maximum">
+          <double>999999999.999999046325684</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="startSpinBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="decimals">
+          <number>9</number>
+         </property>
+         <property name="maximum">
+          <double>999999999.999999046325684</double>
          </property>
         </widget>
        </item>
@@ -153,7 +189,29 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="3" column="2">
+        <widget class="QLabel" name="labelUnit_3">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>75</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Units</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
         <widget class="QRadioButton" name="selectOnlyRadioBtn">
          <property name="enabled">
           <bool>true</bool>
@@ -176,55 +234,61 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="startSpinBox">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="decimals">
-          <number>9</number>
-         </property>
-         <property name="maximum">
-          <double>999999999.999999046325684</double>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="checkBoxEndAt">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>End at</string>
+          <string>Chainage</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="endSpinBox">
+       <item row="2" column="2">
+        <widget class="QLabel" name="labelUnit_2">
          <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="decimals">
-          <number>9</number>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="maximum">
-          <double>999999999.999999046325684</double>
+         <property name="minimumSize">
+          <size>
+           <width>75</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Units</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
     </widget>
    </item>
    <item row="1" column="0">
-    <spacer name="verticalSpacer">
+    <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -237,8 +301,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>286</x>
-     <y>276</y>
+     <x>295</x>
+     <y>257</y>
     </hint>
     <hint type="destinationlabel">
      <x>264</x>
@@ -253,8 +317,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>359</x>
-     <y>276</y>
+     <x>368</x>
+     <y>257</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -269,12 +333,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>149</y>
+     <x>96</x>
+     <y>120</y>
     </hint>
     <hint type="destinationlabel">
-     <x>204</x>
-     <y>142</y>
+     <x>278</x>
+     <y>123</y>
     </hint>
    </hints>
   </connection>
@@ -285,12 +349,44 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>88</x>
-     <y>180</y>
+     <x>99</x>
+     <y>152</y>
     </hint>
     <hint type="destinationlabel">
-     <x>156</x>
-     <y>179</y>
+     <x>241</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxStartFrom</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelUnit_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>78</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>113</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxEndAt</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelUnit_3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>145</y>
     </hint>
    </hints>
   </connection>

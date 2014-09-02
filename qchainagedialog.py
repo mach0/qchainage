@@ -121,6 +121,8 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         self.qgisSettings.setValue(projectionSettingKey, "useGlobal")
         self.qgisSettings.sync()
 
+        divide = 5
+
         points_along_line(
             layerout,
             startpoint,
@@ -129,5 +131,6 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             label,
             layer,
             selectedOnly,
-            force)
+            force,
+            divide)
         self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)

@@ -32,10 +32,12 @@ from qchainagedialog import QChainageDialog
 # shows not used
 import resources_rc
 
+
 def debug():
     import pydevd
     pydevd.settrace('localhost', port=53100, stdoutToServer=True,
                     stderrToServer=True, suspend=False)
+
 
 class Qchainage:
     """Main class for Chainage

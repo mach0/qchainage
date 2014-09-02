@@ -31,7 +31,7 @@ TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_fr.ts
 
 PLUGINNAME = qchainage
 
-PY_FILES = qchainage.py qchainagedialog.py __init__.py
+PY_FILES = qchainage.py qchainagedialog.py __init__.py chainagetool.py
 
 EXTRAS = img/qchainage.png metadata.txt
 

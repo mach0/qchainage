@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Wed Aug 27 16:39:22 2014
+# Created: Wed Aug 27 17:03:44 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_QChainageDialog(object):
     def setupUi(self, QChainageDialog):
         QChainageDialog.setObjectName(_fromUtf8("QChainageDialog"))
         QChainageDialog.setEnabled(True)
-        QChainageDialog.resize(380, 267)
+        QChainageDialog.resize(380, 259)
         QChainageDialog.setMinimumSize(QtCore.QSize(380, 200))
         self.gridLayout_3 = QtGui.QGridLayout(QChainageDialog)
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
@@ -163,7 +163,7 @@ class Ui_QChainageDialog(object):
         QtCore.QMetaObject.connectSlotsByName(QChainageDialog)
 
     def retranslateUi(self, QChainageDialog):
-        QChainageDialog.setWindowTitle(_translate("QChainageDialog", "Dialog", None))
+        QChainageDialog.setWindowTitle(_translate("QChainageDialog", "QChainage", None))
         self.labelSelectLayer.setText(_translate("QChainageDialog", "Select Layer to chainage", None))
         self.labelDistance.setText(_translate("QChainageDialog", "Chainage every", None))
         self.labelUnit.setText(_translate("QChainageDialog", "Units", None))

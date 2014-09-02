@@ -24,11 +24,17 @@ from qgis.core import QGis, QgsSingleSymbolRendererV2
 from PyQt4.QtCore import QVariant
 
 
-def create_points_at(startpoint, endpoint, distance, geom, fid, force):
+def create_points_at(startpoint, endpoint, distance, geom, fid, force, divide):
     """Creating Points at coordinates along the line
     """
     length = geom.length()
-    current_distance = distance
+
+    if divide > 0:
+        distance = length / divide
+        current_distance = distance
+    else:
+        current_distance = distance
+
     feats = []
 
     if endpoint > 0:
@@ -83,7 +89,8 @@ def points_along_line(layerout,
                       label,
                       layer,
                       selected_only=True,
-                      force=False):
+                      force=False,
+                      divide=0):
     """Adding Points along the line
     """
     # Create a new memory layer and add a distance attribute self.layerNameLine
@@ -121,7 +128,7 @@ def points_along_line(layerout,
             continue
 
         features = create_points_at(startpoint, endpoint, distance, geom,
-                                    fid, force)
+                                    fid, force, divide)
         provider.addFeatures(features)
         virt_layer.updateExtents()
 

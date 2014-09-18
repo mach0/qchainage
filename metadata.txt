@@ -15,7 +15,9 @@ email=werner.macho@gmail.com
 # Optional items:
 
 # Uncomment the following line and add your changelog entries:
-changelog=0.2.3 Dividing into equal sections
+changelog=0.2.3
+ New Features:
+ - Dividing into equal sections
  0.2.2 Fix of missing File
  New Features:
  - Added force of last point

@@ -96,9 +96,9 @@ class Qchainage:
         """ Running the plugin
         """
         # show the dialog
-        dlg = QChainageDialog(self.iface)
+        dialog = QChainageDialog(self.iface)
         # Run the dialog event loop
-        result = dlg.exec_()
+        result = dialog.exec_()
         # See if OK was pressed
         if result == 1:
             # do something useful (delete the line containing pass and

@@ -115,13 +115,12 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         endpoint = self.endSpinBox.value()
         selectedOnly = self.selectOnlyRadioBtn.isChecked()
         force = self.forceLastCheckBox.isChecked()
+        divide = self.divideSpinBox.value()
 
         projectionSettingKey = "Projections/defaultBehaviour"
         oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)
         self.qgisSettings.setValue(projectionSettingKey, "useGlobal")
         self.qgisSettings.sync()
-
-        divide = 5
 
         points_along_line(
             layerout,

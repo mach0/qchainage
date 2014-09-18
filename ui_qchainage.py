@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Wed Aug 27 17:03:44 2014
+# Created: Wed Sep  3 22:27:28 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -99,6 +99,8 @@ class Ui_QChainageDialog(object):
         self.endSpinBox.setMaximum(1000000000.0)
         self.endSpinBox.setObjectName(_fromUtf8("endSpinBox"))
         self.gridLayout.addWidget(self.endSpinBox, 3, 1, 1, 1)
+        spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem1, 5, 1, 1, 1)
         self.startSpinBox = QtGui.QDoubleSpinBox(self.tab_2)
         self.startSpinBox.setEnabled(False)
         self.startSpinBox.setDecimals(9)
@@ -142,8 +144,15 @@ class Ui_QChainageDialog(object):
         self.labelUnit_2.setMinimumSize(QtCore.QSize(75, 0))
         self.labelUnit_2.setObjectName(_fromUtf8("labelUnit_2"))
         self.gridLayout.addWidget(self.labelUnit_2, 2, 2, 1, 1)
-        spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem1, 4, 1, 1, 1)
+        self.divideSpinBox = QtGui.QSpinBox(self.tab_2)
+        self.divideSpinBox.setObjectName(_fromUtf8("divideSpinBox"))
+        self.gridLayout.addWidget(self.divideSpinBox, 4, 1, 1, 1)
+        self.label_2 = QtGui.QLabel(self.tab_2)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.gridLayout.addWidget(self.label_2, 4, 0, 1, 1)
+        self.label_3 = QtGui.QLabel(self.tab_2)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.gridLayout.addWidget(self.label_3, 4, 2, 1, 1)
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.gridLayout_3.addWidget(self.tabWidget, 0, 0, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(QChainageDialog)
@@ -178,5 +187,7 @@ class Ui_QChainageDialog(object):
         self.checkBoxStartFrom.setText(_translate("QChainageDialog", "Start from", None))
         self.label.setText(_translate("QChainageDialog", "Chainage", None))
         self.labelUnit_2.setText(_translate("QChainageDialog", "Units", None))
+        self.label_2.setText(_translate("QChainageDialog", "Divide Feature into", None))
+        self.label_3.setText(_translate("QChainageDialog", "Parts", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("QChainageDialog", "Advanced", None))
 

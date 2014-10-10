@@ -30,7 +30,14 @@ def create_points_at(startpoint, endpoint, distance, geom, fid, force, divide):
     length = geom.length()
 
     if divide > 0:
-        distance = length / divide
+        length2 = length
+        if startpoint > 0:
+            length2 = length - startpoint
+        if endpoint > 0:
+            length2 = endpoint
+        if startpoint > 0 and endpoint > 0:
+            length2 = endpoint - startpoint
+        distance = length2 / divide
         current_distance = distance
     else:
         current_distance = distance

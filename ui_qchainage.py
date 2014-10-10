@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Wed Sep  3 22:27:28 2014
+# Created: Fri Oct 10 20:50:32 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_QChainageDialog(object):
     def setupUi(self, QChainageDialog):
         QChainageDialog.setObjectName(_fromUtf8("QChainageDialog"))
         QChainageDialog.setEnabled(True)
-        QChainageDialog.resize(380, 259)
+        QChainageDialog.resize(380, 241)
         QChainageDialog.setMinimumSize(QtCore.QSize(380, 200))
         self.gridLayout_3 = QtGui.QGridLayout(QChainageDialog)
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
@@ -107,11 +107,6 @@ class Ui_QChainageDialog(object):
         self.startSpinBox.setMaximum(1000000000.0)
         self.startSpinBox.setObjectName(_fromUtf8("startSpinBox"))
         self.gridLayout.addWidget(self.startSpinBox, 2, 1, 1, 1)
-        self.selectAllRadioBtn = QtGui.QRadioButton(self.tab_2)
-        self.selectAllRadioBtn.setEnabled(True)
-        self.selectAllRadioBtn.setCheckable(True)
-        self.selectAllRadioBtn.setObjectName(_fromUtf8("selectAllRadioBtn"))
-        self.gridLayout.addWidget(self.selectAllRadioBtn, 0, 1, 1, 1)
         self.labelUnit_3 = QtGui.QLabel(self.tab_2)
         self.labelUnit_3.setEnabled(False)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
@@ -153,6 +148,11 @@ class Ui_QChainageDialog(object):
         self.label_3 = QtGui.QLabel(self.tab_2)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.gridLayout.addWidget(self.label_3, 4, 2, 1, 1)
+        self.selectAllRadioBtn = QtGui.QRadioButton(self.tab_2)
+        self.selectAllRadioBtn.setEnabled(True)
+        self.selectAllRadioBtn.setCheckable(True)
+        self.selectAllRadioBtn.setObjectName(_fromUtf8("selectAllRadioBtn"))
+        self.gridLayout.addWidget(self.selectAllRadioBtn, 0, 1, 1, 2)
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.gridLayout_3.addWidget(self.tabWidget, 0, 0, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(QChainageDialog)
@@ -181,7 +181,6 @@ class Ui_QChainageDialog(object):
         self.autoLabelCheckBox.setText(_translate("QChainageDialog", "Automatically Label the Layer", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("QChainageDialog", "Basic", None))
         self.checkBoxEndAt.setText(_translate("QChainageDialog", "End at", None))
-        self.selectAllRadioBtn.setText(_translate("QChainageDialog", "all Features in Layer", None))
         self.labelUnit_3.setText(_translate("QChainageDialog", "Units", None))
         self.selectOnlyRadioBtn.setText(_translate("QChainageDialog", "only selected Features", None))
         self.checkBoxStartFrom.setText(_translate("QChainageDialog", "Start from", None))
@@ -189,5 +188,6 @@ class Ui_QChainageDialog(object):
         self.labelUnit_2.setText(_translate("QChainageDialog", "Units", None))
         self.label_2.setText(_translate("QChainageDialog", "Divide Feature into", None))
         self.label_3.setText(_translate("QChainageDialog", "Parts", None))
+        self.selectAllRadioBtn.setText(_translate("QChainageDialog", "all Features in Layer", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("QChainageDialog", "Advanced", None))
 

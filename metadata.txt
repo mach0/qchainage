@@ -11,7 +11,7 @@ about=QChainage is either separating the selected (or all) Line-Features into
  parts, or linear referencing after a choosen distance. All along the whole 
  Feature or between selectable start and endpoint.
  
-version=0.3.0
+version=0.3.1
 author=Werner Macho
 email=werner.macho@gmail.com
 
@@ -28,7 +28,7 @@ changelog=0.3.0 Bugfix Release
  - Added force of last point
 
 # tags are comma separated with spaces allowed
-tags=Feature chainage, measurement, chainages, linear referencing,
+tags=Feature chainage, measurement, chainages, linear referencing
 
 homepage=https://github.com/mach0/qchainage
 tracker=https://github.com/mach0/qchainage

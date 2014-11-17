@@ -18,7 +18,7 @@
         <translation>Encadeamento cada</translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="189"/>
+        <location filename="ui_qchainage.py" line="188"/>
         <source>Units</source>
         <translation>Unidades</translation>
     </message>
@@ -48,22 +48,22 @@
         <translation>Terminar em</translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="184"/>
+        <location filename="ui_qchainage.py" line="191"/>
         <source>all Features in Layer</source>
         <translation>Todas as feições da camada</translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="186"/>
+        <location filename="ui_qchainage.py" line="185"/>
         <source>only selected Features</source>
         <translation>Somente as feições selecionadas</translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="187"/>
+        <location filename="ui_qchainage.py" line="186"/>
         <source>Start from</source>
         <translation>Começando em</translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="188"/>
+        <location filename="ui_qchainage.py" line="187"/>
         <source>Chainage</source>
         <translation>Encadeamento</translation>
     </message>
@@ -78,12 +78,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="190"/>
+        <location filename="ui_qchainage.py" line="189"/>
         <source>Divide Feature into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui_qchainage.py" line="191"/>
+        <location filename="ui_qchainage.py" line="190"/>
         <source>Parts</source>
         <translation type="unfinished"></translation>
     </message>

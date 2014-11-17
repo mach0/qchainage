@@ -25,7 +25,7 @@ PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 # translation
 SOURCES = chainagetool.py __init__.py qchainage.py qchainagedialog.py ui_qchainage.py  
 #TRANSLATIONS = i18n/qchainage_en.ts
-TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_pt.ts
+TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_pt.ts i18n/qchainage_fi.ts
 
 # global
 

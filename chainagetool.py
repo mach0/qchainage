@@ -29,6 +29,9 @@ def create_points_at(startpoint, endpoint, distance, geom, fid, force, divide):
     """
     length = geom.length()
 
+    if length < endpoint:
+        endpoint = length
+
     if divide > 0:
         length2 = length
         if startpoint > 0:

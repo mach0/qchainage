@@ -100,11 +100,12 @@ def points_along_line(layerout,
                       layer,
                       selected_only=True,
                       force=False,
-                      divide=0):
+                      divide=0,
+                      decimal=2):
     """Adding Points along the line
     """
     # Create a new memory layer and add a distance attribute self.layerNameLine
-    #layer_crs = virt_layer.setCrs(layer.crs())
+    # layer_crs = virt_layer.setCrs(layer.crs())
     virt_layer = QgsVectorLayer("Point?crs=%s" % layer.crs().authid(),
                                 layerout,
                                 "memory")
@@ -146,16 +147,18 @@ def points_along_line(layerout,
     virt_layer.commitChanges()
     virt_layer.reload()
 
-    #from here Add labeling
-    #generic labeling properties
+    # from here Add labeling
+    # generic labeling properties
     if label:
         virt_layer.setCustomProperty("labeling", "pal")
         virt_layer.setCustomProperty("labeling/enabled", "true")
         virt_layer.setCustomProperty("labeling/fieldName", "cng_("+unit+")")
         virt_layer.setCustomProperty("labeling/fontSize", "10")
         virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
+        virt_layer.setCustomProperty("labeling/formatNumbers", "true")
+        virt_layer.setCustomProperty("labeling/decimals", decimal)
 
-        #virt_layer.setCustomProperty("labeling/Size", "5")
+        # virt_layer.setCustomProperty("labeling/Size", "5")
     # symbol = QgsMarkerSymbolV2.createSimple({"name": "capital"})
     # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
     virt_layer.triggerRepaint()

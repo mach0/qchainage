@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_AT" sourcelanguage="en_GB">
+<!DOCTYPE TS><TS version="2.0" language="pt_BR" sourcelanguage="en_GB">
 <context>
     <name>QChainageDialog</name>
     <message>
         <location filename="ui_qchainage.py" line="166"/>
         <source>Dialog</source>
-        <translation type="obsolete">Dialog</translation>
+        <translation type="obsolete">Diálogo</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="191"/>
         <source>Select Layer to chainage</source>
-        <translation>Wähle zu kilometrierenden Layer</translation>
+        <translation>Selecione a camada a alterar</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="190"/>
         <source>Chainage every</source>
-        <translation>Kilometrierung alle</translation>
+        <translation>Encadeamento cada</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="198"/>
         <source>Units</source>
-        <translation>Einheiten</translation>
+        <translation>Unidades</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="187"/>
         <source>Force last point on feature</source>
-        <translation>Erzwinge letzten Punkt auf Feature</translation>
+        <translation>Forçar último ponto na feição</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="189"/>
         <source>Output Layername</source>
-        <translation>Ausgabe Layername</translation>
+        <translation>Camada de saída</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="203"/>
         <source>Automatically Label the Layer</source>
-        <translation>Beschrifte Layer automatisch</translation>
+        <translation>Anotar a camada automaticamente</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="192"/>
         <source>Basic</source>
-        <translation>Standard</translation>
+        <translation>Básico</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="193"/>
         <source>End at</source>
-        <translation>Beende bei</translation>
+        <translation>Terminar em</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="201"/>
         <source>all Features in Layer</source>
-        <translation>alle Features im Layer</translation>
+        <translation>Todas as feições da camada</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="195"/>
         <source>only selected Features</source>
-        <translation>nur ausgewählte Features</translation>
+        <translation>Somente as feições selecionadas</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="196"/>
         <source>Start from</source>
-        <translation>Beginne bei</translation>
+        <translation>Começando em</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="197"/>
         <source>Chainage</source>
-        <translation>Kilometrierung</translation>
+        <translation>Encadeamento</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="202"/>
         <source>Advanced</source>
-        <translation>Erweitert</translation>
+        <translation>Avançado</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="186"/>
@@ -80,22 +80,22 @@
     <message>
         <location filename="ui_qchainage.py" line="199"/>
         <source>Divide Feature into</source>
-        <translation>Teile Feature in</translation>
+        <translation>Dividir feição em</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="200"/>
         <source>Parts</source>
-        <translation>Teile</translation>
+        <translation>Partes</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="204"/>
         <source>Decimal places</source>
-        <translation>Dezimalstellen</translation>
+        <translation>Casas decimais</translation>
     </message>
     <message>
         <location filename="ui_qchainage.py" line="205"/>
         <source>Labeling</source>
-        <translation>Beschriftung</translation>
+        <translation>Rotulagem</translation>
     </message>
 </context>
 </TS>

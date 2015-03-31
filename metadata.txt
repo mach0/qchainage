@@ -11,7 +11,7 @@ about=QChainage is either separating the selected (or all) Line-Features into
  parts, or linear referencing after a choosen distance. All along the whole 
  Feature or between selectable start and endpoint.
  
-version=0.3.3
+version=0.3.4
 author=Werner Macho
 email=werner.macho@gmail.com
 
@@ -20,7 +20,8 @@ email=werner.macho@gmail.com
 # Optional items:
 
 # Uncomment the following line and add your changelog entries:
-changelog=0.3.3 Adding new Labeling Tab with decimal places
+changelog=0.3.4 added possibility to divide into more than 99 parts
+ 0.3.3 Adding new Labeling Tab with decimal places
  0.3.2 Added finnish language, small bugfix when using endpoint
  0.3.1 Plugin upload failed
  0.3.0 Bugfix Release

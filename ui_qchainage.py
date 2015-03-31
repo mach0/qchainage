@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Tue Dec  2 20:10:13 2014
+# Created: Tue Mar 31 11:26:28 2015
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -137,6 +137,7 @@ class Ui_QChainageDialog(object):
         self.labelUnit_2.setObjectName(_fromUtf8("labelUnit_2"))
         self.gridLayout.addWidget(self.labelUnit_2, 2, 2, 1, 1)
         self.divideSpinBox = QtGui.QSpinBox(self.tab_2)
+        self.divideSpinBox.setMaximum(999999999)
         self.divideSpinBox.setObjectName(_fromUtf8("divideSpinBox"))
         self.gridLayout.addWidget(self.divideSpinBox, 4, 1, 1, 1)
         self.label_2 = QtGui.QLabel(self.tab_2)
@@ -157,7 +158,7 @@ class Ui_QChainageDialog(object):
         self.gridLayout_4.setObjectName(_fromUtf8("gridLayout_4"))
         self.autoLabelCheckBox = QtGui.QCheckBox(self.tab_3)
         self.autoLabelCheckBox.setEnabled(True)
-        self.autoLabelCheckBox.setChecked(True)
+        self.autoLabelCheckBox.setChecked(False)
         self.autoLabelCheckBox.setObjectName(_fromUtf8("autoLabelCheckBox"))
         self.gridLayout_4.addWidget(self.autoLabelCheckBox, 0, 0, 1, 2)
         self.decimalSpinBox = QtGui.QSpinBox(self.tab_3)

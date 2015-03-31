@@ -257,7 +257,11 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QSpinBox" name="divideSpinBox"/>
+        <widget class="QSpinBox" name="divideSpinBox">
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_2">
@@ -302,7 +306,7 @@
           <string>Automatically Label the Layer</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>

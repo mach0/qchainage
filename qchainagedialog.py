@@ -21,7 +21,7 @@
 """
 from PyQt4 import QtCore, QtGui
 
-from qgis.core import QgsMapLayer, QGis 
+from qgis.core import QgsMapLayer, QGis
 from qgis.gui import QgsMessageBar
 
 from ui_qchainage import Ui_QChainageDialog
@@ -43,17 +43,6 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         self.qgisSettings = QtCore.QSettings()
         self.okbutton = self.buttonBox.button(QtGui.QDialogButtonBox.Ok)
         self.okbutton.setEnabled(False)
-        
-        leave = -1
-        for layer in self.iface.mapCanvas().layers():
-            if layer.type() == QgsMapLayer.VectorLayer and \
-               layer.geometryType() == QGis.Line:
-                leave += 1
-                
-        if leave < 0:
-            message = "No Line Vector Layers, Chainage not useful!"
-            mb = iface.messageBar()
-            mb.pushWidget(mb.createMessage(message), QgsMessageBar.WARNING, 5)
         
         selectedLayerIndex = -1
         counter = -1

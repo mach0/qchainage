@@ -24,7 +24,10 @@ from PyQt4.QtCore import QFileInfo, QSettings, QTranslator
 from PyQt4.QtCore import QCoreApplication, qVersion
 from PyQt4.QtGui import QAction, QIcon
 
-from qgis.core import QgsApplication
+from qgis.core import QgsApplication, QgsMapLayer, QGis
+
+from qgis.gui import QgsMessageBar
+
 # Import the code for the dialog
 from qchainagedialog import QChainageDialog
 
@@ -32,22 +35,14 @@ from qchainagedialog import QChainageDialog
 # shows not used
 import resources_rc
 
-
-def debug():
-    import pydevd
-    pydevd.settrace('localhost', port=53100, stdoutToServer=True,
-                    stderrToServer=True, suspend=False)
-
+#import pydevd
+#pydevd.settrace('localhost', port=53100, stdoutToServer=True,
+#                stderrToServer=True, suspend=False)
 
 class Qchainage:
     """Main class for Chainage
     """
     def __init__(self, iface):
-        try:
-            debug()
-        except:
-            print 'Debugger not enabled'
-        # save reference to the QGIS interface
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -95,6 +90,18 @@ class Qchainage:
     def run(self):
         """ Running the plugin
         """
+        leave = -1
+        for layer in self.iface.mapCanvas().layers():
+            if layer.type() == QgsMapLayer.VectorLayer and \
+               layer.geometryType() == QGis.Line:
+                leave += 1
+
+        if leave < 0:
+            message = "No Line Vector Layers, Chainage not useful!"
+            mb = self.iface.messageBar()
+            mb.pushWidget(mb.createMessage(message),
+                          QgsMessageBar.WARNING, 5)
+            return
         # show the dialog
         dialog = QChainageDialog(self.iface)
         # Run the dialog event loop

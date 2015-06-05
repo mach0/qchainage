@@ -97,7 +97,8 @@ class Qchainage:
                 leave += 1
 
         if leave < 0:
-            message = "No Line Vector Layers, Chainage not useful!"
+            message = QCoreApplication.translate('qchainage',
+                                                 "No layers with line features - chainage not useful!")
             mb = self.iface.messageBar()
             mb.pushWidget(mb.createMessage(message),
                           QgsMessageBar.WARNING, 5)

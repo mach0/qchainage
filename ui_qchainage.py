@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Tue Mar 31 11:26:28 2015
-#      by: PyQt4 UI code generator 4.10.3
+# Created: Thu Jun  4 22:49:58 2015
+#      by: PyQt4 UI code generator 4.11.2
 #
 # WARNING! All changes made in this file will be lost!
 

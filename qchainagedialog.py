@@ -22,12 +22,9 @@
 from PyQt4 import QtCore, QtGui
 
 from qgis.core import QgsMapLayer, QGis
-from qgis.gui import QgsMessageBar
 
 from ui_qchainage import Ui_QChainageDialog
 from chainagetool import points_along_line
-
-# create the dialog for zoom to point
 
 
 class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):

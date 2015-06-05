@@ -19,7 +19,7 @@
  Main Chainage definitions"""
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
-from qgis.core import QGis, QgsSingleSymbolRendererV2
+from qgis.core import QGis, QgsSingleSymbolRendererV2, QgsVectorFileWriter
 
 from PyQt4.QtCore import QVariant
 
@@ -104,11 +104,45 @@ def points_along_line(layerout,
                       decimal=2):
     """Adding Points along the line
     """
-    # Create a new memory layer and add a distance attribute self.layerNameLine
-    # layer_crs = virt_layer.setCrs(layer.crs())
-    virt_layer = QgsVectorLayer("Point?crs=%s" % layer.crs().authid(),
+    crs = layer.crs().authid()
+    # TODO check for virtual or shapelayer and set virt_layer according to it
+    shape = False
+    if shape:
+        # define fields for feature attributes. A list of QgsField objects is needed
+        fields = [QgsField("first", QVariant.Int),
+                  QgsField("second", QVariant.String)]
+        # create an instance of vector file writer, which will create the vector file.
+        # Arguments:
+        # 1. path to new file (will fail if exists already)
+        # 2. encoding of the attributes
+        # 3. field map
+        # 4. geometry type - from WKBTYPE enum
+        # 5. layer's spatial reference (instance of
+        #    QgsCoordinateReferenceSystem) - optional
+        # 6. driver name for the output file
+        writer = QgsVectorFileWriter("my_shapes.shp",
+                                     "CP1250",
+                                     fields,
+                                     QGis.WKBPoint,
+                                     crs,
+                                     "ESRI Shapefile")
+        if writer.hasError() != QgsVectorFileWriter.NoError:
+            print "Error when creating shapefile: ", writer.hasError()
+        # add a feature
+        fet = QgsFeature()
+        fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(10,10)))
+        fet.setAttributes([1, "text"])
+        writer.addFeature(fet)
+        # delete the writer to flush features to disk (optional)
+        del writer
+
+        layer_type = "Shapefile"  # TODO Add Shapefile functionality here
+    else:
+        layer_type = "memory"
+
+    virt_layer = QgsVectorLayer("Point?crs=%s" % crs,
                                 layerout,
-                                "memory")
+                                layer_type)
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
     units = layer.crs().mapUnits()
@@ -118,8 +152,8 @@ def points_along_line(layerout,
         QGis.Feet: 'Feet',
         QGis.UnknownUnit: 'Unknown'}
     unit = unit_dic.get(units, 'Unknown')
-    provider.addAttributes([QgsField("fid", QVariant.Int)])
-    provider.addAttributes([QgsField("cng_("+unit+")", QVariant.Int)])
+    provider.addAttributes([QgsField("fid", QVariant.Int),
+                            QgsField("cng_("+unit+")", QVariant.Int)])
 
     def get_features():
         """Getting the features

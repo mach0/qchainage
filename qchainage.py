@@ -36,7 +36,7 @@ from qchainagedialog import QChainageDialog
 import resources_rc
 
 #import pydevd
-#pydevd.settrace('localhost', port=53100, stdoutToServer=True,
+#pydevd.settrace('localhost', port=55555, stdoutToServer=True,
 #                stderrToServer=True, suspend=False)
 
 class Qchainage:

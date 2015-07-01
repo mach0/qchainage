@@ -100,7 +100,15 @@
     <message>
         <location filename="qchainage.py" line="103"/>
         <source>No layers with line features - chainage not useful!</source>
-        <translation>Keine Layer mit Linienelementen - Kilometrierung nicht sinnvoll!</translation>
+        <translation type="obsolete">Keine Layer mit Linienelementen - Kilometrierung nicht sinnvoll!</translation>
+    </message>
+</context>
+<context>
+    <name>qchainage</name>
+    <message>
+        <location filename="qchainage.py" line="101"/>
+        <source>No layers with line features - chainage not useful!</source>
+        <translation type="unfinished">Keine Layer mit Linienelementen - Kilometrierung nicht sinnvoll!</translation>
     </message>
 </context>
 </TS>

@@ -97,8 +97,11 @@
         <source>Labeling</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>qchainage</name>
     <message>
-        <location filename="qchainage.py" line="103"/>
+        <location filename="qchainage.py" line="101"/>
         <source>No layers with line features - chainage not useful!</source>
         <translation type="unfinished"></translation>
     </message>

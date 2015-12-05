@@ -153,7 +153,7 @@ def points_along_line(layerout,
         QGis.UnknownUnit: 'Unknown'}
     unit = unit_dic.get(units, 'Unknown')
     provider.addAttributes([QgsField("fid", QVariant.Int),
-                            QgsField("cng_("+unit+")", QVariant.Int)])
+                            QgsField("cng_("+unit+")", QVariant.Double)])
 
     def get_features():
         """Getting the features

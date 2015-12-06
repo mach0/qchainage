@@ -26,18 +26,19 @@ from PyQt4.QtGui import QAction, QIcon
 
 from qgis.core import QgsApplication, QgsMapLayer, QGis
 
-from qgis.gui import QgsMessageBar
 
 # Import the code for the dialog
 from qchainagedialog import QChainageDialog
+from chainagetool import show_warning
 
 # Initialize Qt resources from file resources.py, don't delete even if it
 # shows not used
 import resources_rc
 
-#import pydevd
-#pydevd.settrace('localhost', port=55555, stdoutToServer=True,
-#                stderrToServer=True, suspend=False)
+# import pydevd
+# pydevd.settrace('localhost', port=55555, stdoutToServer=True,
+#                 stderrToServer=True, suspend=False)
+
 
 class Qchainage:
     """Main class for Chainage
@@ -90,6 +91,10 @@ class Qchainage:
     def run(self):
         """ Running the plugin
         """
+        otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
+        if otf:
+            message = "There might be wrong results with OTF switched on. Please switch it off and chainage the layer you want to"
+            show_warning(self, message)
         leave = -1
         for layer in self.iface.mapCanvas().layers():
             if layer.type() == QgsMapLayer.VectorLayer and \
@@ -97,11 +102,8 @@ class Qchainage:
                 leave += 1
 
         if leave < 0:
-            message = QCoreApplication.translate('qchainage',
-                                                 "No layers with line features - chainage not useful!")
-            mb = self.iface.messageBar()
-            mb.pushWidget(mb.createMessage(message),
-                          QgsMessageBar.WARNING, 5)
+            message = "No layers with line features - chainage not useful!"
+            show_warning(self, message)
             return
         # show the dialog
         dialog = QChainageDialog(self.iface)

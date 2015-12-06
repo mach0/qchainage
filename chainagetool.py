@@ -17,11 +17,13 @@
 """
 """
  Main Chainage definitions"""
+from PyQt4.QtCore import QVariant, QCoreApplication
+
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
 from qgis.core import QGis, QgsSingleSymbolRendererV2, QgsVectorFileWriter
 
-from PyQt4.QtCore import QVariant
+from qgis.gui import QgsMessageBar
 
 
 def create_points_at(startpoint, endpoint, distance, geom, fid, force, divide):
@@ -197,3 +199,10 @@ def points_along_line(layerout,
     # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
     virt_layer.triggerRepaint()
     return
+
+
+def show_warning(self, message):
+    text = QCoreApplication.translate('qchainage', message)
+    mb = self.iface.messageBar()
+    mb.pushWidget(mb.createMessage(text),
+                  QgsMessageBar.WARNING, 5)

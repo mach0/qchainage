@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created: Thu Jun  4 22:49:58 2015
+# Created: Sat Dec 26 11:08:32 2015
 #      by: PyQt4 UI code generator 4.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_QChainageDialog(object):
     def setupUi(self, QChainageDialog):
         QChainageDialog.setObjectName(_fromUtf8("QChainageDialog"))
         QChainageDialog.setEnabled(True)
-        QChainageDialog.resize(380, 237)
+        QChainageDialog.resize(380, 243)
         QChainageDialog.setMinimumSize(QtCore.QSize(380, 200))
         self.gridLayout_3 = QtGui.QGridLayout(QChainageDialog)
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
@@ -42,9 +42,6 @@ class Ui_QChainageDialog(object):
         self.tab.setObjectName(_fromUtf8("tab"))
         self.gridLayout_2 = QtGui.QGridLayout(self.tab)
         self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
-        self.forceLastCheckBox = QtGui.QCheckBox(self.tab)
-        self.forceLastCheckBox.setObjectName(_fromUtf8("forceLastCheckBox"))
-        self.gridLayout_2.addWidget(self.forceLastCheckBox, 3, 0, 1, 3)
         self.selectLayerComboBox = QtGui.QComboBox(self.tab)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -63,7 +60,7 @@ class Ui_QChainageDialog(object):
         self.labelUnit.setObjectName(_fromUtf8("labelUnit"))
         self.gridLayout_2.addWidget(self.labelUnit, 2, 4, 1, 1)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 7, 2, 1, 1)
+        self.gridLayout_2.addItem(spacerItem, 8, 2, 1, 1)
         self.distanceSpinBox = QtGui.QDoubleSpinBox(self.tab)
         self.distanceSpinBox.setDecimals(9)
         self.distanceSpinBox.setMaximum(1000000000.0)
@@ -72,16 +69,22 @@ class Ui_QChainageDialog(object):
         self.gridLayout_2.addWidget(self.distanceSpinBox, 2, 2, 1, 2)
         self.layerNameLine = QtGui.QLineEdit(self.tab)
         self.layerNameLine.setObjectName(_fromUtf8("layerNameLine"))
-        self.gridLayout_2.addWidget(self.layerNameLine, 4, 2, 1, 3)
+        self.gridLayout_2.addWidget(self.layerNameLine, 5, 2, 1, 3)
         self.labelLayerName = QtGui.QLabel(self.tab)
         self.labelLayerName.setObjectName(_fromUtf8("labelLayerName"))
-        self.gridLayout_2.addWidget(self.labelLayerName, 4, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.labelLayerName, 5, 0, 1, 2)
         self.labelDistance = QtGui.QLabel(self.tab)
         self.labelDistance.setObjectName(_fromUtf8("labelDistance"))
         self.gridLayout_2.addWidget(self.labelDistance, 2, 0, 1, 2)
         self.labelSelectLayer = QtGui.QLabel(self.tab)
         self.labelSelectLayer.setObjectName(_fromUtf8("labelSelectLayer"))
         self.gridLayout_2.addWidget(self.labelSelectLayer, 0, 0, 1, 3)
+        self.force_fl_CB = QtGui.QCheckBox(self.tab)
+        self.force_fl_CB.setObjectName(_fromUtf8("force_fl_CB"))
+        self.gridLayout_2.addWidget(self.force_fl_CB, 3, 0, 1, 3)
+        self.forceLastCheckBox = QtGui.QCheckBox(self.tab)
+        self.forceLastCheckBox.setObjectName(_fromUtf8("forceLastCheckBox"))
+        self.gridLayout_2.addWidget(self.forceLastCheckBox, 3, 3, 1, 2)
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -185,11 +188,12 @@ class Ui_QChainageDialog(object):
 
     def retranslateUi(self, QChainageDialog):
         QChainageDialog.setWindowTitle(_translate("QChainageDialog", "QChainage", None))
-        self.forceLastCheckBox.setText(_translate("QChainageDialog", "Force last point on feature", None))
         self.labelUnit.setText(_translate("QChainageDialog", "Units", None))
         self.labelLayerName.setText(_translate("QChainageDialog", "Output Layername", None))
         self.labelDistance.setText(_translate("QChainageDialog", "Chainage every", None))
         self.labelSelectLayer.setText(_translate("QChainageDialog", "Select Layer to chainage", None))
+        self.force_fl_CB.setText(_translate("QChainageDialog", "Only first and last point", None))
+        self.forceLastCheckBox.setText(_translate("QChainageDialog", "Force last point", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("QChainageDialog", "Basic", None))
         self.checkBoxEndAt.setText(_translate("QChainageDialog", "End at", None))
         self.labelUnit_3.setText(_translate("QChainageDialog", "Units", None))

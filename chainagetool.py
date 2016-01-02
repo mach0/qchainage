@@ -17,18 +17,32 @@
 """
 """
  Main Chainage definitions"""
+
+
 from PyQt4.QtCore import QVariant, QCoreApplication
 
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
 from qgis.core import QGis, QgsSingleSymbolRendererV2, QgsVectorFileWriter
 
-from qgis.gui import QgsMessageBar
 
-
-def create_points_at(startpoint, endpoint, distance, geom, fid, force, divide):
+def create_points_at(startpoint,
+                     endpoint,
+                     distance,
+                     geom,
+                     fid,
+                     force,
+                     fo_fila,
+                     divide):
     """Creating Points at coordinates along the line
     """
+    # don't allow distance to be zero and loop endlessly
+    if fo_fila:
+        distance = 0
+
+    if distance <= 0:
+        distance = geom.length()
+
     length = geom.length()
 
     if length < endpoint:
@@ -102,10 +116,12 @@ def points_along_line(layerout,
                       layer,
                       selected_only=True,
                       force=False,
+                      fo_fila=False,
                       divide=0,
                       decimal=2):
     """Adding Points along the line
     """
+
     crs = layer.crs().authid()
     # TODO check for virtual or shapelayer and set virt_layer according to it
     shape = False
@@ -132,7 +148,7 @@ def points_along_line(layerout,
             print "Error when creating shapefile: ", writer.hasError()
         # add a feature
         fet = QgsFeature()
-        fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(10,10)))
+        fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(10, 10)))
         fet.setAttributes([1, "text"])
         writer.addFeature(fet)
         # delete the writer to flush features to disk (optional)
@@ -174,8 +190,14 @@ def points_along_line(layerout,
             QgsMessageLog.logMessage("No geometry", "QChainage")
             continue
 
-        features = create_points_at(startpoint, endpoint, distance, geom,
-                                    fid, force, divide)
+        features = create_points_at(startpoint,
+                                    endpoint,
+                                    distance,
+                                    geom,
+                                    fid,
+                                    force,
+                                    fo_fila,
+                                    divide)
         provider.addFeatures(features)
         virt_layer.updateExtents()
 
@@ -199,10 +221,3 @@ def points_along_line(layerout,
     # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
     virt_layer.triggerRepaint()
     return
-
-
-def show_warning(self, message):
-    text = QCoreApplication.translate('qchainage', message)
-    mb = self.iface.messageBar()
-    mb.pushWidget(mb.createMessage(text),
-                  QgsMessageBar.WARNING, 5)

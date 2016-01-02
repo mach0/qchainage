@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>237</height>
+    <height>243</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -43,13 +43,6 @@
        <string>Basic</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="forceLastCheckBox">
-         <property name="text">
-          <string>Force last point on feature</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0" colspan="5">
         <widget class="QComboBox" name="selectLayerComboBox">
          <property name="sizePolicy">
@@ -79,7 +72,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="2">
+       <item row="8" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -105,10 +98,10 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2" colspan="3">
+       <item row="5" column="2" colspan="3">
         <widget class="QLineEdit" name="layerNameLine"/>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="5" column="0" colspan="2">
         <widget class="QLabel" name="labelLayerName">
          <property name="text">
           <string>Output Layername</string>
@@ -126,6 +119,20 @@
         <widget class="QLabel" name="labelSelectLayer">
          <property name="text">
           <string>Select Layer to chainage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QCheckBox" name="force_fl_CB">
+         <property name="text">
+          <string>Only first and last point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3" colspan="2">
+        <widget class="QCheckBox" name="forceLastCheckBox">
+         <property name="text">
+          <string>Force last point</string>
          </property>
         </widget>
        </item>
@@ -352,8 +359,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>257</y>
+     <x>304</x>
+     <y>227</y>
     </hint>
     <hint type="destinationlabel">
      <x>264</x>
@@ -368,8 +375,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>368</x>
-     <y>257</y>
+     <x>370</x>
+     <y>227</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -384,12 +391,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>120</y>
+     <x>43</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
-     <x>278</x>
-     <y>123</y>
+     <x>165</x>
+     <y>102</y>
     </hint>
    </hints>
   </connection>
@@ -400,12 +407,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
-     <y>152</y>
+     <x>43</x>
+     <y>129</y>
     </hint>
     <hint type="destinationlabel">
-     <x>241</x>
-     <y>155</y>
+     <x>165</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>
@@ -416,12 +423,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>112</y>
+     <x>43</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
-     <x>293</x>
-     <y>113</y>
+     <x>359</x>
+     <y>102</y>
     </hint>
    </hints>
   </connection>
@@ -432,12 +439,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>75</x>
-     <y>146</y>
+     <x>43</x>
+     <y>129</y>
     </hint>
     <hint type="destinationlabel">
-     <x>298</x>
-     <y>145</y>
+     <x>359</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>

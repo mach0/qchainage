@@ -101,6 +101,7 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
         endpoint = self.endSpinBox.value()
         selectedOnly = self.selectOnlyRadioBtn.isChecked()
         force = self.forceLastCheckBox.isChecked()
+        fo_fila = self.force_fl_CB.isChecked()
         divide = self.divideSpinBox.value()
         decimal = self.decimalSpinBox.value()
 
@@ -118,6 +119,7 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             layer,
             selectedOnly,
             force,
+            fo_fila,
             divide,
             decimal)
         self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)

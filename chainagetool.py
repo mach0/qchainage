@@ -68,6 +68,9 @@ def create_points_at(startpoint,
 
     # set the first point at startpoint
     point = geom.interpolate(startpoint)
+    # fixme
+    # convert 3D geometry to 2D geometry as OGR seems to have problems with this
+    point = QgsGeometry.fromPoint(point.asPoint())
 
     field_id = QgsField(name="id", type=QVariant.Int)
     field = QgsField(name="dist", type=QVariant.Double)

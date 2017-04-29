@@ -19,34 +19,37 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4 import QtCore, QtGui
+from __future__ import absolute_import
+from qgis.PyQt.QtCore import QSettings
+from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
 
-from qgis.core import QgsMapLayer, QGis
+from qgis.core import QgsMapLayer, Qgis
 
-from ui_qchainage import Ui_QChainageDialog
-from chainagetool import points_along_line
+from .ui_qchainage import Ui_QChainageDialog
+from .chainagetool import points_along_line
 
 
-class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
+class QChainageDialog(QDialog, Ui_QChainageDialog):
     """ Setting up User Interface
     """
     def __init__(self, iface):
         self.iface = iface
-        QtGui.QDialog.__init__(self)
+        QDialog.__init__(self)
 
         self.setupUi(self)
         self.setWindowTitle('QChainage')
         self.distanceSpinBox.setValue(1)
-        self.qgisSettings = QtCore.QSettings()
-        self.okbutton = self.buttonBox.button(QtGui.QDialogButtonBox.Ok)
+        self.qgisSettings = QSettings()
+        self.okbutton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okbutton.setEnabled(False)
         
         selectedLayerIndex = -1
         counter = -1
 
         for layer in self.iface.mapCanvas().layers():
-            if layer.type() == QgsMapLayer.VectorLayer and \
-                    layer.geometryType() == QGis.Line:
+            if layer.type() == QgsMapLayer.VectorLayer:
+                #and \
+                 #   layer.geometryType() == Qgis.Line:
                 self.loadLayer(layer)
                 counter += 1
 
@@ -73,14 +76,14 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             return
             
         units = layer.crs().mapUnits()
-        unitdic = {
-            QGis.Degrees: 'Degrees',
-            QGis.Meters: 'Meters',
-            QGis.Feet: 'Feet',
-            QGis.UnknownUnit: 'Unknown'}
-        self.labelUnit.setText(unitdic.get(units, 'Unknown'))
-        self.labelUnit_2.setText(unitdic.get(units, 'Unknown'))
-        self.labelUnit_3.setText(unitdic.get(units, 'Unknown'))
+        #unitdic = {
+        #    QGis.Degrees: 'Degrees',
+        #    QGis.Meters: 'Meters',
+        #    QGis.Feet: 'Feet',
+        #    QGis.UnknownUnit: 'Unknown'}
+        #self.labelUnit.setText(unitdic.get(units, 'Unknown'))
+        #self.labelUnit_2.setText(unitdic.get(units, 'Unknown'))
+        #self.labelUnit_3.setText(unitdic.get(units, 'Unknown'))
         self.layerNameLine.setText("chain_" + layer.name())
 
         if layer.selectedFeatureCount() == 0:

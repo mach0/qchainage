@@ -20,11 +20,12 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
+from __future__ import absolute_import
 
 
 def classFactory(iface):
     """
     load qchainage class from file qchainage and init plugin
     """
-    from qchainage import Qchainage
+    from .qchainage import Qchainage
     return Qchainage(iface)

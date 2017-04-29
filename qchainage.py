@@ -19,24 +19,27 @@
  *                                                                         *
  ***************************************************************************/
 """
-# Import the PyQt and QGIS libraries
-from PyQt4.QtCore import QFileInfo, QSettings, QTranslator, QObject
-from PyQt4.QtCore import QCoreApplication, qVersion
-from PyQt4.QtGui import QAction, QIcon
+from __future__ import absolute_import
 
-from qgis.core import QgsApplication, QgsMapLayer, QGis
+# Import the PyQt and QGIS libraries
+from builtins import object
+from qgis.PyQt.QtCore import QFileInfo, QSettings, QTranslator, QObject
+from qgis.PyQt.QtCore import QCoreApplication, qVersion
+from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtGui import QIcon
+
+from qgis.core import QgsApplication, QgsMapLayer, Qgis
 from qgis.gui import QgsMessageBar
 
-
 # Import the code for the dialog
-from qchainagedialog import QChainageDialog
-from ui_qchainage import Ui_QChainageDialog
+from .qchainagedialog import QChainageDialog
+#from .ui_qchainage import Ui_QChainageDialog
+import os
 
-# from chainagetool import show_warning
 
 # Initialize Qt resources from file resources.py, don't delete even if it
 # shows not used
-import resources_rc
+from . import resources_rc
 
 # import pydevd
 # pydevd.settrace('localhost', port=55555, stdoutToServer=True,
@@ -49,16 +52,14 @@ def show_warning(self, message):
     mb.pushWidget(mb.createMessage(text),
                   QgsMessageBar.WARNING, 5)
 
-class Qchainage:
+class Qchainage(object):
     """Main class for Chainage
     """
     def __init__(self, iface):
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
-        self.plugin_dir = \
-            QFileInfo(QgsApplication.qgisUserDbFilePath()).path() + \
-            "/python/plugins/qchainage"
+        self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale_path = ""
         locale = QSettings().value("locale/userLocale")[0:2]
@@ -89,8 +90,6 @@ class Qchainage:
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToVectorMenu(u"&QChainage", self.action)
 
-        #QObject.connect(self.? , SIGNAL("stateChanged"),
-        #                self.qchainage.checkpoints)
 
     def unload(self):
         """ Unloading the plugin
@@ -103,16 +102,17 @@ class Qchainage:
     def run(self):
         """ Running the plugin
         """
-        otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
-        if otf:
-            message = "There might be wrong results with OTF switched on." \
-                      "Please switch it off and chainage the layer you want to"
-            show_warning(self, message)
+        #otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
+        #if otf:
+        #    message = "There might be wrong results with OTF switched on." \
+        #              "Please switch it off and chainage the layer you want to"
+        #    show_warning(self, message)
         leave = -1
 
         for layer in self.iface.mapCanvas().layers():
-            if layer.type() == QgsMapLayer.VectorLayer and \
-               layer.geometryType() == QGis.Line:
+            if layer.type() == QgsMapLayer.VectorLayer:
+                #and \
+               #layer.geometryType() == !!!!LineGeometry:
                 leave += 1
 
         if leave < 0:

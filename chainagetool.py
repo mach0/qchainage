@@ -15,15 +15,16 @@
 # *                                                                         *
 # ***************************************************************************
 """
+from __future__ import print_function
 """
  Main Chainage definitions"""
 
 
-from PyQt4.QtCore import QVariant, QCoreApplication
+from qgis.PyQt.QtCore import QVariant, QCoreApplication
 
-from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
+from qgis.core import QgsVectorLayer, QgsMarkerSymbol, QgsGeometry, QgsProject
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
-from qgis.core import QGis, QgsSingleSymbolRendererV2, QgsVectorFileWriter
+from qgis.core import Qgis, QgsSingleSymbolRenderer, QgsVectorFileWriter
 
 
 def create_points_at(startpoint,
@@ -144,11 +145,12 @@ def points_along_line(layerout,
         writer = QgsVectorFileWriter("my_shapes.shp",
                                      "CP1250",
                                      fields,
-                                     QGis.WKBPoint,
+                                     Qgis.WKBPoint,
                                      crs,
                                      "ESRI Shapefile")
         if writer.hasError() != QgsVectorFileWriter.NoError:
-            print "Error when creating shapefile: ", writer.hasError()
+            # fix_print_with_import
+            print("Error when creating shapefile: ", writer.hasError())
         # add a feature
         fet = QgsFeature()
         fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(10, 10)))
@@ -167,14 +169,14 @@ def points_along_line(layerout,
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
     units = layer.crs().mapUnits()
-    unit_dic = {
-        QGis.Degrees: 'Degrees',
-        QGis.Meters: 'Meters',
-        QGis.Feet: 'Feet',
-        QGis.UnknownUnit: 'Unknown'}
-    unit = unit_dic.get(units, 'Unknown')
+    #unit_dic = {
+    #    QGis.Degrees: 'Degrees',
+    #    QGis.Meters: 'Meters',
+    #    QGis.Feet: 'Feet',
+    #    QGis.UnknownUnit: 'Unknown'}
+    #unit = unit_dic.get(units, 'Unknown')
     provider.addAttributes([QgsField("fid", QVariant.Int),
-                            QgsField("cng_"+unit, QVariant.Double)])
+                            QgsField("cng_", QVariant.Double)])
 
     def get_features():
         """Getting the features
@@ -204,7 +206,8 @@ def points_along_line(layerout,
         provider.addFeatures(features)
         virt_layer.updateExtents()
 
-    QgsMapLayerRegistry.instance().addMapLayers([virt_layer])
+    proj = QgsProject.instance()
+    proj.addMapLayers([virt_layer])
     virt_layer.commitChanges()
     virt_layer.reload()
 
@@ -220,7 +223,7 @@ def points_along_line(layerout,
         virt_layer.setCustomProperty("labeling/decimals", decimal)
 
         # virt_layer.setCustomProperty("labeling/Size", "5")
-    # symbol = QgsMarkerSymbolV2.createSimple({"name": "capital"})
-    # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
+    # symbol = QgsMarkerSymbol.createSimple({"name": "capital"})
+    # virt_layer.setRenderer(QgsSingleSymbolRenderer(symbol))
     virt_layer.triggerRepaint()
     return

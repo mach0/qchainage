@@ -28,22 +28,16 @@ from qgis.PyQt.QtCore import QCoreApplication, qVersion
 from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon
 
-from qgis.core import QgsApplication, QgsMapLayer, Qgis
+from qgis.core import QgsApplication, QgsMapLayer, QgsWkbTypes
 from qgis.gui import QgsMessageBar
 
 # Import the code for the dialog
 from .qchainagedialog import QChainageDialog
-#from .ui_qchainage import Ui_QChainageDialog
 import os
-
 
 # Initialize Qt resources from file resources.py, don't delete even if it
 # shows not used
 from . import resources_rc
-
-# import pydevd
-# pydevd.settrace('localhost', port=55555, stdoutToServer=True,
-#                 stderrToServer=True, suspend=False)
 
 
 def show_warning(self, message):
@@ -51,6 +45,7 @@ def show_warning(self, message):
     mb = self.iface.messageBar()
     mb.pushWidget(mb.createMessage(text),
                   QgsMessageBar.WARNING, 5)
+
 
 class Qchainage(object):
     """Main class for Chainage
@@ -74,8 +69,6 @@ class Qchainage(object):
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
-
     def initGui(self):
         """Initiate GUI
         """
@@ -90,7 +83,6 @@ class Qchainage(object):
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToVectorMenu(u"&QChainage", self.action)
 
-
     def unload(self):
         """ Unloading the plugin
         """
@@ -98,7 +90,6 @@ class Qchainage(object):
         self.iface.removePluginVectorMenu(u"&QChainage", self.action)
         self.iface.removeToolBarIcon(self.action)
 
-    # run method that performs all the real work
     def run(self):
         """ Running the plugin
         """
@@ -110,9 +101,8 @@ class Qchainage(object):
         leave = -1
 
         for layer in self.iface.mapCanvas().layers():
-            if layer.type() == QgsMapLayer.VectorLayer:
-                #and \
-               #layer.geometryType() == !!!!LineGeometry:
+            if layer.type() == QgsMapLayer.VectorLayer and \
+               layer.geometryType() == QgsWkbTypes.LineGeometry:
                 leave += 1
 
         if leave < 0:

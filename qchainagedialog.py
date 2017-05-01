@@ -23,7 +23,7 @@ from __future__ import absolute_import
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
 
-from qgis.core import QgsMapLayer, Qgis
+from qgis.core import QgsMapLayer, QgsWkbTypes, QgsUnitTypes, QgsDistanceArea, QgsProject
 
 from .ui_qchainage import Ui_QChainageDialog
 from .chainagetool import points_along_line
@@ -38,18 +38,33 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
 
         self.setupUi(self)
         self.setWindowTitle('QChainage')
-        self.distanceSpinBox.setValue(1)
+        self.currentUnits = None
         self.qgisSettings = QSettings()
         self.okbutton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okbutton.setEnabled(False)
+        self.da = QgsDistanceArea()
+
+
+        self.UnitsComboBox.clear()
+        for u in [
+            QgsUnitTypes.DistanceMeters,
+            QgsUnitTypes.DistanceKilometers,
+            QgsUnitTypes.DistanceFeet,
+            QgsUnitTypes.DistanceNauticalMiles,
+            QgsUnitTypes.DistanceYards,
+            QgsUnitTypes.DistanceMiles,
+            QgsUnitTypes.DistanceDegrees,
+            QgsUnitTypes.DistanceCentimeters,
+            QgsUnitTypes.DistanceMillimeters,
+            QgsUnitTypes.DistanceUnknownUnit, ]:
+            self.UnitsComboBox.addItem(QgsUnitTypes.toString(u), u)
         
         selectedLayerIndex = -1
         counter = -1
 
         for layer in self.iface.mapCanvas().layers():
-            if layer.type() == QgsMapLayer.VectorLayer:
-                #and \
-                 #   layer.geometryType() == Qgis.Line:
+            if layer.type() == QgsMapLayer.VectorLayer and \
+                 layer.geometryType() == QgsWkbTypes.LineGeometry:
                 self.loadLayer(layer)
                 counter += 1
 
@@ -76,14 +91,14 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             return
             
         units = layer.crs().mapUnits()
-        #unitdic = {
-        #    QGis.Degrees: 'Degrees',
-        #    QGis.Meters: 'Meters',
-        #    QGis.Feet: 'Feet',
-        #    QGis.UnknownUnit: 'Unknown'}
-        #self.labelUnit.setText(unitdic.get(units, 'Unknown'))
-        #self.labelUnit_2.setText(unitdic.get(units, 'Unknown'))
-        #self.labelUnit_3.setText(unitdic.get(units, 'Unknown'))
+
+        self.da.setSourceCrs(layer.crs())
+        self.da.setEllipsoid( QgsProject.instance().ellipsoid())
+
+        self.currentUnits = self.UnitsComboBox.findData(units)
+        self.UnitsComboBox.setCurrentIndex(self.currentUnits)
+
+
         self.layerNameLine.setText("chain_" + layer.name())
 
         if layer.selectedFeatureCount() == 0:
@@ -94,11 +109,20 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             self.selectOnlyRadioBtn.setEnabled(True)
   
         self.okbutton.setEnabled(True)
+
+    def on_UnitsComboBox_currentIndexChanged(self):
+        if self.currentUnits is None:
+            return
+        calc2 = self.da.convertLengthMeasurement(1.0, self.UnitsComboBox.currentData())
+        calc = self.da.convertLengthMeasurement(1.0, self.currentUnits)
+        self.distanceSpinBox.setValue(self.distanceSpinBox.value() / calc * calc2)
+        self.currentUnits = self.UnitsComboBox.currentData()
             
     def accept(self):
         layer = self.get_current_layer()
         label = self.autoLabelCheckBox.isChecked()
         layerout = self.layerNameLine.text()
+        self.UnitsComboBox.setCurrentIndex(self.UnitsComboBox.findData(layer.crs().mapUnits()))
         distance = self.distanceSpinBox.value()
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
@@ -126,3 +150,4 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             divide,
             decimal)
         self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)
+        QDialog.accept(self)

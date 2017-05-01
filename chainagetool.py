@@ -24,7 +24,7 @@ from qgis.PyQt.QtCore import QVariant, QCoreApplication
 
 from qgis.core import QgsVectorLayer, QgsMarkerSymbol, QgsGeometry, QgsProject
 from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
-from qgis.core import Qgis, QgsSingleSymbolRenderer, QgsVectorFileWriter
+from qgis.core import Qgis, QgsSingleSymbolRenderer, QgsVectorFileWriter, QgsUnitTypes
 
 
 def create_points_at(startpoint,
@@ -69,7 +69,6 @@ def create_points_at(startpoint,
 
     # set the first point at startpoint
     point = geom.interpolate(startpoint)
-    # fixme
     # convert 3D geometry to 2D geometry as OGR seems to have problems with this
     point = QgsGeometry.fromPoint(point.asPoint())
 
@@ -108,7 +107,6 @@ def create_points_at(startpoint,
         feature['id'] = fid
         feature.setGeometry(point)
         feats.append(feature)
-
     return feats
 
 
@@ -127,6 +125,7 @@ def points_along_line(layerout,
     """
 
     crs = layer.crs().authid()
+
     # TODO check for virtual or shapelayer and set virt_layer according to it
     shape = False
     if shape:
@@ -168,15 +167,12 @@ def points_along_line(layerout,
                                 layer_type)
     provider = virt_layer.dataProvider()
     virt_layer.startEditing()   # actually writes attributes
+
     units = layer.crs().mapUnits()
-    #unit_dic = {
-    #    QGis.Degrees: 'Degrees',
-    #    QGis.Meters: 'Meters',
-    #    QGis.Feet: 'Feet',
-    #    QGis.UnknownUnit: 'Unknown'}
-    #unit = unit_dic.get(units, 'Unknown')
+
+    unitname = QgsUnitTypes.toString(units)
     provider.addAttributes([QgsField("fid", QVariant.Int),
-                            QgsField("cng_", QVariant.Double)])
+                            QgsField("cng"+unitname, QVariant.Double)])
 
     def get_features():
         """Getting the features
@@ -211,18 +207,16 @@ def points_along_line(layerout,
     virt_layer.commitChanges()
     virt_layer.reload()
 
-    # from here Add labeling
     # generic labeling properties
     if label:
         virt_layer.setCustomProperty("labeling", "pal")
         virt_layer.setCustomProperty("labeling/enabled", "true")
-        virt_layer.setCustomProperty("labeling/fieldName", "cng_("+unit+")")
+        virt_layer.setCustomProperty("labeling/fieldName", "cng")
         virt_layer.setCustomProperty("labeling/fontSize", "10")
         virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
         virt_layer.setCustomProperty("labeling/formatNumbers", "true")
         virt_layer.setCustomProperty("labeling/decimals", decimal)
-
-        # virt_layer.setCustomProperty("labeling/Size", "5")
+        virt_layer.setCustomProperty("labeling/Size", "5")
     # symbol = QgsMarkerSymbol.createSimple({"name": "capital"})
     # virt_layer.setRenderer(QgsSingleSymbolRenderer(symbol))
     virt_layer.triggerRepaint()

@@ -15,14 +15,10 @@
 # *                                                                         *
 # ***************************************************************************
 """
-"""
- Main Chainage definitions"""
-
-
 from PyQt4.QtCore import QVariant, QCoreApplication
 
 from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsMarkerSymbolV2
-from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
+from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog, QgsGeometry
 from qgis.core import QGis, QgsSingleSymbolRendererV2, QgsVectorFileWriter
 
 
@@ -174,7 +170,7 @@ def points_along_line(layerout,
         QGis.UnknownUnit: 'Unknown'}
     unit = unit_dic.get(units, 'Unknown')
     provider.addAttributes([QgsField("fid", QVariant.Int),
-                            QgsField("cng_"+unit, QVariant.Double)])
+                            QgsField("c_"+unit, QVariant.Double)])
 
     def get_features():
         """Getting the features
@@ -209,16 +205,14 @@ def points_along_line(layerout,
     virt_layer.reload()
 
     # from here Add labeling
-    # generic labeling properties
     if label:
         virt_layer.setCustomProperty("labeling", "pal")
         virt_layer.setCustomProperty("labeling/enabled", "true")
-        virt_layer.setCustomProperty("labeling/fieldName", "cng_("+unit+")")
+        virt_layer.setCustomProperty("labeling/fieldName", "c_"+unit)
         virt_layer.setCustomProperty("labeling/fontSize", "10")
         virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
         virt_layer.setCustomProperty("labeling/formatNumbers", "true")
         virt_layer.setCustomProperty("labeling/decimals", decimal)
-
         # virt_layer.setCustomProperty("labeling/Size", "5")
     # symbol = QgsMarkerSymbolV2.createSimple({"name": "capital"})
     # virt_layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))

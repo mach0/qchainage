@@ -11,12 +11,13 @@ about=QChainage is either separating the selected (or all) Line-Features into
  parts, or linear referencing after a chosen distance. All along the whole
  Feature or between selectable start and endpoint.
 category=Vector
-version=0.4.0
+version=2.0.0
 author=Werner Macho
 email=werner.macho@gmail.com
 
 ; optional metadata entries
 changelog=
+    2.0.0 update for QGIS Version 2.x
     0.4.0 fix problem with Z (3D) geometries (convert to 2D)
     0.3.9 mark start and endpoint only
     0.3.8 minor bugfixes

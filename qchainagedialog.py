@@ -123,3 +123,4 @@ class QChainageDialog(QtGui.QDialog, Ui_QChainageDialog):
             divide,
             decimal)
         self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)
+        QDialog.accept(self)

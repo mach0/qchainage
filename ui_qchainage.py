@@ -2,7 +2,8 @@
 
 # Form implementation generated from reading ui file 'ui_qchainage.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created: Mon May  8 23:37:57 2017
+#      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -21,7 +22,6 @@ class Ui_QChainageDialog(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.tab)
-        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.selectLayerComboBox = QtWidgets.QComboBox(self.tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
@@ -64,7 +64,6 @@ class Ui_QChainageDialog(object):
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.gridLayout = QtWidgets.QGridLayout(self.tab_2)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(self.tab_2)
         self.label.setObjectName("label")
@@ -124,7 +123,6 @@ class Ui_QChainageDialog(object):
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.tab_3)
-        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.autoLabelCheckBox = QtWidgets.QCheckBox(self.tab_3)
         self.autoLabelCheckBox.setEnabled(True)

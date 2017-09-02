@@ -89,9 +89,6 @@ class Qchainage:
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToVectorMenu(u"&QChainage", self.action)
 
-        #QObject.connect(self.? , SIGNAL("stateChanged"),
-        #                self.qchainage.checkpoints)
-
     def unload(self):
         """ Unloading the plugin
         """
@@ -103,7 +100,8 @@ class Qchainage:
     def run(self):
         """ Running the plugin
         """
-        otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
+        mr = self.iface.mapCanvas().mapRenderer()
+        otf = mr.hasCrsTransformEnabled()
         if otf:
             message = "There might be wrong results with OTF switched on." \
                       "Please switch it off and chainage the layer you want to"

@@ -20,11 +20,25 @@ from __future__ import print_function
  Main Chainage definitions"""
 
 
-from qgis.PyQt.QtCore import QVariant, QCoreApplication
-
-from qgis.core import QgsVectorLayer, QgsMarkerSymbol, QgsGeometry, QgsProject
-from qgis.core import QgsField, QgsFields, QgsFeature, QgsMessageLog
-from qgis.core import Qgis, QgsSingleSymbolRenderer, QgsVectorFileWriter, QgsUnitTypes
+from qgis.PyQt.QtCore import (
+    QVariant,
+    QCoreApplication
+)
+from qgis.core import (
+    QgsVectorLayer,
+    QgsMarkerSymbol,
+    QgsGeometry,
+    QgsProject,
+    QgsField,
+    QgsFields,
+    QgsFeature,
+    QgsMessageLog,
+    QgsPoint,
+    Qgis,
+    QgsSingleSymbolRenderer,
+    QgsVectorFileWriter,
+    QgsUnitTypes
+)
 
 
 def create_points_at(startpoint,

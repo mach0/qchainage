@@ -23,12 +23,23 @@ from __future__ import absolute_import
 
 # Import the PyQt and QGIS libraries
 from builtins import object
-from qgis.PyQt.QtCore import QFileInfo, QSettings, QTranslator, QObject
-from qgis.PyQt.QtCore import QCoreApplication, qVersion
+from qgis.PyQt.QtCore import (
+    QFileInfo,
+    QSettings,
+    QTranslator,
+    QObject,
+    QCoreApplication,
+    qVersion
+)
 from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon
 
-from qgis.core import QgsApplication, QgsMapLayer, QgsWkbTypes
+from qgis.core import (
+    Qgis,
+    QgsApplication,
+    QgsMapLayer,
+    QgsWkbTypes
+)
 from qgis.gui import QgsMessageBar
 
 # Import the code for the dialog
@@ -41,10 +52,10 @@ from . import resources_rc
 
 
 def show_warning(self, message):
-    text = QCoreApplication.translate('qchainage', message)
+    text = QCoreApplication.translate('Qchainage', message)
     mb = self.iface.messageBar()
     mb.pushWidget(mb.createMessage(text),
-                  QgsMessageBar.WARNING, 5)
+                  Qgis.Warning, 5)
 
 
 class Qchainage(object):
@@ -93,8 +104,8 @@ class Qchainage(object):
     def run(self):
         """ Running the plugin
         """
-        #otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
-        #if otf:
+        # otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
+        # if otf:
         #    message = "There might be wrong results with OTF switched on." \
         #              "Please switch it off and chainage the layer you want to"
         #    show_warning(self, message)

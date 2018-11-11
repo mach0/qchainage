@@ -23,7 +23,13 @@ from __future__ import absolute_import
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
 
-from qgis.core import QgsMapLayer, QgsWkbTypes, QgsUnitTypes, QgsDistanceArea, QgsProject
+from qgis.core import (
+    QgsMapLayer,
+    QgsWkbTypes,
+    QgsUnitTypes,
+    QgsDistanceArea,
+    QgsProject
+)
 
 from .ui_qchainage import Ui_QChainageDialog
 from .chainagetool import points_along_line
@@ -43,8 +49,6 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         self.okbutton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okbutton.setEnabled(False)
         self.da = QgsDistanceArea()
-
-
         self.UnitsComboBox.clear()
         for u in [
             QgsUnitTypes.DistanceMeters,
@@ -56,10 +60,11 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             QgsUnitTypes.DistanceDegrees,
             QgsUnitTypes.DistanceCentimeters,
             QgsUnitTypes.DistanceMillimeters,
-            QgsUnitTypes.DistanceUnknownUnit, ]:
+            QgsUnitTypes.DistanceUnknownUnit,
+        ]:
             self.UnitsComboBox.addItem(QgsUnitTypes.toString(u), u)
         
-        selectedLayerIndex = -1
+        selected_layer_index = -1
         counter = -1
 
         for layer in self.iface.mapCanvas().layers():
@@ -69,9 +74,9 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
                 counter += 1
 
             if layer == self.iface.mapCanvas().currentLayer():
-                selectedLayerIndex = counter
-            if selectedLayerIndex >= 0:
-                self.selectLayerComboBox.setCurrentIndex(selectedLayerIndex)
+                selected_layer_index = counter
+            if selected_layer_index >= 0:
+                self.selectLayerComboBox.setCurrentIndex(selected_layer_index)
 
     def setCurrentLayer(self):
         index = self.selectLayerComboBox.findData(self)
@@ -94,11 +99,8 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
 
         self.da.setSourceCrs(layer.crs(), QgsProject.instance().transformContext())
         self.da.setEllipsoid( QgsProject.instance().ellipsoid())
-
         self.currentUnits = self.UnitsComboBox.findData(units)
         self.UnitsComboBox.setCurrentIndex(self.currentUnits)
-
-
         self.layerNameLine.setText("chain_" + layer.name())
 
         if layer.selectedFeatureCount() == 0:
@@ -126,15 +128,15 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         distance = self.distanceSpinBox.value()
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
-        selectedOnly = self.selectOnlyRadioBtn.isChecked()
+        selected_only = self.selectOnlyRadioBtn.isChecked()
         force = self.forceLastCheckBox.isChecked()
         fo_fila = self.force_fl_CB.isChecked()
         divide = self.divideSpinBox.value()
         decimal = self.decimalSpinBox.value()
 
-        projectionSettingKey = "Projections/defaultBehaviour"
-        oldProjectionSetting = self.qgisSettings.value(projectionSettingKey)
-        self.qgisSettings.setValue(projectionSettingKey, "useGlobal")
+        projection_setting_key = "Projections/defaultBehaviour"
+        old_projection_setting = self.qgisSettings.value(projection_setting_key)
+        self.qgisSettings.setValue(projection_setting_key, "useGlobal")
         self.qgisSettings.sync()
 
         points_along_line(
@@ -144,10 +146,10 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             distance,
             label,
             layer,
-            selectedOnly,
+            selected_only,
             force,
             fo_fila,
             divide,
             decimal)
-        self.qgisSettings.setValue(projectionSettingKey, oldProjectionSetting)
+        self.qgisSettings.setValue(projection_setting_key, old_projection_setting)
         QDialog.accept(self)

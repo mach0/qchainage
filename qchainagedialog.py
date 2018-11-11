@@ -92,7 +92,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             
         units = layer.crs().mapUnits()
 
-        self.da.setSourceCrs(layer.crs())
+        self.da.setSourceCrs(layer.crs(), QgsProject.instance().transformContext())
         self.da.setEllipsoid( QgsProject.instance().ellipsoid())
 
         self.currentUnits = self.UnitsComboBox.findData(units)

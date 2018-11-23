@@ -78,7 +78,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             if selected_layer_index >= 0:
                 self.selectLayerComboBox.setCurrentIndex(selected_layer_index)
 
-    def setCurrentLayer(self):
+    def set_current_layer(self):
         index = self.selectLayerComboBox.findData(self)
         self.selectLayerComboBox.setCurrentIndex(index)
 

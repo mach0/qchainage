@@ -19,9 +19,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from __future__ import absolute_import
 
-# Import the PyQt and QGIS libraries
 from builtins import object
 from qgis.PyQt.QtCore import (
     QFileInfo,
@@ -32,15 +30,16 @@ from qgis.PyQt.QtCore import (
     qVersion
 )
 from qgis.PyQt.QtWidgets import QAction
-from qgis.PyQt.QtGui import QIcon
-
+from qgis.PyQt.QtGui import (
+    QIcon,
+    QPixmap
+)
 from qgis.core import (
     Qgis,
     QgsApplication,
     QgsMapLayer,
     QgsWkbTypes
 )
-from qgis.gui import QgsMessageBar
 
 # Import the code for the dialog
 from .qchainagedialog import QChainageDialog
@@ -85,7 +84,7 @@ class Qchainage(object):
         """
         # Create action that will start plugin configuration
         self.action = QAction(
-            QIcon(":/plugins/qchainage/img/qchainage.png"),
+            QIcon(":/plugins/qchainage/img/qchainage.svg"),
             u"QChainage", self.iface.mainWindow())
         # connect the action to the run method
         self.action.triggered.connect(self.run)

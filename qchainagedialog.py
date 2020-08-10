@@ -70,7 +70,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         for layer in self.iface.mapCanvas().layers():
             if layer.type() == QgsMapLayer.VectorLayer and \
                  layer.geometryType() == QgsWkbTypes.LineGeometry:
-                self.loadLayer(layer)
+                self.load_layer(layer)
                 counter += 1
 
             if layer == self.iface.mapCanvas().currentLayer():
@@ -82,7 +82,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         index = self.selectLayerComboBox.findData(self)
         self.selectLayerComboBox.setCurrentIndex(index)
 
-    def loadLayer(self, layer):
+    def load_layer(self, layer):
         self.selectLayerComboBox.addItem(layer.name(), layer)
 
     def get_current_layer(self):
@@ -98,7 +98,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         units = layer.crs().mapUnits()
 
         self.da.setSourceCrs(layer.crs(), QgsProject.instance().transformContext())
-        self.da.setEllipsoid( QgsProject.instance().ellipsoid())
+        self.da.setEllipsoid(QgsProject.instance().ellipsoid())
         self.currentUnits = self.UnitsComboBox.findData(units)
         self.UnitsComboBox.setCurrentIndex(self.currentUnits)
         self.layerNameLine.setText("chain_" + layer.name())

@@ -20,34 +20,32 @@
  ***************************************************************************/
 """
 
+import os
 from builtins import object
+
 from qgis.PyQt.QtCore import (
     QFileInfo,
     QSettings,
     QTranslator,
-    QObject,
     QCoreApplication,
     qVersion
 )
-from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import (
-    QIcon,
-    QPixmap
+    QIcon
 )
+from qgis.PyQt.QtWidgets import QAction
 from qgis.core import (
     Qgis,
-    QgsApplication,
     QgsMapLayer,
     QgsWkbTypes
 )
 
 # Import the code for the dialog
 from .qchainagedialog import QChainageDialog
-import os
+
 
 # Initialize Qt resources from file resources.py, don't delete even if it
 # shows not used
-from . import resources_rc
 
 
 def show_warning(self, message):

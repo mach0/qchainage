@@ -16,17 +16,13 @@
 # ***************************************************************************
 """
 from __future__ import print_function
-"""
- Main Chainage definitions"""
-
 
 from qgis.PyQt.QtCore import (
-    QVariant,
-    QCoreApplication
+    QVariant
 )
+
 from qgis.core import (
     QgsVectorLayer,
-    QgsMarkerSymbol,
     QgsGeometry,
     QgsProject,
     QgsField,
@@ -35,7 +31,6 @@ from qgis.core import (
     QgsMessageLog,
     QgsPoint,
     Qgis,
-    QgsSingleSymbolRenderer,
     QgsVectorFileWriter,
     QgsUnitTypes
 )

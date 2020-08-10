@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_QChainageDialog(object):
     def setupUi(self, QChainageDialog):
         QChainageDialog.setObjectName("QChainageDialog")

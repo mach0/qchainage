@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
-    <height>275</height>
+    <width>528</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -43,19 +43,6 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="6" column="2" colspan="3">
         <widget class="QLineEdit" name="layerNameLine"/>
        </item>
@@ -80,20 +67,6 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="3">
-        <widget class="QCheckBox" name="force_fl_CB">
-         <property name="text">
-          <string>Only first and last point</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3" colspan="2">
-        <widget class="QCheckBox" name="forceLastCheckBox">
-         <property name="text">
-          <string>Force last point</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="2">
         <widget class="QDoubleSpinBox" name="distanceSpinBox">
          <property name="decimals">
@@ -110,6 +83,42 @@
        <item row="2" column="3" colspan="2">
         <widget class="QComboBox" name="UnitsComboBox"/>
        </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QRadioButton" name="rBCartesian">
+         <property name="text">
+          <string>Cartesian</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="3" column="2" colspan="3">
+        <widget class="QRadioButton" name="rBEllipsoidal">
+         <property name="text">
+          <string>Ellipsoidal</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -117,27 +126,52 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
+       <item row="6" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Divide Feature into</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="4">
+        <widget class="QCheckBox" name="checkBoxReverse">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Reverse chainage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Parts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Chainage</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QRadioButton" name="selectAllRadioBtn">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="checkBoxStartFrom">
          <property name="text">
-          <string>all Features in Layer</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
+          <string>Start from</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
+       <item row="6" column="2">
+        <widget class="QSpinBox" name="divideSpinBox">
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2">
         <widget class="QRadioButton" name="selectOnlyRadioBtn">
          <property name="enabled">
           <bool>true</bool>
@@ -153,37 +187,23 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="checkBoxStartFrom">
-         <property name="text">
-          <string>Start from</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="startSpinBox">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="decimals">
-          <number>9</number>
-         </property>
-         <property name="maximum">
-          <double>999999999.999999046325684</double>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2" colspan="3">
+       <item row="4" column="3" colspan="3">
         <widget class="QComboBox" name="UnitsComboStart"/>
        </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="checkBoxEndAt">
+       <item row="0" column="2" colspan="2">
+        <widget class="QRadioButton" name="selectAllRadioBtn">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="text">
-          <string>End at</string>
+          <string>all Features in Layer</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="2">
         <widget class="QDoubleSpinBox" name="endSpinBox">
          <property name="enabled">
           <bool>false</bool>
@@ -196,21 +216,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Divide Feature into</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="divideSpinBox">
-         <property name="maximum">
-          <number>999999999</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
+       <item row="7" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -223,72 +229,42 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBoxReverse">
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="checkBoxEndAt">
+         <property name="text">
+          <string>End at</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QDoubleSpinBox" name="startSpinBox">
          <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text">
-          <string>Reverse chainage</string>
+         <property name="decimals">
+          <number>9</number>
+         </property>
+         <property name="maximum">
+          <double>999999999.999999046325684</double>
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Parts</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2" colspan="3">
+       <item row="5" column="3" colspan="3">
         <widget class="QComboBox" name="UnitsComboEnd"/>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>Labeling</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="autoLabelCheckBox">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="force_fl_CB">
          <property name="text">
-          <string>Automatically Label the Layer</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
+          <string>Only first and last point</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="decimalSpinBox">
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
+       <item row="3" column="2">
+        <widget class="QCheckBox" name="forceLastCheckBox">
          <property name="text">
-          <string>Decimal places</string>
+          <string>Force last point</string>
          </property>
         </widget>
-       </item>
-       <item row="2" column="0">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -379,4 +355,7 @@
   <slot>onRadioAll()</slot>
   <slot>onRadioSelected()</slot>
  </slots>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

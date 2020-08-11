@@ -46,10 +46,13 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         self.setWindowTitle('QChainage')
         self.currentUnits = None
         self.qgisSettings = QSettings()
-        self.okbutton = self.buttonBox.button(QDialogButtonBox.Ok)
-        self.okbutton.setEnabled(False)
+        self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
+        self.helpButton = self.buttonBox.button(QDialogButtonBox.Help)
+        self.okButton.setEnabled(False)
         self.da = QgsDistanceArea()
         self.UnitsComboBox.clear()
+
+        # Add Unit Items to Main Combobox TODO To be changed with Area distance
         for u in [
             QgsUnitTypes.DistanceMeters,
             QgsUnitTypes.DistanceKilometers,
@@ -89,7 +92,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         index = self.selectLayerComboBox.currentIndex()
         return self.selectLayerComboBox.itemData(index)
          
-    def on_selectLayerComboBox_currentIndexChanged(self):
+    def on_select_layer_combo_box_current_index_changed(self):
         layer = self.get_current_layer()
         
         if not layer:
@@ -110,9 +113,9 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             self.selectOnlyRadioBtn.setChecked(True)
             self.selectOnlyRadioBtn.setEnabled(True)
   
-        self.okbutton.setEnabled(True)
+        self.okButton.setEnabled(True)
 
-    def on_UnitsComboBox_currentIndexChanged(self):
+    def on_units_combo_box_current_index_changed(self):
         if self.currentUnits is None:
             return
         calc2 = self.da.convertLengthMeasurement(1.0, self.UnitsComboBox.currentData())
@@ -122,17 +125,15 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             
     def accept(self):
         layer = self.get_current_layer()
-        label = self.autoLabelCheckBox.isChecked()
         layerout = self.layerNameLine.text()
         self.UnitsComboBox.setCurrentIndex(self.UnitsComboBox.findData(layer.crs().mapUnits()))
         distance = self.distanceSpinBox.value()
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
         selected_only = self.selectOnlyRadioBtn.isChecked()
-        force = self.forceLastCheckBox.isChecked()
-        fo_fila = self.force_fl_CB.isChecked()
+        force_last = self.forceLastCheckBox.isChecked()
+        force_first_last = self.force_fl_CB.isChecked()
         divide = self.divideSpinBox.value()
-        decimal = self.decimalSpinBox.value()
 
         projection_setting_key = "Projections/defaultBehaviour"
         old_projection_setting = self.qgisSettings.value(projection_setting_key)
@@ -144,12 +145,11 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             startpoint,
             endpoint,
             distance,
-            label,
             layer,
             selected_only,
-            force,
-            fo_fila,
-            divide,
-            decimal)
+            force_last,
+            force_first_last,
+            divide)
         self.qgisSettings.setValue(projection_setting_key, old_projection_setting)
+
         QDialog.accept(self)

@@ -20,7 +20,6 @@ from __future__ import print_function
 from qgis.PyQt.QtCore import (
     QVariant
 )
-
 from qgis.core import (
     QgsVectorLayer,
     QgsGeometry,
@@ -29,9 +28,6 @@ from qgis.core import (
     QgsFields,
     QgsFeature,
     QgsMessageLog,
-    QgsPoint,
-    Qgis,
-    QgsVectorFileWriter,
     QgsUnitTypes
 )
 
@@ -41,13 +37,13 @@ def create_points_at(startpoint,
                      distance,
                      geom,
                      fid,
-                     force,
-                     fo_fila,
+                     force_last,
+                     force_first_last,
                      divide):
     """Creating Points at coordinates along the line
     """
-    # don't allow distance to be zero and loop endlessly
-    if fo_fila:
+    # don't allow distance to be zero or/and loop endlessly
+    if force_first_last:
         distance = 0
 
     if distance <= 0:
@@ -108,7 +104,7 @@ def create_points_at(startpoint,
         current_distance = current_distance + distance
 
     # set the last point at endpoint if wanted
-    if force is True:
+    if force_last is True:
         end = geom.length()
         point = geom.interpolate(end)
         feature = QgsFeature(fields)
@@ -123,53 +119,17 @@ def points_along_line(layerout,
                       startpoint,
                       endpoint,
                       distance,
-                      label,
                       layer,
                       selected_only=True,
-                      force=False,
-                      fo_fila=False,
-                      divide=0,
-                      decimal=2):
+                      force_last=False,
+                      force_first_last=False,
+                      divide=0):
     """Adding Points along the line
     """
 
     crs = layer.crs().authid()
 
-    # TODO check for virtual or shapelayer and set virt_layer according to it
-    shape = False
-    if shape:
-        # define fields for feature attributes. A list of QgsField objects is needed
-        fields = [QgsField("first", QVariant.Int),
-                  QgsField("second", QVariant.String)]
-        # create an instance of vector file writer, which will create the vector file.
-        # Arguments:
-        # 1. path to new file (will fail if exists already)
-        # 2. encoding of the attributes
-        # 3. field map
-        # 4. geometry type - from WKBTYPE enum
-        # 5. layer's spatial reference (instance of
-        #    QgsCoordinateReferenceSystem) - optional
-        # 6. driver name for the output file
-        writer = QgsVectorFileWriter("my_shapes.shp",
-                                     "CP1250",
-                                     fields,
-                                     Qgis.WKBPoint,
-                                     crs,
-                                     "ESRI Shapefile")
-        if writer.hasError() != QgsVectorFileWriter.NoError:
-            # fix_print_with_import
-            print("Error when creating shapefile: ", writer.hasError())
-        # add a feature
-        fet = QgsFeature()
-        fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(10, 10)))
-        fet.setAttributes([1, "text"])
-        writer.addFeature(fet)
-        # delete the writer to flush features to disk (optional)
-        del writer
-
-        layer_type = "Shapefile"  # TODO Add Shapefile functionality here
-    else:
-        layer_type = "memory"
+    layer_type = "memory"
 
     virt_layer = QgsVectorLayer("Point?crs=%s" % crs,
                                 layerout,
@@ -205,8 +165,8 @@ def points_along_line(layerout,
                                     distance,
                                     geom,
                                     fid,
-                                    force,
-                                    fo_fila,
+                                    force_last,
+                                    force_first_last,
                                     divide)
         provider.addFeatures(features)
         virt_layer.updateExtents()
@@ -215,18 +175,5 @@ def points_along_line(layerout,
     proj.addMapLayers([virt_layer])
     virt_layer.commitChanges()
     virt_layer.reload()
-
-    # generic labeling properties
-    if label:
-        virt_layer.setCustomProperty("labeling", "pal")
-        virt_layer.setCustomProperty("labeling/enabled", "true")
-        virt_layer.setCustomProperty("labeling/fieldName", "cng")
-        virt_layer.setCustomProperty("labeling/fontSize", "10")
-        virt_layer.setCustomProperty("labeling/multiLineLabels", "true")
-        virt_layer.setCustomProperty("labeling/formatNumbers", "true")
-        virt_layer.setCustomProperty("labeling/decimals", decimal)
-        virt_layer.setCustomProperty("labeling/Size", "5")
-    # symbol = QgsMarkerSymbol.createSimple({"name": "capital"})
-    # virt_layer.setRenderer(QgsSingleSymbolRenderer(symbol))
     virt_layer.triggerRepaint()
     return

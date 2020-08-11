@@ -44,10 +44,6 @@ from qgis.core import (
 from .qchainagedialog import QChainageDialog
 
 
-# Initialize Qt resources from file resources.py, don't delete even if it
-# shows not used
-
-
 def show_warning(self, message):
     text = QCoreApplication.translate('Qchainage', message)
     mb = self.iface.messageBar()
@@ -101,11 +97,6 @@ class Qchainage(object):
     def run(self):
         """ Running the plugin
         """
-        # otf = self.iface.mapCanvas().mapRenderer().hasCrsTransformEnabled()
-        # if otf:
-        #    message = "There might be wrong results with OTF switched on." \
-        #              "Please switch it off and chainage the layer you want to"
-        #    show_warning(self, message)
         leave = -1
 
         for layer in self.iface.mapCanvas().layers():
@@ -114,7 +105,7 @@ class Qchainage(object):
                 leave += 1
 
         if leave < 0:
-            message = "No layers with line features - chainage not useful!"
+            message = "No layers with line features - no layer chainable"
             show_warning(self, message)
             return
         # show the dialog
@@ -123,6 +114,4 @@ class Qchainage(object):
         result = dialog.exec_()
         # See if OK was pressed
         if result == 1:
-            # do something useful (delete the line containing pass and
-            # substitute with your code)
             pass

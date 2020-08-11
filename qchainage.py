@@ -28,7 +28,7 @@ from qgis.PyQt.QtCore import (
     QSettings,
     QTranslator,
     QCoreApplication,
-    qVersion
+    qVersion,
 )
 from qgis.PyQt.QtGui import (
     QIcon
@@ -37,7 +37,8 @@ from qgis.PyQt.QtWidgets import QAction
 from qgis.core import (
     Qgis,
     QgsMapLayer,
-    QgsWkbTypes
+    QgsWkbTypes,
+    QgsDistanceArea
 )
 
 # Import the code for the dialog

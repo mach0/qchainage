@@ -28,7 +28,8 @@ from qgis.core import (
     QgsFields,
     QgsFeature,
     QgsMessageLog,
-    QgsUnitTypes
+    QgsUnitTypes,
+    QgsDistanceArea
 )
 
 

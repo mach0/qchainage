@@ -19,8 +19,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from .ui_qchainage import Ui_QChainageDialog
 from __future__ import absolute_import
+from .ui_qchainage import Ui_QChainageDialog
 from .chainagetool import points_along_line
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox

@@ -33,14 +33,14 @@ from qgis.core import (
 )
 
 
-def create_points_at(startpoint,
-                     endpoint,
-                     distance,
-                     geom,
-                     fid,
-                     force_last,
-                     force_first_last,
-                     divide):
+def create_points(startpoint,
+                  endpoint,
+                  distance,
+                  geom,
+                  fid,
+                  force_last,
+                  force_first_last,
+                  divide):
     """Creating Points at coordinates along the line
     """
     # don't allow distance to be zero or/and loop endlessly
@@ -161,14 +161,14 @@ def points_along_line(layerout,
             QgsMessageLog.logMessage("No geometry", "QChainage")
             continue
 
-        features = create_points_at(startpoint,
-                                    endpoint,
-                                    distance,
-                                    geom,
-                                    fid,
-                                    force_last,
-                                    force_first_last,
-                                    divide)
+        features = create_points(startpoint,
+                                 endpoint,
+                                 distance,
+                                 geom,
+                                 fid,
+                                 force_last,
+                                 force_first_last,
+                                 divide)
         provider.addFeatures(features)
         virt_layer.updateExtents()
 

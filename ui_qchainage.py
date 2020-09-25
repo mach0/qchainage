@@ -34,6 +34,9 @@ class Ui_QChainageDialog(object):
         self.selectLayerComboBox.setObjectName("selectLayerComboBox")
         self.gridLayout_2.addWidget(self.selectLayerComboBox, 1, 0, 1, 5)
         self.layerNameLine = QtWidgets.QLineEdit(self.tab)
+        self.layerNameLine.setFrame(True)
+        self.layerNameLine.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.layerNameLine.setCursorPosition(15)
         self.layerNameLine.setObjectName("layerNameLine")
         self.gridLayout_2.addWidget(self.layerNameLine, 6, 2, 1, 3)
         self.labelLayerName = QtWidgets.QLabel(self.tab)
@@ -151,6 +154,8 @@ class Ui_QChainageDialog(object):
     def retranslateUi(self, QChainageDialog):
         _translate = QtCore.QCoreApplication.translate
         QChainageDialog.setWindowTitle(_translate("QChainageDialog", "QChainage"))
+        self.layerNameLine.setText(_translate("QChainageDialog", "defaultChainage"))
+        self.layerNameLine.setPlaceholderText(_translate("QChainageDialog", "Layername"))
         self.labelLayerName.setText(_translate("QChainageDialog", "Output Layername"))
         self.labelDistance.setText(_translate("QChainageDialog", "Chainage every"))
         self.labelSelectLayer.setText(_translate("QChainageDialog", "Select Layer to chainage"))

@@ -44,7 +44,23 @@
         </widget>
        </item>
        <item row="6" column="2" colspan="3">
-        <widget class="QLineEdit" name="layerNameLine"/>
+        <widget class="QLineEdit" name="layerNameLine">
+         <property name="text">
+          <string>defaultChainage</string>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Normal</enum>
+         </property>
+         <property name="cursorPosition">
+          <number>15</number>
+         </property>
+         <property name="placeholderText">
+          <string>Layername</string>
+         </property>
+        </widget>
        </item>
        <item row="6" column="0" colspan="2">
         <widget class="QLabel" name="labelLayerName">

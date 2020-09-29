@@ -19,8 +19,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from __future__ import absolute_import
 from .ui_qchainage import Ui_QChainageDialog
+from __future__ import absolute_import
 from .chainagetool import points_along_line
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
@@ -98,8 +98,11 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         units = layer.crs().mapUnits()
 
         self.distanceArea.setSourceCrs(
-            layer.crs(), QgsProject.instance().transformContext())
-        self.distanceArea.setEllipsoid(QgsProject.instance().ellipsoid())
+            layer.crs(), QgsProject.instance().transformContext()
+            )
+        self.distanceArea.setEllipsoid(
+            QgsProject.instance().ellipsoid()
+            )
 
         self.currentUnits = self.UnitsComboBox.findData(units)
         self.UnitsComboBox.setCurrentIndex(self.currentUnits)
@@ -118,18 +121,26 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         if self.currentUnits is None:
             return
         calc2 = self.distanceArea.convertLengthMeasurement(
-            1.0, self.UnitsComboBox.currentData())
+            1.0, 
+            self.UnitsComboBox.currentData()
+            )
         calc = self.distanceArea.convertLengthMeasurement(
-            1.0, self.currentUnits)
+            1.0, 
+            self.currentUnits
+            )
         self.distanceSpinBox.setValue(
-            self.distanceSpinBox.value() / calc * calc2)
+            self.distanceSpinBox.value() / calc * calc2
+            )
         self.currentUnits = self.UnitsComboBox.currentData()
 
     def accept(self):
         layer = self.get_current_layer()
         layerout = self.layerNameLine.text()
         self.UnitsComboBox.setCurrentIndex(
-            self.UnitsComboBox.findData(layer.crs().mapUnits()))
+            self.UnitsComboBox.findData(
+                layer.crs().mapUnits()
+                )
+            )
         distance = self.distanceSpinBox.value()
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
@@ -142,9 +153,11 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         old_projection_setting = self.qgisSettings.value(
             projection_setting_key
             )
+
         self.qgisSettings.setValue(
             projection_setting_key, "useGlobal"
             )
+        
         self.qgisSettings.sync()
 
         points_along_line(
@@ -156,9 +169,12 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             selected_only,
             force_last,
             force_first_last,
-            divide)
+            divide
+            )
+
         self.qgisSettings.setValue(
-            projection_setting_key, old_projection_setting
+            projection_setting_key,
+            old_projection_setting
             )
 
         QDialog.accept(self)

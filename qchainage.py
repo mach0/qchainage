@@ -78,10 +78,11 @@ class Qchainage(object):
         """Initiate GUI
         """
         # Create action that will start plugin configuration
-        self.action = QAction(
-            QIcon(":/plugins/qchainage/img/qchainage.svg"),
-            u"QChainage", self.iface.mainWindow())
-        # connect the action to the run method
+        filePath = QFileInfo(__file__).absolutePath()
+        chainIcon = QIcon(filePath + '/img/qchainage.svg')
+        self.action = QAction(chainIcon,
+                              u"QChainage",
+                              self.iface.mainWindow())
         self.action.triggered.connect(self.run)
 
         # Add toolbar button and menu item

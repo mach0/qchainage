@@ -19,10 +19,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-
 import os
 from builtins import object
-
 from qgis.PyQt.QtCore import (
     QFileInfo,
     QSettings,
@@ -40,8 +38,6 @@ from qgis.core import (
     QgsWkbTypes,
     QgsDistanceArea
 )
-
-# Import the code for the dialog
 from .qchainagedialog import QChainageDialog
 
 

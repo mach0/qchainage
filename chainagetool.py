@@ -17,19 +17,21 @@
  *                                                                         *
  ***************************************************************************/
 """
+
 from qgis.PyQt.QtCore import (
     QVariant
 )
+
 from qgis.core import (
     QgsVectorLayer,
     QgsGeometry,
     QgsProject,
     QgsField,
     QgsFields,
-    QgsFeature,
     QgsMessageLog,
     QgsUnitTypes,
-    QgsDistanceArea
+    QgsDistanceArea,
+    QgsFeature
 )
 
 

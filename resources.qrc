@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/qchainage">
-        <file>img/qchainage.png</file>
-        <file>img/qchainage.svg</file>
-    </qresource>
-</RCC>

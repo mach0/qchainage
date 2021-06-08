@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
-"""
-/***************************************************************************
- qchainage
-                                 A QGIS plugin
- chainage features
-                             -------------------
-        begin                : 2013-02-20
-        copyright            : (C) 2013 by Werner Macho
-        email                : werner.macho@gmail.com
- ***************************************************************************/
+'''
+File: __init__.py
+Project: qchainage
+Created Date: February 20th 2013
+Author: Werner Macho
+-----
+Last Modified: Tue Jun 08 2021
+Modified By: Werner Macho
+-----
+Copyright (c) 2013 - 2021 Werner Macho
+-----
+GNU General Public License v3.0 only
+http://www.gnu.org/licenses/gpl-3.0-standalone.html
+-----
+HISTORY:
+Date      	By	Comments
+----------	---	---------------------------------------------------------
+'''
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
- This script initializes the plugin, making it known to QGIS.
-"""
+
 from __future__ import absolute_import
 
 

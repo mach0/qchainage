@@ -3,13 +3,13 @@ name=QChainage
 qgisMinimumVersion=2.99
 qgisMaximumVersion=3.98
 description=This plugin takes line features and creates a new layer of points
-    in provided distances on top of this Lines. Optionally you can set the
+    in provided distances on top of these Lines. Optionally you can set the
     startpoint (distance from the start of the line) and the endpoint (stop
     before reaching the end of the line) and automatically label the new
-    points with the distances.
-about=QChainage is either separating the selected (or all) Line-Features into 
- parts, or linear referencing after a chosen distance. All along the whole
- Feature or between selectable start and endpoint.
+    points with the specified range.
+about=QChainage either separates the selected (or all) Line-Features into 
+ parts, or performs linear referencing from a chosen distance. Chainage can be 
+ all along the whole feature or between a selectable start and endpoint.
 category=Vector
 version=3.0.1
 author=Werner Macho

@@ -99,13 +99,18 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             return
 
         units = layer.crs().mapUnits()
+        
+        self.layerUnits.setText(QgsUnitTypes.toString(units))
 
         self.distanceArea.setSourceCrs(
             layer.crs(), QgsProject.instance().transformContext()
             )
-        self.distanceArea.setEllipsoid(
-            QgsProject.instance().ellipsoid()
-            )
+        
+        #self.distanceArea.setEllipsoid(
+        #    QgsProject.instance().ellipsoid()
+        #    )
+        
+        useElipso = self.distanceArea.willUseEllipsoid()
 
         self.currentUnits = self.UnitsComboBox.findData(units)
         self.UnitsComboBox.setCurrentIndex(self.currentUnits)

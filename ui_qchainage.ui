@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>528</width>
-    <height>325</height>
+    <width>496</width>
+    <height>338</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -22,8 +22,18 @@
   <property name="windowTitle">
    <string>QChainage</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -32,21 +42,25 @@
       <attribute name="title">
        <string>Basic</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="0" colspan="5">
-        <widget class="QComboBox" name="selectLayerComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="labelSelectLayer">
+         <property name="text">
+          <string>Select Layer to chainage:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="2" colspan="3">
-        <widget class="QLineEdit" name="layerNameLine">
+       <item row="2" column="0">
+        <widget class="QLabel" name="labelDistance_2">
          <property name="text">
-          <string>defaultChainage</string>
+          <string>Layer Units:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="layerUnits">
+         <property name="text">
+          <string/>
          </property>
          <property name="frame">
           <bool>true</bool>
@@ -55,139 +69,34 @@
           <enum>QLineEdit::Normal</enum>
          </property>
          <property name="cursorPosition">
-          <number>15</number>
+          <number>0</number>
          </property>
          <property name="placeholderText">
-          <string>Layername</string>
+          <string>LayerUnit</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QLabel" name="labelLayerName">
-         <property name="text">
-          <string>Output Layername</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="labelDistance">
-         <property name="text">
-          <string>Chainage every</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3">
-        <widget class="QLabel" name="labelSelectLayer">
-         <property name="text">
-          <string>Select Layer to chainage</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QDoubleSpinBox" name="distanceSpinBox">
-         <property name="decimals">
-          <number>9</number>
-         </property>
-         <property name="maximum">
-          <double>999999999.999999046325684</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3" colspan="2">
-        <widget class="QComboBox" name="UnitsComboBox"/>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QRadioButton" name="rBCartesian">
-         <property name="text">
-          <string>Cartesian</string>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item row="3" column="2" colspan="3">
-        <widget class="QRadioButton" name="rBEllipsoidal">
-         <property name="text">
-          <string>Ellipsoidal</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>Advanced</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Divide Feature into</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="4">
-        <widget class="QCheckBox" name="checkBoxReverse">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Reverse chainage</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Parts</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
+       <item row="3" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Chainage</string>
+          <string>Chainage:</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="checkBoxStartFrom">
+       <item row="3" column="1" colspan="2">
+        <widget class="QRadioButton" name="selectAllRadioBtn">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="text">
-          <string>Start from</string>
+          <string>all Features in Layer</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QSpinBox" name="divideSpinBox">
-         <property name="maximum">
-          <number>999999999</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" colspan="2">
+       <item row="4" column="1" colspan="2">
         <widget class="QRadioButton" name="selectOnlyRadioBtn">
          <property name="enabled">
           <bool>true</bool>
@@ -203,36 +112,100 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="3" colspan="3">
-        <widget class="QComboBox" name="UnitsComboStart"/>
-       </item>
-       <item row="0" column="2" colspan="2">
-        <widget class="QRadioButton" name="selectAllRadioBtn">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
+       <item row="5" column="0">
+        <widget class="QLabel" name="labelDistance">
          <property name="text">
-          <string>all Features in Layer</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
+          <string>Chainage every</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QDoubleSpinBox" name="endSpinBox">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="5" column="1" colspan="2">
+        <widget class="QDoubleSpinBox" name="distanceSpinBox">
          <property name="decimals">
           <number>9</number>
          </property>
          <property name="maximum">
           <double>999999999.999999046325684</double>
          </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QComboBox" name="UnitsComboBox"/>
+       </item>
+       <item row="6" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="labelLayerName">
+         <property name="text">
+          <string>Output Layername</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" colspan="2">
+        <widget class="QLineEdit" name="layerNameLine">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Normal</enum>
+         </property>
+         <property name="cursorPosition">
+          <number>0</number>
+         </property>
+         <property name="placeholderText">
+          <string>Layername</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="4">
+        <widget class="QComboBox" name="selectLayerComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Advanced</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="7" column="3">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Parts</string>
+         </property>
         </widget>
        </item>
        <item row="7" column="2">
+        <widget class="QSpinBox" name="divideSpinBox">
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -245,14 +218,20 @@
          </property>
         </spacer>
        </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="checkBoxEndAt">
+       <item row="8" column="2">
+        <widget class="QRadioButton" name="rBEllipsoidal">
          <property name="text">
-          <string>End at</string>
+          <string>Ellipsoidal</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="5" column="2">
         <widget class="QDoubleSpinBox" name="startSpinBox">
          <property name="enabled">
           <bool>false</bool>
@@ -265,8 +244,49 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="3" colspan="3">
-        <widget class="QComboBox" name="UnitsComboEnd"/>
+       <item row="3" column="2">
+        <widget class="QCheckBox" name="forceLastCheckBox">
+         <property name="text">
+          <string>Force last point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Used Projection</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="checkBoxReverse">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Reverse chainage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QDoubleSpinBox" name="endSpinBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="decimals">
+          <number>9</number>
+         </property>
+         <property name="maximum">
+          <double>999999999.999999046325684</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QCheckBox" name="checkBoxEndAt">
+         <property name="text">
+          <string>End at</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="1">
         <widget class="QCheckBox" name="force_fl_CB">
@@ -275,25 +295,32 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QCheckBox" name="forceLastCheckBox">
+       <item row="7" column="1">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Force last point</string>
+          <string>Divide Feature into</string>
          </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="checkBoxStartFrom">
+         <property name="text">
+          <string>Start from</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="2">
+        <widget class="QRadioButton" name="rBCartesian">
+         <property name="text">
+          <string>Cartesian</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
         </widget>
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
   </layout>

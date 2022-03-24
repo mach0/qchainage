@@ -49,6 +49,8 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         self.okButton.setEnabled(True)
         self.distanceArea = QgsDistanceArea()
         self.UnitsComboBox.clear()
+        self.UnitsComboBox.currentIndexChanged.connect(self.on_units_combo_box_current_index_changed)
+        self.selectLayerComboBox.currentIndexChanged.connect(self.on_select_layer_combo_box_current_index_changed)
 
         # Add Unit Items to Main Combobox TODO To be changed with Area distance
         for u in [

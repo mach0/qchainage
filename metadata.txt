@@ -11,12 +11,13 @@ about=QChainage either separates the selected (or all) Line-Features into
  parts, or performs linear referencing from a chosen distance. Chainage can be 
  all along the whole feature or between a selectable start and endpoint.
 category=Vector
-version=3.0.1
+version=3.0.2
 author=Werner Macho
 email=werner.macho@gmail.com
 
 ; optional metadata entries
 changelog=
+    3.0.2 change attribute naming
     3.0.1 fix Messagebar
     3.0.0 experimental port to QGIS3
     2.0.0 split of v2 branch

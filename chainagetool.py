@@ -10,7 +10,7 @@ Modified By: Werner Macho
 -----
 Copyright (c) 2012 - 2021 Werner Macho
 -----
-GNU General Public License v3.0 only
+GNU General Public License v3.0 D
 http://www.gnu.org/licenses/gpl-3.0-standalone.html
 -----
 HISTORY:
@@ -48,13 +48,16 @@ def create_points(startpoint,
     """Creating Points at coordinates along the line
     """
     # don't allow distance to be zero or/and loop endlessly
+    QgsDistanceArea().setEllipsoid(
+        QgsProject.instance().ellipsoid()
+        )
     if force_first_last:
         distance = 0
 
     if distance <= 0:
-        distance = geom.length()
+        distance = QgsDistanceArea().measureLength(geom) #geom.length()
 
-    length = geom.length()
+    length = QgsDistanceArea().measureLength(geom) #geom.length()
 
     if length < endpoint:
         endpoint = length
@@ -110,7 +113,7 @@ def create_points(startpoint,
 
     # set the last point at endpoint if wanted
     if force_last is True:
-        end = geom.length()
+        end = QgsDistanceArea.measureLine(geom) #geom.length()
         point = geom.interpolate(end)
         feature = QgsFeature(fields)
         feature['dist'] = end
@@ -145,8 +148,8 @@ def points_along_line(layerout,
     units = layer.crs().mapUnits()
 
     unitname = QgsUnitTypes.toString(units)
-    provider.addAttributes([QgsField("fid", QVariant.Int),
-                            QgsField("cng"+unitname, QVariant.Double)])
+    provider.addAttributes([QgsField("source_fid", QVariant.Int),
+                            QgsField("cng_"+unitname, QVariant.Double)])
 
     def get_features():
         """Getting the features

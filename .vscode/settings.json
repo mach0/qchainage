@@ -1,4 +1,6 @@
 {
-    "qtForPython.designer.path": "/usr/bin/designer",
-    "python.linting.pylintEnabled": true
+    "python.linting.pylintEnabled": true,
+    "python.analysis.extraPaths": [
+      "/home/macho/dev/built/build-QGISrelease-3_30/output/python/"
+    ]
 }

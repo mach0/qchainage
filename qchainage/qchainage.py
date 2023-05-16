@@ -35,12 +35,14 @@ from qgis.core import (
     Qgis,
     QgsMapLayer,
     QgsWkbTypes,
-    QgsDistanceArea
+#    QgsDistanceArea
 )
 from .qchainagedialog import QChainageDialog
 
 
 def show_warning(self, message):
+    """Helper for Warning
+    """
     text = QCoreApplication.translate('Qchainage', message)
     mb = self.iface.messageBar()
     mb.pushWidget(mb.createMessage(text),

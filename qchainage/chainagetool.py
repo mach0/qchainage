@@ -17,11 +17,9 @@ HISTORY:
 Date      	By	Comments
 ----------	---	---------------------------------------------------------
 '''
+# pylint: disable = no-name-in-module
 
-
-from qgis.PyQt.QtCore import (
-    QVariant
-)
+from qgis.PyQt.QtCore import ( QVariant )
 
 from qgis.core import (
     QgsVectorLayer,
@@ -33,7 +31,6 @@ from qgis.core import (
     QgsMessageLog,
     QgsUnitTypes,
     QgsDistanceArea,
-    QgsFeature
 )
 
 
@@ -103,6 +100,9 @@ def create_points(startpoint,
         # Get a point along the line at the current distance
         point = geom.interpolate(startpoint + current_distance)
         # Create a new QgsFeature and assign it the new geometry
+        if geom.length() < startpoint:
+            continue
+       
         feature = QgsFeature(fields)
         feature['dist'] = (startpoint + current_distance)
         feature['id'] = fid

@@ -28,7 +28,8 @@ from qgis.core import (
     QgsWkbTypes,
     QgsUnitTypes,
     QgsDistanceArea,
-    QgsProject
+    QgsProject,
+    Qgis
     )
 
 
@@ -134,7 +135,7 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
             )
         calc = self.distanceArea.convertLengthMeasurement(
             1.0, 
-            self.currentUnits
+            Qgis.DistanceUnit(self.currentUnits)
             )
         self.distanceSpinBox.setValue(
             self.distanceSpinBox.value() / calc * calc2

@@ -19,8 +19,10 @@ Date      	By	Comments
 '''
 
 
-from .ui_qchainage import Ui_QChainageDialog
+import os
 from .chainagetool import points_along_line
+
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
 from qgis.core import (
@@ -33,7 +35,7 @@ from qgis.core import (
     )
 
 
-class QChainageDialog(QDialog, Ui_QChainageDialog):
+class QChainageDialog(QDialog):
     """ Setting up User Interface
     """
 
@@ -41,7 +43,11 @@ class QChainageDialog(QDialog, Ui_QChainageDialog):
         self.iface = iface
         QDialog.__init__(self)
 
-        self.setupUi(self)
+                # Load the UI file using uic
+        ui_file_path = os.path.join(os.path.dirname(__file__),
+                                            'ui_qchainage.ui')
+        uic.loadUi(ui_file_path, self)  # Dynamically load and bind the .ui file to 'self'
+
         self.setWindowTitle('QChainage')
         self.currentUnits = None
         self.qgisSettings = QSettings()

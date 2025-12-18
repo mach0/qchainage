@@ -1,26 +1,14 @@
 # -*- coding: utf-8 -*-
-'''
-File: chainagetool.py
-Project: qchainage
-Created Date: October 6th 2012
-Author: Werner Macho
------
-Last Modified: Tue Jun 08 2021
-Modified By: Werner Macho
------
-Copyright (c) 2012 - 2021 Werner Macho
------
-GNU General Public License v3.0 D
-http://www.gnu.org/licenses/gpl-3.0-standalone.html
------
-HISTORY:
-Date      	By	Comments
-----------	---	---------------------------------------------------------
-'''
-# pylint: disable = no-name-in-module
+"""
+QChainage Plugin - Chainage Tool
+Creates points at specified intervals along line geometries.
 
-from qgis.PyQt.QtCore import ( QVariant )
+Copyright (c) 2012-2024 Werner Macho
+Licensed under GNU GPL v3.0
+"""
 
+import math
+from qgis.PyQt.QtCore import QVariant
 from qgis.core import (
     QgsVectorLayer,
     QgsGeometry,
@@ -28,160 +16,352 @@ from qgis.core import (
     QgsField,
     QgsFields,
     QgsFeature,
-    QgsMessageLog,
     QgsUnitTypes,
     QgsDistanceArea,
+    QgsMessageLog,
+    QgsWkbTypes,
+    QgsPointXY,
 )
 
 
-def create_points(startpoint,
-                  endpoint,
-                  distance,
-                  geom,
-                  fid,
-                  force_last,
-                  force_first_last,
-                  divide):
-    """Creating Points at coordinates along the line
-    """
-    # don't allow distance to be zero or/and loop endlessly
-    QgsDistanceArea().setEllipsoid(
-        QgsProject.instance().ellipsoid()
-        )
-    if force_first_last:
-        distance = 0
+def _extract_coordinates(geometry):
+    """Extract coordinates from geometry using the most reliable method."""
+    # Try vertices() iterator first (most direct access)
+    try:
+        coords = list(geometry.vertices())
+        if len(coords) >= 2:
+            return coords
+    except:
+        pass
+    
+    # Fallback to asPolyline()
+    try:
+        if geometry.isMultipart():
+            parts = geometry.asMultiPolyline()
+            return parts[0] if parts else []
+        return geometry.asPolyline()
+    except:
+        return []
 
-    if distance <= 0:
-        distance = QgsDistanceArea().measureLength(geom) #geom.length()
 
-    length = QgsDistanceArea().measureLength(geom) #geom.length()
+def calculate_cartesian_distance(geometry):
+    """Calculate cartesian distance using raw coordinates (Euclidean distance)."""
+    coords = _extract_coordinates(geometry)
+    
+    if len(coords) < 2:
+        return 0.0
+    
+    total_distance = 0.0
+    for i in range(len(coords) - 1):
+        dx = coords[i + 1].x() - coords[i].x()
+        dy = coords[i + 1].y() - coords[i].y()
+        total_distance += math.sqrt(dx * dx + dy * dy)
+    
+    return total_distance
 
-    if length < endpoint:
-        endpoint = length
 
-    if divide > 0:
-        length2 = length
-        if startpoint > 0:
-            length2 = length - startpoint
-        if endpoint > 0:
-            length2 = endpoint
-        if startpoint > 0 and endpoint > 0:
-            length2 = endpoint - startpoint
-        distance = length2 / divide
-        current_distance = distance
-    else:
-        current_distance = distance
+def setup_distance_calculator(layer_crs, use_ellipsoidal):
+    """Set up distance calculator based on calculation mode."""
+    if not use_ellipsoidal:
+        return None
+    
+    distance_area = QgsDistanceArea()
+    
+    if layer_crs:
+        distance_area.setSourceCrs(layer_crs, QgsProject.instance().transformContext())
+    
+    ellipsoid = QgsProject.instance().ellipsoid()
+    distance_area.setEllipsoid(ellipsoid if ellipsoid != "NONE" else "WGS84")
+    
+    return distance_area
 
-    feats = []
 
-    if endpoint > 0:
-        length = endpoint
+def get_line_length(geometry, distance_area, use_ellipsoidal):
+    """Calculate line length using ellipsoidal or cartesian method."""
+    return (distance_area.measureLength(geometry) if use_ellipsoidal 
+            else calculate_cartesian_distance(geometry))
 
-    # set the first point at startpoint
-    point = geom.interpolate(startpoint)
-    # convert 3D geometry to 2D geometry as OGR seems to have problems with this
-    point = QgsGeometry.fromPointXY(point.asPoint())
 
-    field_id = QgsField(name="id", type=QVariant.Int)
-    field = QgsField(name="dist", type=QVariant.Double)
-    fields = QgsFields()
-
-    fields.append(field_id)
-    fields.append(field)
-
+def create_feature_with_point(fields, point_geometry, distance_value, feature_id):
+    """Create a feature with point geometry and attributes."""
+    if point_geometry.isNull() or point_geometry.isEmpty():
+        return None
+    
     feature = QgsFeature(fields)
-    feature['dist'] = startpoint
-    feature['id'] = fid
-
-    feature.setGeometry(point)
-    feats.append(feature)
-
-    while startpoint + current_distance <= length:
-        # Get a point along the line at the current distance
-        point = geom.interpolate(startpoint + current_distance)
-        # Create a new QgsFeature and assign it the new geometry
-        if geom.length() < startpoint:
-            continue
-       
-        feature = QgsFeature(fields)
-        feature['dist'] = (startpoint + current_distance)
-        feature['id'] = fid
-        feature.setGeometry(point)
-        feats.append(feature)
-        # Increase the distance
-        current_distance = current_distance + distance
-
-    # set the last point at endpoint if wanted
-    if force_last is True:
-        end = QgsDistanceArea.measureLine(geom) #geom.length()
-        point = geom.interpolate(end)
-        feature = QgsFeature(fields)
-        feature['dist'] = end
-        feature['id'] = fid
-        feature.setGeometry(point)
-        feats.append(feature)
-    return feats
+    feature.setGeometry(QgsGeometry.fromPointXY(point_geometry.asPoint()))
+    feature['dist'] = distance_value
+    feature['id'] = feature_id
+    
+    return feature
 
 
-def points_along_line(layerout,
-                      startpoint,
-                      endpoint,
-                      distance,
-                      layer,
-                      selected_only=True,
-                      force_last=False,
-                      force_first_last=False,
-                      divide=0):
-    """Adding Points along the line
-    """
+def create_points_by_distance(startpoint, endpoint, distance, geom, fid, force_last,
+                              force_first_last, divide, distance_area, distance_units=None):
+    """Create points at real-world distance intervals along a line (for geographic CRS)."""
+    # Convert input distances to meters for measurement
+    if distance_units is None:
+        distance_units = QgsUnitTypes.DistanceMeters
+    
+    to_meters = QgsUnitTypes.fromUnitToUnitFactor(distance_units, QgsUnitTypes.DistanceMeters)
+    distance_in_meters = distance * to_meters
+    startpoint_in_meters = startpoint * to_meters
+    endpoint_in_meters = endpoint * to_meters if endpoint > 0 else 0
+    
+    # Measure total line length in meters
+    total_length_meters = distance_area.measureLength(geom)
+    
+    # Adjust endpoint
+    if endpoint_in_meters <= 0 or endpoint_in_meters > total_length_meters:
+        endpoint_in_meters = total_length_meters
+    
+    # Calculate distance for division mode
+    if divide > 0:
+        distance_in_meters = (endpoint_in_meters - startpoint_in_meters) / divide
+    elif force_first_last:
+        distance_in_meters = endpoint_in_meters - startpoint_in_meters
+    
+    # Safety check
+    if distance_in_meters <= 0:
+        return []
+    
+    # Prepare feature fields
+    fields = QgsFields()
+    fields.append(QgsField("id", QVariant.Int))
+    fields.append(QgsField("dist", QVariant.Double))
+    
+    features = []
+    
+    # We need to walk along the line in degrees and measure distance in meters
+    # Sample the line to create a distance-to-position mapping
+    cartesian_length = calculate_cartesian_distance(geom)
+    num_samples = max(100, int(cartesian_length / 0.0001))  # Sample every ~0.0001 degrees
+    
+    # Build distance map: accumulated meter distance -> degree distance
+    distance_map = [(0.0, 0.0)]  # (meters, degrees)
+    accumulated_meters = 0.0
+    last_point = geom.interpolate(0)
+    
+    for i in range(1, num_samples + 1):
+        degree_dist = (cartesian_length * i) / num_samples
+        current_point = geom.interpolate(degree_dist)
+        
+        # Measure segment in meters
+        segment_geom = QgsGeometry.fromPolylineXY([
+            last_point.asPoint(),
+            current_point.asPoint()
+        ])
+        segment_meters = distance_area.measureLength(segment_geom)
+        accumulated_meters += segment_meters
+        
+        distance_map.append((accumulated_meters, degree_dist))
+        last_point = current_point
+    
+    # Now create points at the requested meter intervals
+    current_meter_distance = startpoint_in_meters
+    
+    while current_meter_distance <= endpoint_in_meters:
+        # Find the corresponding degree distance
+        degree_dist = interpolate_from_map(distance_map, current_meter_distance)
+        
+        if degree_dist is not None:
+            point = geom.interpolate(degree_dist)
+            # Store distance in original units
+            distance_in_original_units = current_meter_distance / to_meters
+            feature = create_feature_with_point(fields, point, distance_in_original_units, fid)
+            if feature:
+                features.append(feature)
+        
+        current_meter_distance += distance_in_meters
+        
+        if distance_in_meters <= 0:
+            break
+    
+    # Add last point if requested
+    if force_last and (not features or abs(features[-1]['dist'] * to_meters - endpoint_in_meters) > 0.01):
+        degree_dist = interpolate_from_map(distance_map, endpoint_in_meters)
+        if degree_dist is not None:
+            point = geom.interpolate(degree_dist)
+            distance_in_original_units = endpoint_in_meters / to_meters
+            feature = create_feature_with_point(fields, point, distance_in_original_units, fid)
+            if feature:
+                features.append(feature)
+    
+    return features
 
-    crs = layer.crs().authid()
 
-    layer_type = "memory"
+def interpolate_from_map(distance_map, target_meters):
+    """Interpolate degree distance from meter distance using the distance map."""
+    if not distance_map:
+        return None
+    
+    # Find the two points to interpolate between
+    for i in range(len(distance_map) - 1):
+        meters1, degrees1 = distance_map[i]
+        meters2, degrees2 = distance_map[i + 1]
+        
+        if meters1 <= target_meters <= meters2:
+            if meters2 - meters1 > 0:
+                ratio = (target_meters - meters1) / (meters2 - meters1)
+                return degrees1 + ratio * (degrees2 - degrees1)
+            else:
+                return degrees1
+    
+    # If beyond the end, return the last value
+    return distance_map[-1][1]
 
-    virt_layer = QgsVectorLayer("Point?crs=%s" % crs,
-                                layerout,
-                                layer_type)
+
+def create_feature_with_point(fields, point_geometry, distance_value, feature_id):
+    """Create a feature with point geometry and attributes."""
+    if point_geometry.isNull() or point_geometry.isEmpty():
+        return None
+    
+    feature = QgsFeature(fields)
+    feature.setGeometry(QgsGeometry.fromPointXY(point_geometry.asPoint()))
+    feature['dist'] = distance_value
+    feature['id'] = feature_id
+    
+    return feature
+
+
+def create_points(startpoint, endpoint, distance, geom, fid, force_last, 
+                  force_first_last, divide, layer_crs=None, use_ellipsoidal=True,
+                  distance_units=None):
+    """Create points at specified intervals along a line geometry."""
+    # Validate geometry
+    if not geom or geom.isNull() or geom.isEmpty() or geom.type() != QgsWkbTypes.LineGeometry:
+        return []
+    
+    # Set up distance calculation
+    distance_area = setup_distance_calculator(layer_crs, use_ellipsoidal)
+    
+    # Get layer units
+    layer_units = layer_crs.mapUnits() if layer_crs else QgsUnitTypes.DistanceMeters
+    
+    # If no distance units provided, use layer units
+    if distance_units is None:
+        distance_units = layer_units
+    
+    # For geographic CRS with any linear unit input (meters, centimeters, feet, etc.),
+    # we need to use a different approach because geom.interpolate() works in degrees
+    is_geographic = layer_units == QgsUnitTypes.DistanceDegrees
+    is_linear_unit = distance_units != QgsUnitTypes.DistanceDegrees
+    use_meter_based_placement = is_geographic and is_linear_unit
+    
+    if use_meter_based_placement:
+        # For linear unit placement on geographic CRS, we MUST use ellipsoidal measurements
+        # even if user selected cartesian mode, because we need real-world distances
+        if distance_area is None:
+            distance_area = setup_distance_calculator(layer_crs, True)
+        
+        # Use distance mapping for real-world distance placement
+        return create_points_by_distance(
+            startpoint, endpoint, distance, geom, fid, force_last,
+            force_first_last, divide, distance_area, distance_units
+        )
+    
+    # Standard approach: work in layer units
+    # Get total line length in layer units
+    length = calculate_cartesian_distance(geom) if is_geographic else distance_area.measureLength(geom)
+    
+    # Convert distance from user units to layer units if needed
+    if distance_units != layer_units and distance > 0:
+        conversion_factor = QgsUnitTypes.fromUnitToUnitFactor(distance_units, layer_units)
+        if conversion_factor > 0:
+            distance *= conversion_factor
+            startpoint *= conversion_factor
+            if endpoint > 0:
+                endpoint *= conversion_factor
+    
+    # Calculate distance if needed (for force_first_last mode)
+    if force_first_last or distance <= 0:
+        distance = length
+    
+    # Validate and adjust parameters
+    startpoint = max(0, min(startpoint, length))
+    endpoint = min(endpoint if endpoint > 0 else length, length)
+    
+    if startpoint > length:
+        return []
+    
+    # Calculate distance for division mode
+    if divide > 0:
+        distance = (endpoint - startpoint) / divide
+    
+    # Prepare feature fields
+    fields = QgsFields()
+    fields.append(QgsField("id", QVariant.Int))
+    fields.append(QgsField("dist", QVariant.Double))
+    
+    features = []
+    current_distance = startpoint
+    
+    # Create points along the line
+    while current_distance <= endpoint:
+        point = geom.interpolate(current_distance)
+        feature = create_feature_with_point(fields, point, current_distance, fid)
+        if feature:
+            features.append(feature)
+        
+        # Move to next distance
+        current_distance += distance
+        
+        # Safety check to prevent infinite loop
+        if distance <= 0:
+            break
+    
+    # Add last point if requested and not already added
+    if force_last and (not features or features[-1]['dist'] < length):
+        point = geom.interpolate(length)
+        feature = create_feature_with_point(fields, point, length, fid)
+        if feature:
+            features.append(feature)
+    
+    return features
+
+
+def points_along_line(layerout, startpoint, endpoint, distance, layer,
+                      selected_only=True, force_last=False, force_first_last=False,
+                      divide=0, use_ellipsoidal=True, distance_units=None):
+    """Create a memory layer with points at specified intervals along line features."""
+    # Create output layer
+    virt_layer = QgsVectorLayer(
+        f"Point?crs={layer.crs().authid()}", 
+        layerout, 
+        "memory"
+    )
     provider = virt_layer.dataProvider()
-    virt_layer.startEditing()   # actually writes attributes
-
-    units = layer.crs().mapUnits()
-
-    unitname = QgsUnitTypes.toString(units)
-    provider.addAttributes([QgsField("source_fid", QVariant.Int),
-                            QgsField("cng_"+unitname, QVariant.Double)])
-
-    def get_features():
-        """Getting the features
-        """
-        if selected_only:
-            return layer.selectedFeatures()
-        else:
-            return layer.getFeatures()
-
-    # Loop through all (selected) features
-    for feature in get_features():
+    
+    # Set up layer attributes
+    unitname = QgsUnitTypes.toString(layer.crs().mapUnits())
+    provider.addAttributes([
+        QgsField("source_fid", QVariant.Int),
+        QgsField(f"cng_{unitname}", QVariant.Double)
+    ])
+    virt_layer.updateFields()
+    
+    # If no distance units provided, use layer units
+    if distance_units is None:
+        distance_units = layer.crs().mapUnits()
+    
+    # Process features
+    features_to_process = (layer.selectedFeatures() if selected_only 
+                          else layer.getFeatures())
+    
+    all_point_features = []
+    for feature in features_to_process:
         geom = feature.geometry()
-        # Add feature ID of selected feature
-        fid = feature.id()
-        if not geom:
-            QgsMessageLog.logMessage("No geometry", "QChainage")
-            continue
-
-        features = create_points(startpoint,
-                                 endpoint,
-                                 distance,
-                                 geom,
-                                 fid,
-                                 force_last,
-                                 force_first_last,
-                                 divide)
-        provider.addFeatures(features)
-        virt_layer.updateExtents()
-
-    proj = QgsProject.instance()
-    proj.addMapLayers([virt_layer])
-    virt_layer.commitChanges()
-    virt_layer.reload()
+        if geom:
+            point_features = create_points(
+                startpoint, endpoint, distance, geom, feature.id(), 
+                force_last, force_first_last, divide, layer.crs(), use_ellipsoidal,
+                distance_units
+            )
+            all_point_features.extend(point_features)
+    
+    # Add all features at once (more efficient)
+    if all_point_features:
+        provider.addFeatures(all_point_features)
+    
+    virt_layer.updateExtents()
+    QgsProject.instance().addMapLayers([virt_layer])
     virt_layer.triggerRepaint()
-    return

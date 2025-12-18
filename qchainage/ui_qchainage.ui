@@ -223,6 +223,9 @@
          <property name="text">
           <string>Ellipsoidal</string>
          </property>
+         <property name="toolTip">
+          <string>Use geodesic (real-world) distances on the ellipsoid. Recommended for most cases.</string>
+         </property>
          <property name="checked">
           <bool>true</bool>
          </property>
@@ -313,6 +316,9 @@
         <widget class="QRadioButton" name="rBCartesian">
          <property name="text">
           <string>Cartesian</string>
+         </property>
+         <property name="toolTip">
+          <string>Use flat (projected) distances. Matches QGIS measurement tool in cartesian mode. For projected CRS only.</string>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">buttonGroup</string>

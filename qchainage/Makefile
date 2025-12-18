@@ -1,117 +1,62 @@
-#/***************************************************************************
-# qchainage
-# 
-# chainage features
-#                             -------------------
-#        begin                : 2013-02-20
-#        copyright            : (C) 2013 by Werner Macho
-#        email                : werner.macho@gmail.com
-# ***************************************************************************/
-# 
-#/***************************************************************************
-# *                                                                         *
-# *   This program is free software; you can redistribute it and/or modify  *
-# *   it under the terms of the GNU General Public License as published by  *
-# *   the Free Software Foundation; either version 2 of the License, or     *
-# *   (at your option) any later version.                                   *
-# *                                                                         *
-# ***************************************************************************/
-
-# CONFIGURATION
-PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
-
-# Makefile for a PyQGIS plugin 
-
-# translation
-SOURCES = chainagetool.py __init__.py qchainage.py qchainagedialog.py ui_qchainage.py  
-#TRANSLATIONS = i18n/qchainage_en.ts
-TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_pt_PT.ts i18n/qchainage_fi.ts i18n/qchainage_pt_BR.ts
-
-# global
+# QChainage Plugin - Simple Makefile
+# No UI compilation needed - loads .ui files directly
 
 PLUGINNAME = qchainage
+PY_FILES = __init__.py qchainage.py qchainagedialog.py chainagetool.py qt_compat.py
+UI_FILES = ui_qchainage.ui
+EXTRAS = img/qchainage.png img/qchainage.svg metadata.txt
+TRANSLATIONS = i18n/qchainage_de.ts i18n/qchainage_pt_PT.ts i18n/qchainage_fi.ts i18n/qchainage_pt_BR.ts
 
-PY_FILES = qchainage.py qchainagedialog.py __init__.py chainagetool.py
+# Default target - nothing to compile
+default:
+	@echo "No compilation needed - UI files loaded directly at runtime"
 
-EXTRAS = img/qchainage.png metadata.txt
+# Deploy to QGIS 3 plugin directory
+deploy: transcompile
+	@echo "Deploying to QGIS 3 plugin directory..."
+	mkdir -p $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)
+	cp -vf $(PY_FILES) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
+	cp -vf $(UI_FILES) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
+	cp -vf $(EXTRAS) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
+	cp -vfr i18n $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
 
-UI_FILES = ui_qchainage.py
-
-RESOURCE_FILES = resources_rc.py
-
-HELP = help/build/html
-
-default: compile
-
-compile: $(UI_FILES) $(RESOURCE_FILES)
-
-%_rc.py : %.qrc
-	pyrcc5 -o $*_rc.py  $<
-
-%.py : %.ui
-	pyuic5 -o $@ $<
-
-%.qm : %.ts
-	lrelease-qt5 $<
-
-# The deploy  target only works on unix like operating system where
-# the Python plugin directory is located at:
-# $HOME/.qgis2/python/plugins
-deploy: compile doc transcompile
-	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(PY_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(UI_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(EXTRAS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/help
-
-# The dclean target removes compiled python files from plugin directory
-# also delets any .git entry
-dclean:
-	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname ".git" -prune -exec rm -Rf {} \;
-
-# The derase deletes deployed plugin
-derase:
-	rm -Rf $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-
-# The zip target deploys the plugin and creates a zip file with the deployed
-# content. You can then upload the zip file on http://plugins.qgis.org
-zip: deploy dclean 
+# Create distribution package
+package: transcompile
+	@echo "Creating package..."
 	rm -f $(PLUGINNAME).zip
-	cd $(HOME)/.qgis2/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
+	mkdir -p dist/$(PLUGINNAME)
+	cp -f $(PY_FILES) dist/$(PLUGINNAME)/
+	cp -f $(UI_FILES) dist/$(PLUGINNAME)/
+	cp -f $(EXTRAS) dist/$(PLUGINNAME)/
+	cp -rf i18n dist/$(PLUGINNAME)/
+	cd dist && zip -r ../$(PLUGINNAME).zip $(PLUGINNAME)/
+	rm -rf dist
+	@echo "Package created: $(PLUGINNAME).zip"
 
-# Create a zip package of the plugin named $(PLUGINNAME).zip. 
-# This requires use of git (your plugin development directory must be a 
-# git repository).
-# To use, pass a valid commit or tag as follows:
-#   make package VERSION=Version_0.3.2
-package: compile
-		rm -f $(PLUGINNAME).zip
-		git archive --prefix=$(PLUGINNAME)/ -o $(PLUGINNAME).zip $(VERSION)
-		echo "Created package: $(PLUGINNAME).zip"
+# Compile translations
+%.qm : %.ts
+	lrelease $<
 
-upload: zip
-	$(PLUGIN_UPLOAD) $(PLUGINNAME).zip
-
-# transup
-# update .ts translation files
-transup:
-	pylupdate4 Makefile
-
-# transcompile
-# compile translation files into .qm binary format
 transcompile: $(TRANSLATIONS:.ts=.qm)
 
-# transclean
-# deletes all .qm files
-transclean:
-	rm -f i18n/*.qm
-
+# Clean files
 clean:
-	rm $(UI_FILES) $(RESOURCE_FILES)
+	rm -f i18n/*.qm
+	rm -f $(PLUGINNAME).zip
+	find . -name "*.pyc" -delete
+	find . -name "__pycache__" -exec rm -rf {} +
 
-# build documentation with sphinx
-doc: 
-	cd help; make html
+# Remove deployed plugin
+remove-deploy:
+	rm -rf $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)
+
+# Help target
+help:
+	@echo "Available targets:"
+	@echo "  deploy       - Deploy plugin to QGIS directory"
+	@echo "  package      - Create distribution package"
+	@echo "  transcompile - Compile translation files"
+	@echo "  clean        - Clean compiled files"
+	@echo "  remove-deploy- Remove deployed plugin"
+
+.PHONY: default deploy package transcompile clean remove-deploy help

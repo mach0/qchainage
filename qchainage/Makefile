@@ -43,8 +43,9 @@ transcompile: $(TRANSLATIONS:.ts=.qm)
 clean:
 	rm -f i18n/*.qm
 	rm -f $(PLUGINNAME).zip
-	find . -name "*.pyc" -delete
-	find . -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	@echo "Cleaned compiled files and caches"
 
 # Remove deployed plugin
 remove-deploy:

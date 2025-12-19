@@ -47,18 +47,26 @@ class QChainageDialog(QDialog, FORM_CLASS):
         
         # Connect signals
         self.UnitsComboBox.currentIndexChanged.connect(self._on_units_changed)
+        self.startUnitsComboBox.currentIndexChanged.connect(self._on_start_units_changed)
+        self.endUnitsComboBox.currentIndexChanged.connect(self._on_end_units_changed)
         self.selectLayerComboBox.currentIndexChanged.connect(self._on_layer_changed)
         self.rBEllipsoidal.toggled.connect(self._on_projection_changed)
         self.rBCartesian.toggled.connect(self._on_projection_changed)
+        
+        # Connect checkboxes to enable/disable start/end controls
+        self.checkBoxStartFrom.toggled.connect(self._on_start_checkbox_toggled)
+        self.checkBoxEndAt.toggled.connect(self._on_end_checkbox_toggled)
+        
+        # Connect attribute selection controls
+        self.selectAllAttributesBtn.clicked.connect(self._select_all_attributes)
+        self.deselectAllAttributesBtn.clicked.connect(self._deselect_all_attributes)
 
         # Ensure layer units and OK button are initialized on startup
         self._on_layer_changed()
 
     def _setup_units_combo(self):
-        """Initialize the units combo box with available distance units."""
-        self.UnitsComboBox.clear()
-        
-        # Add common distance units
+        """Initialize all units combo boxes with available distance units."""
+        # Common distance units
         units = [
             QgsUnitTypes.DistanceMeters,
             QgsUnitTypes.DistanceKilometers,
@@ -71,8 +79,11 @@ class QChainageDialog(QDialog, FORM_CLASS):
             QgsUnitTypes.DistanceMillimeters,
         ]
         
-        for unit in units:
-            self.UnitsComboBox.addItem(QgsUnitTypes.toString(unit), unit)
+        # Setup all three combo boxes
+        for combo in [self.UnitsComboBox, self.startUnitsComboBox, self.endUnitsComboBox]:
+            combo.clear()
+            for unit in units:
+                combo.addItem(QgsUnitTypes.toString(unit), unit)
 
     def _setup_layer_combo(self):
         """Populate layer combo box with line layers."""
@@ -116,13 +127,18 @@ class QChainageDialog(QDialog, FORM_CLASS):
         # Configure projection type based on radio button selection
         self._configure_distance_calculation(layer)
         
-        # Update units combo to match layer units
+        # Update all units combos to match layer units
         self.current_units = self.UnitsComboBox.findData(units)
         if self.current_units >= 0:
             self.UnitsComboBox.setCurrentIndex(self.current_units)
+            self.startUnitsComboBox.setCurrentIndex(self.current_units)
+            self.endUnitsComboBox.setCurrentIndex(self.current_units)
         
         # Set default output layer name
         self.layerNameLine.setText(f"chain_{layer.name()}")
+        
+        # Populate attributes list
+        self._populate_attributes_list(layer)
         
         # Configure selection options based on selected features
         if layer.selectedFeatureCount() == 0:
@@ -156,6 +172,26 @@ class QChainageDialog(QDialog, FORM_CLASS):
         
         self.current_units = self.UnitsComboBox.currentData()
 
+    def _on_start_units_changed(self):
+        """Handle start units change - sync with main units."""
+        # No conversion needed, start units just set the interpretation
+        pass
+
+    def _on_end_units_changed(self):
+        """Handle end units change - sync with main units."""
+        # No conversion needed, end units just set the interpretation
+        pass
+
+    def _on_start_checkbox_toggled(self, checked):
+        """Enable/disable start spinbox and units when checkbox is toggled."""
+        self.startSpinBox.setEnabled(checked)
+        self.startUnitsComboBox.setEnabled(checked)
+
+    def _on_end_checkbox_toggled(self, checked):
+        """Enable/disable end spinbox and units when checkbox is toggled."""
+        self.endSpinBox.setEnabled(checked)
+        self.endUnitsComboBox.setEnabled(checked)
+
     def _configure_distance_calculation(self, layer):
         """Configure distance calculation based on projection type selection."""
         if self.rBEllipsoidal.isChecked():
@@ -177,6 +213,39 @@ class QChainageDialog(QDialog, FORM_CLASS):
         if layer:
             self._configure_distance_calculation(layer)
 
+    def _populate_attributes_list(self, layer):
+        """Populate the attributes list widget with layer fields."""
+        self.attributesListWidget.clear()
+        
+        if not layer:
+            return
+        
+        # Get all fields from the layer, excluding FID-type fields
+        fields = layer.fields()
+        for field in fields:
+            field_name = field.name()
+            # Skip FID and ID fields (case-insensitive)
+            if field_name.lower() in ['fid', 'id', 'objectid', 'ogc_fid']:
+                continue
+            self.attributesListWidget.addItem(field_name)
+
+    def _select_all_attributes(self):
+        """Select all attributes in the list."""
+        for i in range(self.attributesListWidget.count()):
+            self.attributesListWidget.item(i).setSelected(True)
+
+    def _deselect_all_attributes(self):
+        """Deselect all attributes in the list."""
+        self.attributesListWidget.clearSelection()
+
+    def _get_selected_attributes(self):
+        """Get list of selected attribute names."""
+        if not self.copyAttributesCheckBox.isChecked():
+            return []
+        
+        selected_items = self.attributesListWidget.selectedItems()
+        return [item.text() for item in selected_items]
+
     def accept(self):
         """Process the chainage creation when OK is clicked."""
         layer = self._get_current_layer()
@@ -186,16 +255,36 @@ class QChainageDialog(QDialog, FORM_CLASS):
         # Get parameters from UI
         layer_name = self.layerNameLine.text()
         distance = self.distanceSpinBox.value()
+        
+        # Get start/end with their units and convert to layer units
         startpoint = self.startSpinBox.value()
         endpoint = self.endSpinBox.value()
+        
+        # Get selected units for each parameter
+        distance_units = self.UnitsComboBox.currentData()
+        start_units = self.startUnitsComboBox.currentData()
+        end_units = self.endUnitsComboBox.currentData()
+        
+        # Convert start/end to distance_units if they differ
+        layer_units = layer.crs().mapUnits()
+        
+        if start_units != distance_units and startpoint > 0:
+            conversion_factor = QgsUnitTypes.fromUnitToUnitFactor(start_units, distance_units)
+            startpoint *= conversion_factor
+        
+        if end_units != distance_units and endpoint > 0:
+            conversion_factor = QgsUnitTypes.fromUnitToUnitFactor(end_units, distance_units)
+            endpoint *= conversion_factor
+        
         selected_only = self.selectOnlyRadioBtn.isChecked()
         force_last = self.forceLastCheckBox.isChecked()
         force_first_last = self.force_fl_CB.isChecked()
         divide = self.divideSpinBox.value()
         use_ellipsoidal = self.rBEllipsoidal.isChecked()
+        reverse = self.checkBoxReverse.isChecked()
         
-        # Get selected distance units
-        distance_units = self.UnitsComboBox.currentData()
+        # Get selected attributes to copy
+        copy_attributes = self._get_selected_attributes()
         
         # Safety check: ensure distance is valid
         if distance <= 0 and not force_first_last and divide == 0:
@@ -215,7 +304,7 @@ class QChainageDialog(QDialog, FORM_CLASS):
             points_along_line(
                 layer_name, startpoint, endpoint, distance, layer,
                 selected_only, force_last, force_first_last, divide,
-                use_ellipsoidal, distance_units
+                use_ellipsoidal, distance_units, copy_attributes, reverse
             )
         finally:
             # Restore original projection setting

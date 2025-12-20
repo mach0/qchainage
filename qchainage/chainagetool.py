@@ -322,16 +322,6 @@ def create_points(startpoint, endpoint, distance, geom, force_last,
     if not geom or geom.isNull() or geom.isEmpty() or geom.type() != QgsWkbTypes.LineGeometry:
         return []
     
-    # Reverse geometry if requested - create a copy and reverse it
-    if reverse:
-        geom = QgsGeometry(geom)  # Create a copy
-        coords = _extract_coordinates(geom)
-        if coords:
-            coords.reverse()
-            # Convert QgsPoint to QgsPointXY if needed
-            coords_xy = [QgsPointXY(pt.x(), pt.y()) if hasattr(pt, 'x') else pt for pt in coords]
-            geom = QgsGeometry.fromPolylineXY(coords_xy)
-    
     # Set up distance calculation
     distance_area = setup_distance_calculator(layer_crs, use_ellipsoidal)
     
@@ -355,6 +345,7 @@ def create_points(startpoint, endpoint, distance, geom, force_last,
             distance_area = setup_distance_calculator(layer_crs, True)
         
         # Use distance mapping for real-world distance placement
+        # Note: reverse is handled inside create_points_by_distance
         return create_points_by_distance(
             startpoint, endpoint, distance, geom, force_last,
             force_first_last, divide, distance_area, distance_units,
@@ -362,6 +353,16 @@ def create_points(startpoint, endpoint, distance, geom, force_last,
         )
     
     # Standard approach: work in layer units
+    # Reverse geometry if requested (only for non-geographic paths)
+    if reverse:
+        geom = QgsGeometry(geom)  # Create a copy
+        coords = _extract_coordinates(geom)
+        if coords:
+            coords.reverse()
+            # Convert QgsPoint to QgsPointXY if needed
+            coords_xy = [QgsPointXY(pt.x(), pt.y()) if hasattr(pt, 'x') else pt for pt in coords]
+            geom = QgsGeometry.fromPolylineXY(coords_xy)
+    
     # Get total line length in layer units
     if is_geographic:
         length = calculate_cartesian_distance(geom)

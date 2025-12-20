@@ -34,9 +34,9 @@ try:
         TestMultipleFeatures,
         run_tests
     )
-    print("✅ Test modules loaded successfully!")
+    print("Test modules loaded successfully!")
 except ImportError as e:
-    print(f"❌ Error loading tests: {e}")
+    print(f"Error loading tests: {e}")
     print(f"   CODE_DIR: {CODE_DIR}")
     print(f"   TEST_DIR: {TEST_DIR}")
     print(f"   sys.path: {sys.path[:3]}")
@@ -132,7 +132,7 @@ def run_single_test(test_class_name, test_method_name):
     }
     
     if test_class_name not in test_classes:
-        print(f"❌ Error: Test class '{test_class_name}' not found!")
+        print(f"Error: Test class '{test_class_name}' not found!")
         print(f"Available: {', '.join(test_classes.keys())}")
         return None
     
@@ -145,9 +145,9 @@ def run_single_test(test_class_name, test_method_name):
     
     print(f"\n{'='*70}")
     if result.wasSuccessful():
-        print("✅ TEST PASSED")
+        print("TEST PASSED")
     else:
-        print("❌ TEST FAILED")
+        print("TEST FAILED")
     print(f"{'='*70}")
     
     return result
@@ -183,23 +183,23 @@ def list_available_tests():
     print("AVAILABLE TEST FUNCTIONS")
     print("="*70)
     
-    print("\n📦 Test Suites:")
+    print("\nTest Suites:")
     print("  run_all_tests()         - Run all tests (15+ tests)")
     print("  run_basic_tests()       - Basic chainage tests (4 tests)")
     print("  run_divide_tests()      - Divide mode tests (3 tests)")
     print("  run_units_tests()       - Distance units tests (2 tests)")
     print("  run_projection_tests()  - Projection mode tests (3 tests)")
     
-    print("\n🔬 Individual Tests:")
+    print("\nIndividual Tests:")
     print("  run_single_test('TestBasicChainage', 'test_simple_line_all_features')")
     print("  run_single_test('TestDivideMode', 'test_divide_into_3_parts')")
     print("  run_single_test('TestProjectionModes', 'test_geographic_crs_ellipsoidal')")
     
-    print("\n🧹 Utilities:")
+    print("\nUtilities:")
     print("  cleanup_test_layers()   - Remove all test layers from project")
     print("  list_available_tests()  - Show this help")
     
-    print("\n📋 Test Classes Available:")
+    print("\nTest Classes Available:")
     print("  1. TestBasicChainage      - All features, selected, force last/first")
     print("  2. TestDivideMode         - Divide into N parts")
     print("  3. TestDistanceUnits      - Kilometers, feet, unit conversion")
@@ -207,7 +207,7 @@ def list_available_tests():
     print("  5. TestStartEndPoints     - Custom start/end positions")
     print("  6. TestMultipleFeatures   - Multiple line features")
     
-    print("\n💡 Examples:")
+    print("\nExamples:")
     print("  >>> run_all_tests()")
     print("  >>> run_basic_tests()")
     print("  >>> run_single_test('TestDivideMode', 'test_divide_into_3_parts')")
@@ -218,6 +218,6 @@ def list_available_tests():
 
 # Auto-show help when loaded
 print("\n" + "="*70)
-print("✅ QCHAINAGE TEST RUNNER LOADED!")
+print("QCHAINAGE TEST RUNNER LOADED!")
 print("="*70)
 list_available_tests()

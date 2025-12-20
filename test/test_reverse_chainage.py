@@ -124,7 +124,7 @@ for i, (fwd, rev) in enumerate(zip(points_forward, points_reverse)):
         print(f"  Point {i}: Forward at ({fwd_geom.x():.1f},{fwd_geom.y():.1f}, {dist_fwd:.1f}m) "
               f"matches Reverse point {rev_index} ({rev_geom_opposite.x():.1f},{rev_geom_opposite.y():.1f}, {dist_rev:.1f}m) ✅")
     else:
-        print(f"  Point {i}: Geometry mismatch ❌")
+        print(f"  Point {i}: Geometry mismatch ")
 
 # Final verdict
 print("\n" + "="*70)

@@ -5,39 +5,18 @@ qgisMaximumVersion=4.98
 description=This plugin takes line features and creates a new layer of points
     in provided distances on top of these Lines. Optionally you can set the
     startpoint (distance from the start of the line) and the endpoint (stop
-    before reaching the end of the line) and automatically label the new
-    points with the specified range.
+    before reaching the end of the line).
 about=QChainage either separates the selected (or all) Line-Features into 
  parts, or performs linear referencing from a chosen distance. Chainage can be 
  all along the whole feature or between a selectable start and endpoint.
 category=Vector
-version=3.5.1
+version=3.1.1
 author=Werner Macho
 email=werner.macho@gmail.com
 
 ; optional metadata entries
 changelog=
-    3.5.1 Fix support for ALL linear units (centimeters, millimeters, feet, etc.) on geographic CRS
-    3.5.0 Implement accurate meter-based chainage for geographic (degree) CRS using distance mapping
-    3.4.5 Fix unit conversion for geographic coordinates - use cartesian distances and proper meter-to-degree conversion
-    3.4.4 Fix infinite loop bug and simplify unit conversion - works for ALL units directly
-    3.4.3 Fix unit conversion using QgsUnitTypes.fromUnitToUnitFactor() - correct meters to degrees conversion
-    3.4.2 Optimize unit conversion - calculate conversion factor once instead of multiple calls
-    3.4.1 Fix unit conversion - properly convert distance from selected units to layer units
-    3.4.0 Code streamlining and optimization - improved efficiency, cleaner structure, reduced complexity
-    3.3.0 Simplified cartesian calculations using geometry.length() - cleaner, faster, same results
-    3.2.2 Cartesian calculations confirmed working correctly - removed debug output, production ready
-    3.2.1 Enhanced cartesian debugging - multiple coordinate extraction methods, detailed logging
-    3.2.0 Code optimization and cleanup - removed test files, improved performance, cleaner code structure
-    3.1.9 implement TRUE cartesian distance using raw coordinates
-    3.1.8 properly fix force_last and cartesian vs ellipsoidal calculations
-    3.1.7 fix force_last point and improve cartesian calculation warnings
-    3.1.6 fix cartesian vs ellipsoidal calculation differences
-    3.1.5 implement ellipsoidal and cartesian projection support
-    3.1.4 fix null geometry handling preventing crashes
-    3.1.3 Qt6 dialog exec_() compatibility fix
-    3.1.2 Qt5/Qt6 compatibility and QGIS 4.x support  
-    3.1.1 direct UI loading, eliminate build dependencies
+    3.1.1 create test with KI optimisation
     3.1.0 major code optimization and modernization
     3.0.2 change attribute naming
     3.0.1 fix Messagebar

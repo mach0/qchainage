@@ -144,10 +144,10 @@ def create_test_layers():
     iface.mapCanvas().refresh()
     
     print("\n" + "="*70)
-    print("✅ All test layers created successfully!")
+    print("All test layers created successfully!")
     print("="*70)
     print("\nMANUAL TEST CHECKLIST:")
-    print("\n📋 Test Cases to Perform:")
+    print("\nTest Cases to Perform:")
     print("\n1. BASIC CHAINAGE (Test_UTM_100m):")
     print("   □ All features, 10m spacing → 11 points (0-100m)")
     print("   □ Force last point, 30m spacing → 5 points (0,30,60,90,100)")
@@ -184,7 +184,7 @@ def create_test_layers():
     print("   □ Zero distance (should show error or use force_first_last)")
     
     print("\n" + "="*70)
-    print("📌 Tips:")
+    print(" Tips:")
     print("   - Use 'Select Features' tool to test selected-only mode")
     print("   - Check attribute table of output layers to verify distances")
     print("   - Compare Ellipsoidal vs Cartesian on geographic layer")

@@ -157,12 +157,15 @@ def create_points_by_distance(startpoint, endpoint, distance, geom, force_last,
     num_samples = max(100, int(cartesian_length / 0.0001))  # Sample every ~0.0001 degrees
     
     # Build distance map: accumulated meter distance -> degree distance
+    geom_length = geom.length()
     distance_map = [(0.0, 0.0)]  # (meters, degrees)
     accumulated_meters = 0.0
     last_point = geom.interpolate(0)
     
     for i in range(1, num_samples + 1):
         degree_dist = (cartesian_length * i) / num_samples
+        if degree_dist > geom_length:
+            break
         current_point = geom.interpolate(degree_dist)
         
         # Measure segment in meters

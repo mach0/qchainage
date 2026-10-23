@@ -55,8 +55,10 @@ def get_qt_imports():
     try:
         from PyQt5 import QtCore, QtGui, QtWidgets, uic
         return QtCore, QtGui, QtWidgets, uic, "PyQt5"
-    except ImportError:
-        raise ImportError("No compatible Qt version found (PyQt5/PyQt6)")
+    except ImportError as e:
+        raise ImportError(
+            "No compatible Qt version found (PyQt5/PyQt6)"
+        ) from e
 
 
 # Initialize compatibility layer
@@ -125,7 +127,9 @@ try:
         return QtCore.QT_VERSION_STR
 
 except ImportError as e:
-    raise ImportError(f"Failed to initialize Qt compatibility layer: {e}")
+    raise ImportError(
+        f"Failed to initialize Qt compatibility layer: {e}"
+    ) from e
 
 __all__ = [
     'QtCore', 'QtGui', 'QtWidgets', 'uic',

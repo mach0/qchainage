@@ -301,9 +301,10 @@ class QChainageAlgorithm(QgsProcessingAlgorithm):
             raise ValueError(self.tr('Could not create output sink'))
 
         total_features = source.featureCount()
-        current_feat_idx = 0
 
-        for feature in source.getFeatures():
+        for current_feat_idx, feature in enumerate(
+            source.getFeatures(), start=1
+        ):
             if feedback.isCanceled():
                 break
 
@@ -329,7 +330,6 @@ class QChainageAlgorithm(QgsProcessingAlgorithm):
                 for pt_feat in points:
                     sink.addFeature(pt_feat, QgsFeatureSink.FastInsert)
 
-            current_feat_idx += 1
             if total_features > 0:
                 percent = int((current_feat_idx / total_features) * 100)
                 feedback.setProgress(percent)

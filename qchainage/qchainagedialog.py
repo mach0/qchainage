@@ -36,7 +36,7 @@ try:
     FORM_CLASS, _ = uic.loadUiType(os.path.join(
         os.path.dirname(__file__), 'ui_qchainage.ui'
     ))
-except Exception as e:
+except (OSError, AttributeError) as e:
     QgsMessageLog.logMessage(
         f"Warning: Could not load UI file: {e}", "QChainage", Qgis.Warning
     )
@@ -368,15 +368,14 @@ class QChainageDialog(QDialog, FORM_CLASS):
         distance = self.distanceSpinBox.value()
 
         # Only use start/end points if their checkboxes are checked
-        if self.checkBoxStartFrom.isChecked():
-            startpoint = self.startSpinBox.value()
-        else:
-            startpoint = 0.0
-
-        if self.checkBoxEndAt.isChecked():
-            endpoint = self.endSpinBox.value()
-        else:
-            endpoint = 0.0
+        startpoint = (
+            self.startSpinBox.value()
+            if self.checkBoxStartFrom.isChecked() else 0.0
+        )
+        endpoint = (
+            self.endSpinBox.value()
+            if self.checkBoxEndAt.isChecked() else 0.0
+        )
 
         # Get selected units for each parameter
         distance_units = self.UnitsComboBox.currentData()

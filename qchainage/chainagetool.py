@@ -34,20 +34,16 @@ def _extract_coordinates(geometry: QgsGeometry) -> List[Any]:
     """
     if not geometry or geometry.isEmpty():
         return []
-    try:
-        coords = list(geometry.vertices())
-        if len(coords) >= 2:
-            return coords
-    except Exception:
-        pass
 
-    try:
-        if geometry.isMultipart():
-            parts = geometry.asMultiPolyline()
-            return parts[0] if parts else []
-        return geometry.asPolyline()
-    except Exception:
-        return []
+    coords = list(geometry.vertices())
+    if len(coords) >= 2:
+        return coords
+
+    if geometry.isMultipart():
+        parts = geometry.asMultiPolyline()
+        return parts[0] if parts else []
+
+    return geometry.asPolyline()
 
 
 def reverse_geometry(geom: QgsGeometry) -> QgsGeometry:
@@ -73,9 +69,8 @@ def reverse_geometry(geom: QgsGeometry) -> QgsGeometry:
             for p in parts:
                 multi.addGeometry(p)
             return QgsGeometry(multi)
-        else:
-            return QgsGeometry(abstract_geom.reversed())
-    except Exception:
+        return QgsGeometry(abstract_geom.reversed())
+    except (AttributeError, TypeError, RuntimeError):
         # Fallback to coordinate reversal if native reversal fails
         coords = _extract_coordinates(geom)
         if coords:
@@ -172,7 +167,7 @@ def calculate_bearing_degrees(
     try:
         rad = geom.interpolateAngle(distance_along_geom)
         return round(math.degrees(rad) % 360.0, 3)
-    except Exception:
+    except (AttributeError, TypeError, ValueError):
         return 0.0
 
 
@@ -435,10 +430,10 @@ def create_points(
     distance_area = setup_distance_calculator(layer_crs, use_ellipsoidal)
 
     # Get layer units
-    if layer_crs:
-        layer_units = layer_crs.mapUnits()
-    else:
-        layer_units = QgsUnitTypes.DistanceMeters
+    layer_units = (
+        layer_crs.mapUnits()
+        if layer_crs else QgsUnitTypes.DistanceMeters
+    )
 
     # If no distance units provided, use layer units
     if distance_units is None:
@@ -498,9 +493,7 @@ def create_points(
                 endpoint *= conversion_factor
 
     # Calculate distance if needed (for force_first_last mode)
-    if force_first_last:
-        distance = length
-    elif distance <= 0:
+    if force_first_last or distance <= 0:
         distance = length
 
     # Validate and adjust parameters
@@ -511,10 +504,10 @@ def create_points(
         return []
 
     # Scale endpoint to geometry length for interpolation
-    if length > 0:
-        endpoint_geom = (endpoint / length) * geom_length
-    else:
-        endpoint_geom = geom_length
+    endpoint_geom = (
+        (endpoint / length * geom_length)
+        if length > 0 else geom_length
+    )
 
     # Recalculate distance for force_first_last after endpoint is set
     if force_first_last:

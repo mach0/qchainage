@@ -56,7 +56,7 @@ class Qchainage:
             from .processing.provider import QChainageProvider
             self.provider = QChainageProvider()
             QgsApplication.processingRegistry().addProvider(self.provider)
-        except Exception as e:
+        except (ImportError, AttributeError, RuntimeError) as e:
             QgsMessageLog.logMessage(
                 f"Failed to register QChainage processing provider: {e}",
                 "QChainage",

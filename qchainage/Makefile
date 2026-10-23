@@ -18,6 +18,8 @@ deploy: transcompile
 	cp -vf $(PY_FILES) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
 	cp -vf $(UI_FILES) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
 	cp -vf $(EXTRAS) $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
+	cp -vf LICENSE $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
+	cp -vfr processing $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
 	cp -vfr i18n $(HOME)/.local/share/QGIS/QGIS3/profiles/default/python/plugins/$(PLUGINNAME)/
 
 # Create distribution package
@@ -28,14 +30,20 @@ package: transcompile
 	cp -f $(PY_FILES) dist/$(PLUGINNAME)/
 	cp -f $(UI_FILES) dist/$(PLUGINNAME)/
 	cp -f $(EXTRAS) dist/$(PLUGINNAME)/
+	cp -f LICENSE dist/$(PLUGINNAME)/
+	cp -rf processing dist/$(PLUGINNAME)/
 	cp -rf i18n dist/$(PLUGINNAME)/
+	find dist -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	find dist -type f -name "*.pyc" -delete 2>/dev/null || true
 	cd dist && zip -r ../$(PLUGINNAME).zip $(PLUGINNAME)/
 	rm -rf dist
 	@echo "Package created: $(PLUGINNAME).zip"
 
+LRELEASE ?= $(shell which lrelease 2>/dev/null || which /usr/lib/qt6/bin/lrelease 2>/dev/null || which /usr/lib/qt5/bin/lrelease 2>/dev/null || echo lrelease)
+
 # Compile translations
 %.qm : %.ts
-	lrelease $<
+	$(LRELEASE) $<
 
 transcompile: $(TRANSLATIONS:.ts=.qm)
 

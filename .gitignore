@@ -11,6 +11,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+*.zip
 .Python
 build/
 develop-eggs/
@@ -54,6 +55,7 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+*.qm
 
 # Django stuff:
 *.log

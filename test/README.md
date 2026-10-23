@@ -89,7 +89,7 @@ Script to create test layers in QGIS for manual testing through the plugin UI.
 2. Open Python Console (Plugins → Python Console or Ctrl+Alt+P)
 3. Load the script:
    ```python
-   exec(open('/path/to/test/create_test_layers.py').read())
+   exec(open("/path/to/test/create_test_layers.py").read())
    ```
 4. Create test layers:
    ```python

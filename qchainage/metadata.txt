@@ -10,12 +10,13 @@ about=QChainage either separates the selected (or all) Line-Features into
  parts, or performs linear referencing from a chosen distance. Chainage can be 
  all along the whole feature or between a selectable start and endpoint.
 category=Vector
-version=3.1.2
+version=3.2.0
 author=Werner Macho
 email=werner.macho@gmail.com
 
 ; optional metadata entries
 changelog=
+    3.2.0 Modernized architecture, QGIS Processing algorithm provider, performance optimizations (feature request subsetting, fast geodesic measurement, bisect search), 3D/Z geometry preservation, tangent bearing/angle calculation, multipart geometry fixes, and comprehensive PEP 8 code cleanup
     3.1.2 merged pull request for length checking 
     3.1.1 create test with KI optimisation
     3.1.0 major code optimization and modernization

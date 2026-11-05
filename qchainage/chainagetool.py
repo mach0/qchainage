@@ -688,7 +688,7 @@ def points_along_line(
     if copy_attributes:
         request.setSubsetOfAttributes(copy_attributes, layer.fields())
     else:
-        request.setFlags(QgsFeatureRequest.NoAttributes)
+        request.setNoAttributes()
 
     # Process features
     if selected_only:
